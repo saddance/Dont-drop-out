@@ -5,8 +5,6 @@ using UnityEngine;
 public class MapObjectManager : MonoBehaviour
 {
     public static MapObjectManager instance = null;
-    private int weight = 10;
-    private int height = 10;
     private GameObject[,] gridArray;
     [SerializeField]
     private GameObject prefabObstacle;
@@ -20,8 +18,8 @@ public class MapObjectManager : MonoBehaviour
         {
             if (value != null && gridArray[x, y] != null)
                 Debug.LogError("InvalidIndexes");
-
-            gridArray[x, y] = value;
+            else 
+                gridArray[x, y] = value;
         }
     }
 

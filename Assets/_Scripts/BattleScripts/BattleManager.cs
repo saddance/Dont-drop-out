@@ -7,26 +7,29 @@ public class BattleManager: MonoBehaviour
     public static BattleManager self;
     public Unit prefab;
     public Mover mover { get; private set; }
-    private List<Tuple<Unit, UnitInfo>> units;
+    public List<Unit> units;
+    private List<UnitInfo> unitsInfo;
 
     void Awake()
     {
         self = this;
-        units = new List<Tuple<Unit, UnitInfo>>();
-        mover = Mover.start;
+        units = new List<Unit>();
+        unitsInfo = new List<UnitInfo>();
+        mover = Mover.Start;
+        UnitsGenerate();
     }
 
     void Update()
     {
-        if (mover == Mover.start)
+        if (mover == Mover.Start)
         {
-            mover = Mover.player;
+            mover = Mover.Player;
             Debug.Log("Start -> Player move");
             return;
         }
-        if (mover == Mover.enemy)
+        if (mover == Mover.Enemy)
         {
-            mover = Mover.player;
+            mover = Mover.Player;
             Debug.Log("Enemy -> Player move");
             return;
         }
@@ -34,27 +37,27 @@ public class BattleManager: MonoBehaviour
 
     public void StopPlayerMove()
     {
-        if (mover != Mover.player)
+        if (mover != Mover.Player)
         {
             Debug.LogError("Not player move");
             return;
         }
         Debug.Log("Player -> Enemy move");
-        mover = Mover.enemy;
+        mover = Mover.Enemy;
     }
 
     public void StopEnemyMove()
     {
-        if (mover != Mover.enemy)
+        if (mover != Mover.Enemy)
         {
             Debug.LogError("Not enemy move");
             return;
         }
         Debug.Log("Enemy -> Player move");
-        mover = Mover.player;
+        mover = Mover.Player;
     }
 
-    void Start()
+    void UnitsGenerate()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -62,7 +65,8 @@ public class BattleManager: MonoBehaviour
             var obj = Instantiate(prefab);
             obj.Init(info);
 
-            units.Add(Tuple.Create(obj, info));
+            units.Add(obj);
+            unitsInfo.Add(info);
         }
         for (int i = 0; i < 3; i++)
         {
@@ -70,14 +74,19 @@ public class BattleManager: MonoBehaviour
             var obj = Instantiate(prefab);
             obj.Init(info);
 
-            units.Add(Tuple.Create(obj, info));
+            units.Add(obj);
+            unitsInfo.Add(info);
         }
+    }
+
+    void Start()
+    {
     }
 }
 
 public enum Mover
 {
-    enemy = -1,
-    start = 0,
-    player = 1
+    Enemy = -1,
+    Start = 0,
+    Player = 1
 }

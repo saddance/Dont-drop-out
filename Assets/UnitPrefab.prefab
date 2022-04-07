@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2205704445292181878}
   - component: {fileID: 4861504695195885760}
   m_Layer: 0
-  m_Name: SquareF
+  m_Name: UnitPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

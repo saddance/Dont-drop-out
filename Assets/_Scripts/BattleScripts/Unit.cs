@@ -16,7 +16,10 @@ public class Unit : MonoBehaviour
 
     public void Init(UnitInfo info)
     {
-        this.Info = info;
+        Info = info;
+        transform.position = info.Position;
+        if (info.IsEnemy)
+            GetComponent<SpriteRenderer>().color = Color.black;
     }
 }
 
@@ -27,13 +30,13 @@ public class UnitInfo
     
     public UnitInfo(bool isEnemy, float x, float y, float z)
     {
-        this.IsEnemy = isEnemy;
-        this.Position = new Vector3(x, y, z);
+        IsEnemy = isEnemy;
+        Position = new Vector3(x, y, z);
     }
     
     public UnitInfo(bool isEnemy, Vector3 position)
     {
-        this.IsEnemy = isEnemy;
-        this.Position = position;
+        IsEnemy = isEnemy;
+        Position = position;
     }
 }

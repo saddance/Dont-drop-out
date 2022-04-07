@@ -35,12 +35,12 @@ public class MapObjectManager : MonoBehaviour
     {
         for (int i = 0; i < 9; i++)
         {
-            var a = Instantiate(prefabObstacle, new Vector3(i , 0, 0), Quaternion.identity);
+            var a = Instantiate(prefabObstacle, new Vector3(i, 0, 0), Quaternion.identity);
             gridArray[i, 0] = a;
             if (i != 0)
             {
                 var b = Instantiate(prefabObstacle, new Vector3(0, i, 0), Quaternion.identity);
-                gridArray[i, 0] = b;
+                gridArray[0, i] = b;
             }
 
         }

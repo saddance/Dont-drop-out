@@ -216,7 +216,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1694843155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e13c6d0a8129a57419ffb22516b05190, type: 3}
+  m_Script: {fileID: 11500000, guid: 209cdf51ba3a2cf45becc2af21caac7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
+  prefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}

@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerTurnManager : MonoBehaviour
 {
     public static PlayerTurnManager self;
+    
     void Start()
     {
         self = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown("space"))

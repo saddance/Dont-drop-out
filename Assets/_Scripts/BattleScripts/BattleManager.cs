@@ -39,6 +39,7 @@ public class BattleManager: MonoBehaviour
             Debug.LogError("Not player move");
             return;
         }
+        Debug.Log("Player -> Enemy move");
         mover = Mover.enemy;
     }
 
@@ -49,7 +50,7 @@ public class BattleManager: MonoBehaviour
             Debug.LogError("Not enemy move");
             return;
         }
-
+        Debug.Log("Enemy -> Player move");
         mover = Mover.player;
     }
 

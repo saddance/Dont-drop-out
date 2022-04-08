@@ -8,13 +8,18 @@ public class BattleManager: MonoBehaviour
     public Unit prefab;
     public Mover mover { get; private set; }
     public List<Unit> units;
-    private List<UnitInfo> unitsInfo;
+    private List<UnitInfo> UnitsInfo;
+    public List<UnitInfo> unitsInfo
+    {
+        get { return new List<UnitInfo>(UnitsInfo);}
+        private set {} 
+    }
 
     void Awake()
     {
         self = this;
         units = new List<Unit>();
-        unitsInfo = new List<UnitInfo>();
+        UnitsInfo = new List<UnitInfo>();
         mover = Mover.Start;
         GenerateUnits();
     }
@@ -64,7 +69,7 @@ public class BattleManager: MonoBehaviour
             obj.Init(info);
 
             units.Add(obj);
-            unitsInfo.Add(info);
+            UnitsInfo.Add(info);
         }
         for (int i = 0; i < 3; i++)
         {
@@ -73,7 +78,7 @@ public class BattleManager: MonoBehaviour
             obj.Init(info);
 
             units.Add(obj);
-            unitsInfo.Add(info);
+            UnitsInfo.Add(info);
         }
     }
 }

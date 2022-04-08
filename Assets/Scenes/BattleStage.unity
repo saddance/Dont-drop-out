@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
+  units: []
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

@@ -16,22 +16,20 @@ public class BattleManager: MonoBehaviour
         units = new List<Unit>();
         unitsInfo = new List<UnitInfo>();
         mover = Mover.Start;
-        UnitsGenerate();
+        GenerateUnits();
     }
 
     void Update()
     {
-        if (mover == Mover.Start)
+        switch (mover)
         {
-            mover = Mover.Player;
-            Debug.Log("Start -> Player move");
-            return;
-        }
-        if (mover == Mover.Enemy)
-        {
-            mover = Mover.Player;
-            Debug.Log("Enemy -> Player move");
-            return;
+            case Mover.Start:
+                mover = Mover.Player;
+                Debug.Log("Start -> Player move");
+                return;
+            case Mover.Enemy:
+                StopEnemyMove();
+                return;
         }
     }
 
@@ -57,7 +55,7 @@ public class BattleManager: MonoBehaviour
         mover = Mover.Player;
     }
 
-    void UnitsGenerate()
+    void GenerateUnits()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -78,15 +76,11 @@ public class BattleManager: MonoBehaviour
             unitsInfo.Add(info);
         }
     }
-
-    void Start()
-    {
-    }
 }
 
 public enum Mover
 {
-    Enemy = -1,
-    Start = 0,
-    Player = 1
+    Enemy,
+    Start,
+    Player
 }

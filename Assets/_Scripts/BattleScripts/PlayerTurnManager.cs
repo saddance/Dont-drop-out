@@ -6,7 +6,7 @@ public class PlayerTurnManager : MonoBehaviour
 {
     public static PlayerTurnManager self;
     
-    void Start()
+    void Awake()
     {
         self = this;
     }

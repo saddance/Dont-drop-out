@@ -11,7 +11,14 @@ public class BattleManager: MonoBehaviour
     private List<UnitInfo> _unitsInfo;
     public List<UnitInfo> unitsInfo
     {
-        get { return new List<UnitInfo>(_unitsInfo);}
+        get {
+             var ans = new List<UnitInfo>(_unitsInfo.Count);
+             foreach(var item in _unitsInfo)
+             {
+                 ans.Add(item);
+             }
+             return ans;
+        }
     }
 
     void Awake()

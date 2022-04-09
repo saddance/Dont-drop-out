@@ -14,7 +14,7 @@ public class HeroMotionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.gameObject.tag = "Player";
     }
 
     // Update is called once per frame

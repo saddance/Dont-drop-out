@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,8 @@ public class MapObjectManager : MonoBehaviour
         }
     }
 
+    private GameObject player;
+
 
     void Awake()
     {
@@ -33,6 +36,7 @@ public class MapObjectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         for (int i = 0; i < 9; i++)
         {
             var a = Instantiate(prefabObstacle, new Vector3(i, 0, 0), Quaternion.identity);
@@ -49,5 +53,10 @@ public class MapObjectManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void LateUpdate()
+    {
+        transform.position = player.transform.position;
     }
 }

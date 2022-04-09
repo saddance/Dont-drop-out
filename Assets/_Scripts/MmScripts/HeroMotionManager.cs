@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class HeroMotionManager : MonoBehaviour
 {
-    public const float speed = 0.05f;
+    public float speed = 0.05f;
 
     public Vector2Int direction;
     // Start is called before the first frame update

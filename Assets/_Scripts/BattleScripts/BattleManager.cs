@@ -59,7 +59,7 @@ public class BattleManager: MonoBehaviour
     {
         for (int i = 0; i < friendsAmount; i++)
         {
-            var info = new UnitInfo(false, -5, 2 * i, 0);
+            var info = new UnitInfo(false, -5, 1.5f * (i - (friendsAmount - 1) / 2f), 0);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
@@ -67,7 +67,7 @@ public class BattleManager: MonoBehaviour
         }
         for (int i = 0; i < enemiesAmount; i++)
         {
-            var info = new UnitInfo(true, 5, 2 * i, 0);
+            var info = new UnitInfo(true, 5, 1.5f * (i - (enemiesAmount - 1) / 2f), 0);
             var obj = Instantiate(prefab);
             obj.Init(info);
 

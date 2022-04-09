@@ -163,6 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13c6d0a8129a57419ffb22516b05190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  friendsAmount: 3
+  enemiesAmount: 3
   prefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
   units: []
 --- !u!20 &519420031

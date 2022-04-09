@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class BattleManager: MonoBehaviour
 {
+    public int friendsAmount;
+    public int enemiesAmount;
     public static BattleManager self;
     public Unit prefab;
     public Mover mover { get; private set; }
@@ -55,7 +57,7 @@ public class BattleManager: MonoBehaviour
 
     void GenerateUnits()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < friendsAmount; i++)
         {
             var info = new UnitInfo(false, -5, 2 * i, 0);
             var obj = Instantiate(prefab);
@@ -63,7 +65,7 @@ public class BattleManager: MonoBehaviour
 
             units.Add(obj);
         }
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < enemiesAmount; i++)
         {
             var info = new UnitInfo(true, 5, 2 * i, 0);
             var obj = Instantiate(prefab);

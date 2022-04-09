@@ -42,9 +42,7 @@ public class MapObjectManager : MonoBehaviour
                 var b = Instantiate(prefabObstacle, new Vector3(0, i, 0), Quaternion.identity);
                 gridArray[0, i] = b;
             }
-
         }
-        
     }
 
     // Update is called once per frame

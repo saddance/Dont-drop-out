@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class BattleManager: MonoBehaviour
 {
-    public int friendsAmount;
-    public int enemiesAmount;
+    public int friendsAmount = 5;
+    public int enemiesAmount = 5;
     public static BattleManager self;
     public Unit prefab;
     public Mover mover { get; private set; }

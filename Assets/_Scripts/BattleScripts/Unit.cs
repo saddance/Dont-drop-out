@@ -1,17 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
 public class Unit : MonoBehaviour
 {
     public UnitInfo Info;
+    public SpriteRenderer Renderer;
+
+    void Awake()
+    {
+        Renderer = GetComponent<SpriteRenderer>();
+        Renderer.color = Color.black;   
+    }
     void Update()
     {
         if (Info == null)
         {
             Debug.Log("Unit is not initialized");
         }
+    }
+
+    public void ChangeToBlack()
+    {
+        Renderer.color = Color.black;
+    }
+
+    public void ChangeToGreen()
+    {
+        Renderer.color = Color.green;
     }
 
     public void Init(UnitInfo info)

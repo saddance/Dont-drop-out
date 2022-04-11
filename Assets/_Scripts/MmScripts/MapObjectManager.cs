@@ -1,55 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
 
-public class MapObjectManager : MonoBehaviour
-{
-    public static MapObjectManager instance = null;
-    private GameObject[,] gridArray;
-    [SerializeField]
-    private GameObject prefabObstacle;
-    public GameObject this[int x, int y]
+    public class MapObjectManager : MonoBehaviour
     {
-        get
-        {
-            return gridArray[x, y];
-        }
-        set
-        {
-            if (value != null && gridArray[x, y] != null)
-                Debug.LogError("InvalidIndexes");
-            else 
-                gridArray[x, y] = value;
-        }
-    }
+        public static MapObjectManager instance = null;
+        private GameObject[,] gridArray;
+        
+        public GameObject PrefabObstacle;
 
-
-    void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        gridArray = new GameObject[10, 10];
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        for (int i = 0; i < 9; i++)
+        public GameObject this[int x, int y]
         {
-            var a = Instantiate(prefabObstacle, new Vector3(i, 0, 0), Quaternion.identity);
-            gridArray[i, 0] = a;
-            if (i != 0)
+            get { return gridArray[x, y]; }
+            set
             {
-                var b = Instantiate(prefabObstacle, new Vector3(0, i, 0), Quaternion.identity);
-                gridArray[0, i] = b;
+                if (value != null && gridArray[x, y] != null)
+                    Debug.LogError("InvalidIndexes");
+                else
+                    gridArray[x, y] = value;
             }
+        }
+
+        public void MakeField(int height, int width)
+        {
+            gridArray = new GameObject[height, width];
+        }
+
+        void Awake()
+        {
+            if (instance == null)
+                instance = this;
+        }
+
+        public void GenerateByPrefab(GameObject prefab, int x, int y)
+        {
+            // Instatiate от предка, мб, можно без него
+            if (prefab == null)
+                return;
+            var obj = Instantiate(prefab, transform);
+            obj.transform.position = new Vector3(x, y, 0);
+            this[x, y] = Instantiate(prefab);
+        }
+
+        void Start()
+        {
 
         }
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void Update()
+        {
+
+        }
     }
-}

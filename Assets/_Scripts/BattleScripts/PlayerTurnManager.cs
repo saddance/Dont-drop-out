@@ -43,7 +43,7 @@ public class PlayerTurnManager : MonoBehaviour
 
 
         var prev = ChosenUnit;
-        var index = ChosenUnit == -1 ? 0 : ChosenUnit;
+        var index = ChosenUnit == -1 ? -1 : ChosenUnit;
         var existNotPlayed = false;
         for (int i = 0; i < length; i++)
         {
@@ -57,10 +57,19 @@ public class PlayerTurnManager : MonoBehaviour
         }
 
         if (!existNotPlayed)
+        {
+            if (ChosenUnit != -1)
+            {
+                units[ChosenUnit].ChangeToBlack();
+                ChosenUnit = -1;
+            }
+            for (int i = 0; i < length; i++)
+                used[i] = false;
             bm.StopPlayerMove();
+        }
         else if (prev != ChosenUnit)
         {
-            if (prev != - 1)
+            if (prev != -1)
                 units[prev].ChangeToBlack();
             units[index].ChangeToGreen();
         }
@@ -70,22 +79,15 @@ public class PlayerTurnManager : MonoBehaviour
 
     void Update()
     {
-        if (bm.mover != Mover.Player)
-        {
-            if (ChosenUnit != -1)
-                ChosenUnit = -1;
-            return;
-        }
-
         if (ChosenUnit == -1)
             UpdateChosenUnit();
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             UpdateChosenUnit(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             UpdateChosenUnit(-1);
         }

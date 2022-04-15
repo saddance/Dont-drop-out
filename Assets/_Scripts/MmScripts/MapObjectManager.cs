@@ -24,8 +24,6 @@ public class MapObjectManager : MonoBehaviour
         }
     }
 
-    private GameObject player;
-
 
     void Awake()
     {
@@ -33,10 +31,9 @@ public class MapObjectManager : MonoBehaviour
             instance = this;
         gridArray = new GameObject[10, 10];
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
         for (int i = 0; i < 9; i++)
         {
             var a = Instantiate(prefabObstacle, new Vector3(i, 0, 0), Quaternion.identity);
@@ -47,16 +44,5 @@ public class MapObjectManager : MonoBehaviour
                 gridArray[0, i] = b;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void LateUpdate()
-    {
-        transform.position = player.transform.position;
     }
 }

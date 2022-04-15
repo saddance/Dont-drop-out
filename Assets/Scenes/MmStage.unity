@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 725627528}
   m_Layer: 0
   m_Name: Hero
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0937f9fe4500cac4fb0d29e0314e834c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.05
   direction: {x: 0, y: 0}
 --- !u!1 &1694843155
 GameObject:
@@ -231,6 +232,7 @@ GameObject:
   - component: {fileID: 1694843157}
   - component: {fileID: 1694843156}
   - component: {fileID: 1694843159}
+  - component: {fileID: 1694843160}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -316,3 +318,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
+--- !u!114 &1694843160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694843155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdef921632e8e14e9fa3bcd651d7df7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

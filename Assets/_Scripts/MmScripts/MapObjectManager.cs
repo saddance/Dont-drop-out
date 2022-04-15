@@ -36,12 +36,11 @@ public class MapObjectManager : MonoBehaviour
 
 	public void GenerateByPrefab(GameObject prefab, int x, int y)
 	{
-		// Instatiate от предка, мб, можно без него
 		if (prefab == null)
 			return;
-		var obj = Instantiate(prefab, transform);
+		var obj = Instantiate(prefab);
 		obj.transform.position = new Vector3(x, y, 0);
-		this[x, y] = Instantiate(prefab);
+		this[x, y] = obj;
 	}
 
 	void Start()

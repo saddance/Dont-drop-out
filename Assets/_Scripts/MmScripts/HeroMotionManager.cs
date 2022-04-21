@@ -10,9 +10,12 @@ using System.Threading;
 public class HeroMotionManager : MonoBehaviour
 {
     public Vector3Int direction;
+    public bool Pause;
 
     void Update()
     {
+        if (Pause)
+            return;
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
         if (Input.GetKeyDown("w") || Input.GetKeyDown(KeyCode.UpArrow))
@@ -85,6 +88,20 @@ public class HeroMotionManager : MonoBehaviour
             if (CanIGo())
             {
                 Running();
+            }
+        }
+
+        if (Input.GetKeyDown("e"))
+        {
+            var position = transform.position;
+            var x = position.x + direction.x;
+            var y = position.y + direction.y;
+            var objAhead = MapObjectManager.instance[(int) transform.position.x + direction.x,
+                (int) transform.position.y + direction.y];
+            var component = objAhead.GetComponent<InteractableObject>();
+            if (component != null)
+            {
+                Pause = true;
             }
         }
     }

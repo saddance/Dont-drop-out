@@ -10,6 +10,7 @@ public class MapObjectManager : MonoBehaviour
 	private GameObject[,] gridArray;
 	
 	public GameObject PrefabObstacle;
+	public GameObject Banana;
 
 	public GameObject this[int x, int y]
 	{

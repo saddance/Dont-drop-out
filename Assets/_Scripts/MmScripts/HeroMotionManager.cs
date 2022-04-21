@@ -15,7 +15,7 @@ public class HeroMotionManager : MonoBehaviour
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
-        if (Input.GetKeyDown("w"))
+        if (Input.GetKeyDown("w") || Input.GetKeyDown(KeyCode.UpArrow))
         {
             direction.x = 0;
             direction.y = 1;
@@ -33,7 +33,7 @@ public class HeroMotionManager : MonoBehaviour
                 Running();
             }
         }
-        if (Input.GetKeyDown("s"))
+        if (Input.GetKeyDown("s") || Input.GetKeyDown(KeyCode.DownArrow))
         {
             direction.x = 0;
             direction.y = -1;
@@ -51,7 +51,7 @@ public class HeroMotionManager : MonoBehaviour
                 Running();
             }
         }
-        if (Input.GetKeyDown("d"))
+        if (Input.GetKeyDown("d") || Input.GetKeyDown(KeyCode.RightArrow))
         {
             direction.x = 1;
             direction.y = 0;
@@ -69,7 +69,7 @@ public class HeroMotionManager : MonoBehaviour
                 Running();
             }
         }
-        if (Input.GetKeyDown("a"))
+        if (Input.GetKeyDown("a") || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             direction.x = -1;
             direction.y = 0;

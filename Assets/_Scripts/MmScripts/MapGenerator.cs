@@ -15,12 +15,8 @@ public class MapGenerator : MonoBehaviour
     {
         var lines = fieldText.text.Split('\n');
 
-        var firstLine = lines[0]
-            .Split(' ')
-            .Select(int.Parse)
-            .ToList();
         var height = lines.Length;
-        var width = lines[0].Length;
+        var width = lines[0].Trim().Length;
 
         MapObjectManager.instance.MakeField(height, width);
         for (int i = 0; i < height; i++)

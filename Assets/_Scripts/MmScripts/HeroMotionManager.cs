@@ -96,12 +96,13 @@ public class HeroMotionManager : MonoBehaviour
             var position = transform.position;
             var x = position.x + direction.x;
             var y = position.y + direction.y;
-            var objAhead = MapObjectManager.instance[(int) transform.position.x + direction.x,
-                (int) transform.position.y + direction.y];
+            var objAhead = MapObjectManager.instance[(int)transform.position.x + direction.x,
+                (int)transform.position.y + direction.y];
             var component = objAhead.GetComponent<InteractableObject>();
             if (component != null)
             {
                 Pause = true;
+                print("Interaction starts");
             }
         }
     }
@@ -110,8 +111,8 @@ public class HeroMotionManager : MonoBehaviour
     {
         try
         {
-            return MapObjectManager.instance[(int) transform.position.x + direction.x,
-                (int) transform.position.y + direction.y] == null;
+            return MapObjectManager.instance[(int)transform.position.x + direction.x,
+                (int)transform.position.y + direction.y] == null;
         }
         catch (Exception e)
         {
@@ -124,7 +125,7 @@ public class HeroMotionManager : MonoBehaviour
         transform.position += direction;
         Thread.Sleep(160);
     }
-    
+
     void Running()
     {
         transform.position += direction;

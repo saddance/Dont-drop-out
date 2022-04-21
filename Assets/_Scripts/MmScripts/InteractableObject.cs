@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    public bool IsInittialized;
+    private bool IsInittialized;
     public void Init()
     {
         IsInittialized = true;
@@ -18,7 +18,7 @@ public class InteractableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsInittialized)
-            Debug.Log("InteractableObject is not initialized");
+        //if (!IsInittialized)
+            //Debug.Log("InteractableObject is not initialized");
     }
 }

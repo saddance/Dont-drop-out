@@ -20,9 +20,23 @@ public class HeroMotion : MonoBehaviour
 
     void Update()
     {
+        if (Pause)
+            return;
 
         if (!isMoving)
         {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
+                    Mathf.RoundToInt(transform.position.y) + lastDirection.y];
+                var component = objAhead.GetComponent<InteractableObject>();
+                if (component != null)
+                {
+                    Pause = true;
+                    print("Interaction starts");
+                    return;
+                }
+            }
 
             // TODO : rewrite this shit
             var code = handler.GetPressedButton();
@@ -36,21 +50,7 @@ public class HeroMotion : MonoBehaviour
                 TryGo(new Vector3Int(0, -1, 0), code.Value);
             else if (code == KeyCode.D)
                 TryGo(new Vector3Int(1, 0, 0), code.Value);
-            else if (code == KeyCode.E)
-            {
-                var position = transform.position;
-                var x = position.x + lastDirection.x;
-                var y = position.y + lastDirection.y;
-                var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
-                    Mathf.RoundToInt(transform.position.y) + lastDirection.y];
-                var component = objAhead.GetComponent<InteractableObject>();
-                if (component != null)
-                {
-                    Pause = true;
-                    print("Interaction starts");
-                }
 
-            }
         }
     }
 

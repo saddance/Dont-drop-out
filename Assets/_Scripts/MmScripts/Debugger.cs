@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Debugger : MonoBehaviour
 {
-    public HeroMotionManager Hero;
+    public HeroMotion Hero;
     // Start is called before the first frame update
     void Start()
     {

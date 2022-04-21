@@ -91,8 +91,15 @@ public class HeroMotionManager : MonoBehaviour
 
     bool CanIGo()
     {
-        return MapObjectManager.instance[(int) transform.position.x + direction.x,
-            (int) transform.position.y + direction.y] == null;
+        try
+        {
+            return MapObjectManager.instance[(int) transform.position.x + direction.x,
+                (int) transform.position.y + direction.y] == null;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
     void Moving()

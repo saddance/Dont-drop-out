@@ -20,16 +20,11 @@ public class Unit : MonoBehaviour
         {
             Debug.Log("Unit is not initialized");
         }
-    }
 
-    public void ChangeToBlack()
-    {
-        Renderer.color = Color.black;
-    }
-
-    public void ChangeToGreen()
-    {
-        Renderer.color = Color.green;
+        if (PlayerTurnManager.self.ChosenUnit != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenUnit] == this)
+            Renderer.color = Color.green;
+        else
+            Renderer.color = Color.black;
     }
 
     public void Init(UnitInfo info)

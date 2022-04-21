@@ -41,10 +41,9 @@ public class PlayerTurnManager : MonoBehaviour
             direction = 1;
         }
 
-
-        var prev = ChosenUnit;
         var index = ChosenUnit == -1 ? -1 : ChosenUnit;
         var existNotPlayed = false;
+
         for (int i = 0; i < length; i++)
         {
             index = (length + index + direction) % length;
@@ -58,20 +57,11 @@ public class PlayerTurnManager : MonoBehaviour
 
         if (!existNotPlayed)
         {
-            if (ChosenUnit != -1)
-            {
-                units[ChosenUnit].ChangeToBlack();
-                ChosenUnit = -1;
-            }
+            ChosenUnit = -1;
             for (int i = 0; i < length; i++)
                 used[i] = false;
+
             bm.StopPlayerMove();
-        }
-        else if (prev != ChosenUnit)
-        {
-            if (prev != -1)
-                units[prev].ChangeToBlack();
-            units[index].ChangeToGreen();
         }
     }
    

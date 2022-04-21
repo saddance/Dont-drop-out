@@ -30,63 +30,43 @@ public class PlayerTurnManager : MonoBehaviour
 
     private bool IsGoodUnit(int index)
     {
-        return 0 <= index && index < bm.friendsAmount && !used[index] && !bm.units[index].Info.destroyed;
+        return 0 <= index && index < bm.friendsAmount 
+            && !used[index] && !bm.units[index].Info.destroyed;
     }
 
     private void UpdateChosenUnit(int direction)
     {
         var index = ChosenUnit == -1 ? -1 : ChosenUnit;
-        var existNotPlayed = false;
 
         for (int i = 0; i < length; i++)
         {
             index = (length + index + direction) % length;
             if (IsGoodUnit(index))
             {
-                existNotPlayed = true;
                 ChosenUnit = index;
                 break;
             }
-        }
-
-        if (!existNotPlayed)
-        {
-            ChosenUnit = -1;
-            for (int i = 0; i < length; i++)
-                used[i] = false;
-
-            bm.StopPlayerMove();
         }
     }
 
     private bool IsBadUnit(int index)
     {
-        return bm.friendsAmount <= index && index < bm.friendsAmount + bm.enemiesAmount && !used[index] && !bm.units[index].Info.destroyed;
+        return bm.friendsAmount <= index && index < bm.friendsAmount + bm.enemiesAmount 
+            && !used[index] && !bm.units[index].Info.destroyed;
     }
 
     private void UpdateChosenEnemy(int direction)
     {
         var index = ChosenEnemy == -1 ? -1 : ChosenEnemy;
-        var existNotPlayed = false;
 
         for (int i = 0; i < length; i++)
         {
             index = (length + index + direction) % length;
             if (IsBadUnit(index))
             {
-                existNotPlayed = true;
                 ChosenEnemy = index;
                 break;
             }
-        }
-
-        if (!existNotPlayed)
-        {
-            ChosenEnemy = -1;
-            for (int i = 0; i < length; i++)
-                used[i] = false;
-
-            bm.StopEnemyMove();
         }
     }
 
@@ -96,6 +76,23 @@ public class PlayerTurnManager : MonoBehaviour
         length = bm.units.Count;
         if (IsAngry)
         {
+            if (ChosenEnemy == -1)
+            {
+                ChosenEnemy = bm.enemiesAmount;
+                while (ChosenEnemy < bm.friendsAmount + bm.enemiesAmount && (used[ChosenEnemy] || bm.units[ChosenEnemy].Info.destroyed))
+                {
+                    ChosenEnemy++;
+                }
+                if (ChosenEnemy == bm.friendsAmount + bm.enemiesAmount)
+                {
+                    ChosenEnemy = -1;
+                    for (int i = bm.friendsAmount; i < bm.friendsAmount + bm.enemiesAmount; i++)
+                        used[i] = false;
+
+                    bm.StopEnemyMove();
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 UpdateChosenEnemy(1);
@@ -108,6 +105,23 @@ public class PlayerTurnManager : MonoBehaviour
         }
         else
         {
+            if (ChosenUnit == -1)
+            {
+                ChosenUnit = 0;
+                while (ChosenUnit < bm.friendsAmount && (used[ChosenUnit] || bm.units[ChosenUnit].Info.destroyed))
+                {
+                    ChosenUnit++;
+                }
+                if(ChosenUnit == bm.friendsAmount)
+                {
+                    ChosenUnit = -1;
+                    for (int i = 0; i < bm.friendsAmount; i++)
+                        used[i] = false;
+
+                    bm.StopPlayerMove();
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 UpdateChosenUnit(1);
@@ -126,6 +140,8 @@ public class PlayerTurnManager : MonoBehaviour
                 Debug.Log("Player is attacking enemy");
                 used[ChosenEnemy] = true;
                 bm.Fight(ChosenUnit, ChosenEnemy);
+                ChosenEnemy = -1;
+                ChosenUnit = -1;
                 IsAngry = false;
             }
             else

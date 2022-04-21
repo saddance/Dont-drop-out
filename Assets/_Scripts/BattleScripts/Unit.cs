@@ -20,12 +20,14 @@ public class Unit : MonoBehaviour
         if (Info == null)
         {
             Debug.Log("Unit is not initialized");
+            return;
         }
        
         if (Info.Health <= 0)
         {
             Info.destroyed = true;
         }
+
         if (Info.destroyed)
             Renderer.color = Color.blue;
         else if (PlayerTurnManager.self.ChosenUnit != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenUnit] == this)
@@ -38,7 +40,7 @@ public class Unit : MonoBehaviour
 
     public void Init(UnitInfo info)
     {
-        Info = info.Copy();
+        Info = info;
         transform.position = info.Position;
         if (info.IsEnemy)
             GetComponent<SpriteRenderer>().color = Color.black;
@@ -53,26 +55,21 @@ public class UnitInfo
 	public int Strength;
     public bool destroyed;
 
-    public UnitInfo(bool isEnemy, float x, float y, float z)
+    public UnitInfo(bool isEnemy, float x, float y, float z, System.Random rand)
     {
         IsEnemy = isEnemy;
         Position = new Vector3(x, y, z);
-        Health = 100;
-        Strength = 20;
+        Health = 100 + (int)(rand.Next(-10, 10));
+        Strength = 40 + (int)(rand.Next(-10, 10));
         destroyed = false;
     }
     
-    public UnitInfo(bool isEnemy, Vector3 position)
+    public UnitInfo(bool isEnemy, Vector3 position, System.Random rand)
     {
         IsEnemy = isEnemy;
         Position = position;
-        Health = 100;
-        Strength = 200;
+        Health = 100 + (int)(rand.Next(-10, 10));
+        Strength = 40 + (int)(rand.Next(-10, 10));
         destroyed = false;
     }
-
-	public UnitInfo Copy()
-	{
-        return new UnitInfo(IsEnemy, Position);
-	}
 }

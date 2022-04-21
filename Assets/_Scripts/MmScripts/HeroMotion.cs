@@ -16,6 +16,7 @@ public class HeroMotion : MonoBehaviour
     public Vector3Int lastDirection { get; private set; }
     private bool isMoving = false;
     private WASDHandler handler = new WASDHandler();
+    public bool Pause;
 
     void Update()
     {
@@ -35,6 +36,21 @@ public class HeroMotion : MonoBehaviour
                 TryGo(new Vector3Int(0, -1, 0), code.Value);
             else if (code == KeyCode.D)
                 TryGo(new Vector3Int(1, 0, 0), code.Value);
+            else if (code == KeyCode.E)
+            {
+                var position = transform.position;
+                var x = position.x + lastDirection.x;
+                var y = position.y + lastDirection.y;
+                var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
+                    Mathf.RoundToInt(transform.position.y) + lastDirection.y];
+                var component = objAhead.GetComponent<InteractableObject>();
+                if (component != null)
+                {
+                    Pause = true;
+                    print("Interaction starts");
+                }
+
+            }
         }
     }
 

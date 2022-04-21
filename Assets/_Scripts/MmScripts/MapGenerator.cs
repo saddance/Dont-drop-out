@@ -15,20 +15,16 @@ public class MapGenerator : MonoBehaviour
     {
         var lines = fieldText.text.Split('\n');
 
-        var firstLine = lines[0]
-            .Split(' ')
-            .Select(int.Parse)
-            .ToList();
-        var width = firstLine[0];
-        var height = firstLine[1];
+        var height = lines.Length;
+        var width = lines[0].Trim().Length;
 
         MapObjectManager.instance.MakeField(height, width);
-        for (int i = 1; i < height + 1; i++)
+        for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
                 var symbol = lines[i][j];
-                MapObjectManager.instance.GenerateByPrefab(GetPrefabFromSymbol(symbol), j, i-1);
+                MapObjectManager.instance.GenerateByPrefab(GetPrefabFromSymbol(symbol), j, i);
             }
         }
     }
@@ -37,6 +33,8 @@ public class MapGenerator : MonoBehaviour
     {
         if (symbol == '1')
             return MapObjectManager.instance.PrefabObstacle;
+        if (symbol == '2')
+            return MapObjectManager.instance.Banana;
         return null;
     }
 

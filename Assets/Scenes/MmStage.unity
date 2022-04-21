@@ -220,6 +220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTime: 0.4
   comeBackTime: 0.15
+  direction: {x: 0, y: 0, z: 0}
+  Pause: 0
 --- !u!1 &1694843155
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,6 +236,7 @@ GameObject:
   - component: {fileID: 1694843159}
   - component: {fileID: 1694843160}
   - component: {fileID: 1694843161}
+  - component: {fileID: 1694843162}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -319,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
+  Banana: {fileID: 1471258689603448461, guid: 091cf13a54683c440902bea1c64ea3e2, type: 3}
 --- !u!114 &1694843160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,3 +348,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdef921632e8e14e9fa3bcd651d7df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1694843162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694843155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a841ef2a88e3e44aca07bd561f6582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hero: {fileID: 725627528}

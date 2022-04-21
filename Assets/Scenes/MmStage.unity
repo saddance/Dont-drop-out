@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0937f9fe4500cac4fb0d29e0314e834c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.05
-  direction: {x: 0, y: 0}
+  moveTime: 0.4
+  comeBackTime: 0.15
 --- !u!1 &1694843155
 GameObject:
   m_ObjectHideFlags: 0

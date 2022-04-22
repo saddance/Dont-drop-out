@@ -23,14 +23,8 @@ public class Unit : MonoBehaviour
             return;
         }
        
-        if (Info.Health <= 0)
-        {
-            Info.destroyed = true;
-        }
 
-        if (Info.destroyed)
-            Renderer.color = Color.blue;
-        else if (PlayerTurnManager.self.ChosenUnit != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenUnit] == this)
+        if (PlayerTurnManager.self.ChosenUnit != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenUnit] == this)
             Renderer.color = Color.green;
         else if (PlayerTurnManager.self.ChosenEnemy != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenEnemy] == this)
             Renderer.color = Color.red;
@@ -42,8 +36,6 @@ public class Unit : MonoBehaviour
     {
         Info = info;
         transform.position = info.Position;
-        if (info.IsEnemy)
-            GetComponent<SpriteRenderer>().color = Color.black;
     }
 }
 
@@ -53,23 +45,22 @@ public class UnitInfo
     public Vector3 Position;
     public int Health;
 	public int Strength;
-    public bool destroyed;
+    public bool IsDestroyed { get { return Health <= 0; } }
 
-    public UnitInfo(bool isEnemy, float x, float y, float z, System.Random rand)
+
+    public UnitInfo(bool isEnemy, float x, float y, float z)
     {
         IsEnemy = isEnemy;
         Position = new Vector3(x, y, z);
-        Health = 100 + (int)(rand.Next(-10, 10));
-        Strength = 40 + (int)(rand.Next(-10, 10));
-        destroyed = false;
+        Health = 100 + Random.Range(-10, 10);
+        Strength = 40 + Random.Range(-10, 10);
     }
     
-    public UnitInfo(bool isEnemy, Vector3 position, System.Random rand)
+    public UnitInfo(bool isEnemy, Vector3 position)
     {
         IsEnemy = isEnemy;
         Position = position;
-        Health = 100 + (int)(rand.Next(-10, 10));
-        Strength = 40 + (int)(rand.Next(-10, 10));
-        destroyed = false;
+        Health = 100 + Random.Range(-10, 10);
+        Strength = 40 + Random.Range(-10, 10);
     }
 }

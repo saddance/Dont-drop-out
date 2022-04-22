@@ -10,14 +10,12 @@ public class BattleManager: MonoBehaviour
     public Unit prefab;
     public Mover mover { get; private set; }
     public List<Unit> units;
-    System.Random rand;
 
     void Awake()
     {
         self = this;
         units = new List<Unit>();
         mover = Mover.Start;
-        rand = new System.Random();
         GenerateUnits();
     }
 
@@ -61,7 +59,7 @@ public class BattleManager: MonoBehaviour
     {
         for (int i = 0; i < friendsAmount; i++)
         {
-            var info = new UnitInfo(false, -5, 1.5f * (i - (friendsAmount - 1) / 2f), 0, rand);
+            var info = new UnitInfo(false, -5, 1.5f * (i - (friendsAmount - 1) / 2f), 0);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
@@ -69,7 +67,7 @@ public class BattleManager: MonoBehaviour
         }
         for (int i = 0; i < enemiesAmount; i++)
         {
-            var info = new UnitInfo(true, 5, 1.5f * (i - (enemiesAmount - 1) / 2f), 0, rand);
+            var info = new UnitInfo(true, 5, 1.5f * (i - (enemiesAmount - 1) / 2f), 0);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
@@ -77,18 +75,18 @@ public class BattleManager: MonoBehaviour
         }
     }
 
-    public void Fight(int firstIndex, int secondIndex)
+    public void Fight(int attackIndex, int defendIndex)
     {
-        var first = units[firstIndex];
-        var second = units[secondIndex];
-        if (first == null || second == null)
+        var attacker = units[attackIndex];
+        var defender = units[defendIndex];
+        if (attacker == null || defender == null)
         {
             throw new Exception("Who is apsent???");
         }
-        var firstStrength = first.Info.Strength;
-        var secondStrength = second.Info.Strength;
-        first.Info.Health -= secondStrength;
-        second.Info.Health -= firstStrength;
+        defender.Info.Health -= attacker.Info.Strength;
+        if (defender.Info.IsDestroyed)
+            Destroy(units[defendIndex].gameObject);
+
     }
 }
 

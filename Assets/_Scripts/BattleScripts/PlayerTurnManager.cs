@@ -31,7 +31,7 @@ public class PlayerTurnManager : MonoBehaviour
     private bool IsGoodUnit(int index)
     {
         return 0 <= index && index < bm.friendsAmount 
-            && !used[index] && !bm.units[index].Info.destroyed;
+            && !used[index] && !bm.units[index].Info.IsDestroyed;
     }
 
     private void UpdateChosenUnit(int direction)
@@ -52,7 +52,7 @@ public class PlayerTurnManager : MonoBehaviour
     private bool IsBadUnit(int index)
     {
         return bm.friendsAmount <= index && index < bm.friendsAmount + bm.enemiesAmount 
-            && !used[index] && !bm.units[index].Info.destroyed;
+            && !bm.units[index].Info.IsDestroyed;
     }
 
     private void UpdateChosenEnemy(int direction)
@@ -79,17 +79,13 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenEnemy == -1)
             {
                 ChosenEnemy = bm.enemiesAmount;
-                while (ChosenEnemy < bm.friendsAmount + bm.enemiesAmount && (used[ChosenEnemy] || bm.units[ChosenEnemy].Info.destroyed))
+                while (ChosenEnemy < bm.friendsAmount + bm.enemiesAmount && bm.units[ChosenEnemy].Info.IsDestroyed)
                 {
                     ChosenEnemy++;
                 }
                 if (ChosenEnemy == bm.friendsAmount + bm.enemiesAmount)
                 {
-                    ChosenEnemy = -1;
-                    for (int i = bm.friendsAmount; i < bm.friendsAmount + bm.enemiesAmount; i++)
-                        used[i] = false;
-
-                    bm.StopEnemyMove();
+                    Debug.LogAssertion("No enemies to fight!");
                 }
             }
 
@@ -108,7 +104,7 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenUnit == -1)
             {
                 ChosenUnit = 0;
-                while (ChosenUnit < bm.friendsAmount && (used[ChosenUnit] || bm.units[ChosenUnit].Info.destroyed))
+                while (ChosenUnit < bm.friendsAmount && (used[ChosenUnit] || bm.units[ChosenUnit].Info.IsDestroyed))
                 {
                     ChosenUnit++;
                 }
@@ -138,8 +134,8 @@ public class PlayerTurnManager : MonoBehaviour
             if (IsAngry)
             {
                 Debug.Log("Player is attacking enemy");
-                used[ChosenEnemy] = true;
                 bm.Fight(ChosenUnit, ChosenEnemy);
+                used[ChosenUnit] = true;
                 ChosenEnemy = -1;
                 ChosenUnit = -1;
                 IsAngry = false;
@@ -147,7 +143,6 @@ public class PlayerTurnManager : MonoBehaviour
             else
             {
                 Debug.Log("Player is moving");
-                used[ChosenUnit] = true;
                 IsAngry = true;
             }
         }

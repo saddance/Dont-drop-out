@@ -74,6 +74,20 @@ public class BattleManager: MonoBehaviour
             units.Add(obj);
         }
     }
+
+    public void Fight(int attackIndex, int defendIndex)
+    {
+        var attacker = units[attackIndex];
+        var defender = units[defendIndex];
+        if (attacker == null || defender == null)
+        {
+            throw new Exception("Who is apsent???");
+        }
+        defender.Info.Health -= attacker.Info.Strength;
+        if (defender.Info.IsDestroyed)
+            Destroy(units[defendIndex].gameObject);
+
+    }
 }
 
 public enum Mover

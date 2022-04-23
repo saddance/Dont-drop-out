@@ -46,7 +46,7 @@ public class BattleManager: MonoBehaviour
             gamePhase = GamePhase.Win;
         }
 
-        if (friendsAmount == 0)
+        if (friendsAlive == 0)
         {
             Debug.Log("Player defeated");
             gamePhase = GamePhase.Defeat;

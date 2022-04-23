@@ -6,7 +6,7 @@ public class BattleManager: MonoBehaviour
 {
     public static BattleManager self;
     public int friendsAmount = 5;
-    public int friendsALive;
+    public int friendsAlive;
     public int enemiesAmount = 5;
     public int enemiesAlive;
     public Unit prefab;
@@ -20,7 +20,7 @@ public class BattleManager: MonoBehaviour
         units = new List<Unit>();
         mover = Mover.Start;
         gamePhase = GamePhase.Playing;
-        friendsALive = friendsAmount;
+        friendsAlive = friendsAmount;
         enemiesAlive = enemiesAmount;
         GenerateUnits();
     }
@@ -114,7 +114,7 @@ public class BattleManager: MonoBehaviour
             }
             else
             {
-                friendsALive--;
+                friendsAlive--;
             }
 
             Destroy(units[defendIndex].gameObject);

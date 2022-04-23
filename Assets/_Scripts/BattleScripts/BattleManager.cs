@@ -9,8 +9,8 @@ public class BattleManager: MonoBehaviour
     [SerializeField] public int playerUnitsAmount = 5;
     [SerializeField] public int enemyUnitsAmount = 5;
     
-    public int playerUnitsAlive;
-    public int enemyUnitsAlive;
+    private int playerUnitsAlive;
+    private int enemyUnitsAlive;
     
     public static BattleManager self;
     public Unit prefab;

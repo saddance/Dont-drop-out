@@ -165,12 +165,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUnitsAmount: 5
-  enemyUnitsAmount: 10
-  playerUnitsAlive: 0
-  enemyUnitsAlive: 0
+  enemyUnitsAmount: 5
   prefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
   units: []
-  gamePhase: 0
+  gamePhase: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -163,10 +164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13c6d0a8129a57419ffb22516b05190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  friendsAmount: 5
-  enemiesAmount: 5
+  playerUnitsAmount: 5
+  enemyUnitsAmount: 10
+  playerUnitsAlive: 0
+  enemyUnitsAlive: 0
   prefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
   units: []
+  gamePhase: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -234,5 +238,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cf2c41a59522dd4588c4148a5e0f28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bdcb6d476e970844a9040fe132b17b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

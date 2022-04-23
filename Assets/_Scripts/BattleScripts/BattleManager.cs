@@ -4,32 +4,52 @@ using System.Collections.Generic;
 
 public class BattleManager: MonoBehaviour
 {
-    public int friendsAmount = 5;
-    public int enemiesAmount = 5;
     public static BattleManager self;
+    public int friendsAmount = 5;
+    public int friendsALive;
+    public int enemiesAmount = 5;
+    public int enemiesAlive;
     public Unit prefab;
     public Mover mover { get; private set; }
     public List<Unit> units;
+    public GamePhase gamePhase;
 
     void Awake()
     {
         self = this;
         units = new List<Unit>();
         mover = Mover.Start;
+        gamePhase = GamePhase.Playing;
+        friendsALive = friendsAmount;
+        enemiesAlive = enemiesAmount;
         GenerateUnits();
     }
 
     void Update()
     {
+        if (gamePhase != GamePhase.Playing)
+        {
+            return;
+        }
+        
         switch (mover)
         {
             case Mover.Start:
                 mover = Mover.Player;
                 Debug.Log("Start -> Player move");
                 return;
-            case Mover.Enemy:
-                StopEnemyMove();
-                return;
+        }
+
+        if (enemiesAlive == 0)
+        {
+            Debug.Log("Player won");
+            gamePhase = GamePhase.Win;
+        }
+
+        if (friendsAmount == 0)
+        {
+            Debug.Log("Player defeated");
+            gamePhase = GamePhase.Defeat;
         }
     }
 
@@ -40,6 +60,7 @@ public class BattleManager: MonoBehaviour
             Debug.LogError("Not player move");
             return;
         }
+
         Debug.Log("Player -> Enemy move");
         mover = Mover.Enemy;
     }
@@ -81,12 +102,23 @@ public class BattleManager: MonoBehaviour
         var defender = units[defendIndex];
         if (attacker == null || defender == null)
         {
+            Debug.Log(units.Count);
             throw new Exception("Who is apsent???");
         }
         defender.Info.Health -= attacker.Info.Strength;
         if (defender.Info.IsDestroyed)
-            Destroy(units[defendIndex].gameObject);
+        {
+            if (defender.Info.IsEnemy)
+            {
+                enemiesAlive--;
+            }
+            else
+            {
+                friendsALive--;
+            }
 
+            Destroy(units[defendIndex].gameObject);
+        }
     }
 }
 
@@ -95,4 +127,11 @@ public enum Mover
     Enemy,
     Start,
     Player
+}
+
+public enum GamePhase
+{
+    Win,
+    Playing,
+    Defeat
 }

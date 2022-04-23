@@ -73,6 +73,11 @@ public class PlayerTurnManager : MonoBehaviour
 
     void Update()
     {
+        if (bm.mover != Mover.Player || bm.gamePhase != GamePhase.Playing)
+        {
+            return;
+        }
+        
         length = bm.units.Count;
         if (IsAngry)
         {

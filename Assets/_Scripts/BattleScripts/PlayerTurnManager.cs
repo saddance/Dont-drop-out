@@ -83,7 +83,7 @@ public class PlayerTurnManager : MonoBehaviour
         {
             if (ChosenEnemy == -1)
             {
-                ChosenEnemy = bm.enemyUnitsAmount;
+                ChosenEnemy = bm.playerUnitsAmount;
                 while (ChosenEnemy < bm.playerUnitsAmount + bm.enemyUnitsAmount && bm.units[ChosenEnemy].Info.IsDestroyed)
                 {
                     ChosenEnemy++;

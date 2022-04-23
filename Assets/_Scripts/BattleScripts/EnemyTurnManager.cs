@@ -30,7 +30,7 @@ public class EnemyTurnManager : MonoBehaviour
             }
             return;
         }
-        if (!isMoving && bm.mover == Mover.Enemy)
+        if (!isMoving && bm.Turn == Turn.Enemy)
         {
             StartCoroutine(AttackOnPlayer());
         }
@@ -39,28 +39,28 @@ public class EnemyTurnManager : MonoBehaviour
     IEnumerator AttackOnPlayer()
     {
         isMoving = true;
-        for (int i = bm.friendsAmount; i < bm.friendsAmount + bm.enemiesAmount; i++)
+        for (int i = bm.playerUnitsAmount; i < bm.playerUnitsAmount + bm.enemyUnitsAmount; i++)
         {
             if(bm.units[i] == null)
             {
                 continue;
             }
-            var alive = new List<int>();
-            for(int j = 0; j < bm.friendsAmount; j++)
+            var playersUnitsAlive = new List<int>();
+            for(int j = 0; j < bm.playerUnitsAmount; j++)
             {
                 if (bm.units[j] != null)
                 {
-                    alive.Add(j);
+                    playersUnitsAlive.Add(j);
                 }
             }
-            if (alive.Count == 0)
+            if (playersUnitsAlive.Count == 0)
             {
                 yield break;
             }
-            var aim = alive[Random.Range(0, alive.Count - 1)];
-            Debug.Log("Enemy " + (i - bm.friendsAmount).ToString() + " attacked " + aim.ToString());
+            var aim = playersUnitsAlive[Random.Range(0, playersUnitsAlive.Count - 1)];
+            Debug.Log("Enemy " + (i - bm.playerUnitsAmount).ToString() + " attacked " + aim.ToString());
             bm.Fight(i, aim);
-            alive.Clear();
+            playersUnitsAlive.Clear();
             yield return new WaitForSeconds(0.5f);
         }
 

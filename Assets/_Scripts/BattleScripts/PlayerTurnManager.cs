@@ -12,25 +12,25 @@ public class PlayerTurnManager : MonoBehaviour
     public static PlayerTurnManager self;
     private BattleManager bm;
     private bool[] used;
-    private int length;
+    private int amount;
     public int ChosenUnit { get; private set; }
     public int ChosenEnemy { get; private set; }
-    bool IsAngry;
+    bool isReady;
 
     void Awake()
     {
         self = this;
         bm = BattleManager.self;
-        length = bm.units.Count;
-        used = new bool[length];
+        amount = bm.units.Count;
+        used = new bool[amount];
         ChosenUnit = -1;
         ChosenEnemy = -1;
-        IsAngry = false;
+        isReady = false;
     }
 
     private bool IsGoodUnit(int index)
     {
-        return 0 <= index && index < bm.friendsAmount 
+        return 0 <= index && index < bm.playerUnitsAmount 
             && !used[index] && !bm.units[index].Info.IsDestroyed;
     }
 
@@ -38,9 +38,9 @@ public class PlayerTurnManager : MonoBehaviour
     {
         var index = ChosenUnit == -1 ? -1 : ChosenUnit;
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < amount; i++)
         {
-            index = (length + index + direction) % length;
+            index = (amount + index + direction) % amount;
             if (IsGoodUnit(index))
             {
                 ChosenUnit = index;
@@ -51,7 +51,7 @@ public class PlayerTurnManager : MonoBehaviour
 
     private bool IsBadUnit(int index)
     {
-        return bm.friendsAmount <= index && index < bm.friendsAmount + bm.enemiesAmount 
+        return bm.playerUnitsAmount <= index && index < bm.playerUnitsAmount + bm.enemyUnitsAmount 
             && !bm.units[index].Info.IsDestroyed;
     }
 
@@ -59,9 +59,9 @@ public class PlayerTurnManager : MonoBehaviour
     {
         var index = ChosenEnemy == -1 ? -1 : ChosenEnemy;
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < amount; i++)
         {
-            index = (length + index + direction) % length;
+            index = (amount + index + direction) % amount;
             if (IsBadUnit(index))
             {
                 ChosenEnemy = index;
@@ -73,22 +73,22 @@ public class PlayerTurnManager : MonoBehaviour
 
     void Update()
     {
-        if (bm.mover != Mover.Player || bm.gamePhase != GamePhase.Playing)
+        if (bm.Turn != Turn.Player || bm.gamePhase != GamePhase.Playing)
         {
             return;
         }
         
-        length = bm.units.Count;
-        if (IsAngry)
+        amount = bm.units.Count;
+        if (isReady)
         {
             if (ChosenEnemy == -1)
             {
-                ChosenEnemy = bm.enemiesAmount;
-                while (ChosenEnemy < bm.friendsAmount + bm.enemiesAmount && bm.units[ChosenEnemy].Info.IsDestroyed)
+                ChosenEnemy = bm.enemyUnitsAmount;
+                while (ChosenEnemy < bm.playerUnitsAmount + bm.enemyUnitsAmount && bm.units[ChosenEnemy].Info.IsDestroyed)
                 {
                     ChosenEnemy++;
                 }
-                if (ChosenEnemy == bm.friendsAmount + bm.enemiesAmount)
+                if (ChosenEnemy == bm.playerUnitsAmount + bm.enemyUnitsAmount)
                 {
                     Debug.LogAssertion("No enemies to fight!");
                 }
@@ -109,14 +109,14 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenUnit == -1)
             {
                 ChosenUnit = 0;
-                while (ChosenUnit < bm.friendsAmount && (used[ChosenUnit] || bm.units[ChosenUnit].Info.IsDestroyed))
+                while (ChosenUnit < bm.playerUnitsAmount && (used[ChosenUnit] || bm.units[ChosenUnit].Info.IsDestroyed))
                 {
                     ChosenUnit++;
                 }
-                if(ChosenUnit == bm.friendsAmount)
+                if(ChosenUnit == bm.playerUnitsAmount)
                 {
                     ChosenUnit = -1;
-                    for (int i = 0; i < bm.friendsAmount; i++)
+                    for (int i = 0; i < bm.playerUnitsAmount; i++)
                         used[i] = false;
 
                     bm.StopPlayerMove();
@@ -136,26 +136,25 @@ public class PlayerTurnManager : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
-            if (IsAngry)
+            if (isReady)
             {
                 Debug.Log("Player is attacking enemy");
                 bm.Fight(ChosenUnit, ChosenEnemy);
                 used[ChosenUnit] = true;
                 ChosenEnemy = -1;
                 ChosenUnit = -1;
-                IsAngry = false;
+                isReady = false;
             }
             else
             {
-                Debug.Log("Player is moving");
-                IsAngry = true;
+                isReady = true;
             }
         }
 
-        if (Input.GetKeyDown("escape") && IsAngry)
+        if (Input.GetKeyDown("escape") && isReady)
         {
             ChosenEnemy = -1;
-            IsAngry = false;
+            isReady = false;
             used[ChosenUnit] = false;
         }
     }

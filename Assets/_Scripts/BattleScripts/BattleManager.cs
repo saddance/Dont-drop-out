@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class BattleManager: MonoBehaviour
 {
+    [Header("Units amount constants")]
+    [SerializeField] public int playerUnitsAmount = 5;
+    [SerializeField] public int enemyUnitsAmount = 5;
+    
+    public int playerUnitsAlive;
+    public int enemyUnitsAlive;
+    
     public static BattleManager self;
-    public int friendsAmount = 5;
-    public int friendsAlive;
-    public int enemiesAmount = 5;
-    public int enemiesAlive;
     public Unit prefab;
-    public Mover mover { get; private set; }
+    
+    public Turn Turn { get; private set; }
     public List<Unit> units;
     public GamePhase gamePhase;
 
@@ -18,10 +23,10 @@ public class BattleManager: MonoBehaviour
     {
         self = this;
         units = new List<Unit>();
-        mover = Mover.Start;
+        Turn = Turn.Start;
         gamePhase = GamePhase.Playing;
-        friendsAlive = friendsAmount;
-        enemiesAlive = enemiesAmount;
+        playerUnitsAlive = playerUnitsAmount;
+        enemyUnitsAlive = enemyUnitsAmount;
         GenerateUnits();
     }
 
@@ -32,63 +37,63 @@ public class BattleManager: MonoBehaviour
             return;
         }
         
-        switch (mover)
+        switch (Turn)
         {
-            case Mover.Start:
-                mover = Mover.Player;
-                Debug.Log("Start -> Player move");
+            case Turn.Start:
+                Turn = Turn.Player;
+                Debug.Log("Started. Now it's the Player's turn");
                 return;
         }
 
-        if (enemiesAlive == 0)
+        if (enemyUnitsAlive == 0)
         {
             Debug.Log("Player won");
             gamePhase = GamePhase.Win;
         }
 
-        if (friendsAlive == 0)
+        if (playerUnitsAlive == 0)
         {
-            Debug.Log("Player defeated");
-            gamePhase = GamePhase.Defeat;
+            Debug.Log("Player lost");
+            gamePhase = GamePhase.Loss;
         }
     }
 
     public void StopPlayerMove()
     {
-        if (mover != Mover.Player)
+        if (Turn != Turn.Player)
         {
-            Debug.LogError("Not player move");
+            Debug.LogError("It's not the Player's move");
             return;
         }
 
-        Debug.Log("Player -> Enemy move");
-        mover = Mover.Enemy;
+        Debug.Log("Player passed. Now it's the Enemy's turn");
+        Turn = Turn.Enemy;
     }
 
     public void StopEnemyMove()
     {
-        if (mover != Mover.Enemy)
+        if (Turn != Turn.Enemy)
         {
-            Debug.LogError("Not enemy move");
+            Debug.LogError("It's not the Enemy's move");
             return;
         }
-        Debug.Log("Enemy -> Player move");
-        mover = Mover.Player;
+        Debug.Log("Enemy passed. Now it's the Player's turn");
+        Turn = Turn.Player;
     }
 
     void GenerateUnits()
     {
-        for (int i = 0; i < friendsAmount; i++)
+        for (int i = 0; i < playerUnitsAmount; i++)
         {
-            var info = new UnitInfo(false, -5, 1.5f * (i - (friendsAmount - 1) / 2f), 0);
+            var info = new UnitInfo(false, -5, 1.5f * (i - (playerUnitsAmount - 1) / 2f), 0);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
             units.Add(obj);
         }
-        for (int i = 0; i < enemiesAmount; i++)
+        for (int i = 0; i < enemyUnitsAmount; i++)
         {
-            var info = new UnitInfo(true, 5, 1.5f * (i - (enemiesAmount - 1) / 2f), 0);
+            var info = new UnitInfo(true, 5, 1.5f * (i - (enemyUnitsAmount - 1) / 2f), 0);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
@@ -103,18 +108,18 @@ public class BattleManager: MonoBehaviour
         if (attacker == null || defender == null)
         {
             Debug.Log(units.Count);
-            throw new Exception("Who is apsent???");
+            throw new Exception("Who is absent?");
         }
         defender.Info.Health -= attacker.Info.Strength;
         if (defender.Info.IsDestroyed)
         {
-            if (defender.Info.IsEnemy)
+            if (defender.Info.IsEnemysUnit)
             {
-                enemiesAlive--;
+                enemyUnitsAlive--;
             }
             else
             {
-                friendsAlive--;
+                playerUnitsAlive--;
             }
 
             Destroy(units[defendIndex].gameObject);
@@ -122,7 +127,7 @@ public class BattleManager: MonoBehaviour
     }
 }
 
-public enum Mover
+public enum Turn
 {
     Enemy,
     Start,
@@ -133,5 +138,5 @@ public enum GamePhase
 {
     Win,
     Playing,
-    Defeat
+    Loss
 }

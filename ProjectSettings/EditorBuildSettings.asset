@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuStage.unity
     guid: f4664ec90a6d89e4a991858cecb95bdb
   - enabled: 1
+    path: Assets/Scenes/MmStage.unity
+    guid: 9de9610f2cf7dd54db1fdc5b2164e3f2
+  - enabled: 1
     path: Assets/Scenes/BattleStage.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

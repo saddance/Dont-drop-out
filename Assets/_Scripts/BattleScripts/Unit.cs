@@ -41,24 +41,24 @@ public class Unit : MonoBehaviour
 
 public class UnitInfo
 {
-    public bool IsEnemy;
+    public bool IsEnemysUnit;
     public Vector3 Position;
     public int Health;
 	public int Strength;
     public bool IsDestroyed { get { return Health <= 0; } }
 
 
-    public UnitInfo(bool isEnemy, float x, float y, float z)
+    public UnitInfo(bool isEnemysUnit, float x, float y, float z)
     {
-        IsEnemy = isEnemy;
+        IsEnemysUnit = isEnemysUnit;
         Position = new Vector3(x, y, z);
         Health = 100 + Random.Range(-10, 10);
         Strength = 40 + Random.Range(-10, 10);
     }
     
-    public UnitInfo(bool isEnemy, Vector3 position)
+    public UnitInfo(bool isEnemysUnit, Vector3 position)
     {
-        IsEnemy = isEnemy;
+        IsEnemysUnit = isEnemysUnit;
         Position = position;
         Health = 100 + Random.Range(-10, 10);
         Strength = 40 + Random.Range(-10, 10);

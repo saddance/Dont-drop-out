@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEditorInternal.VR;
@@ -15,7 +16,8 @@ public class PlayerTurnManager : MonoBehaviour
     private int amount;
     public int ChosenUnit { get; private set; }
     public int ChosenEnemy { get; private set; }
-    bool isReady;
+    public int ChosenByMouseIndex { get; private set; }
+    public bool isReady;
 
     void Awake()
     {
@@ -26,6 +28,11 @@ public class PlayerTurnManager : MonoBehaviour
         ChosenUnit = -1;
         ChosenEnemy = -1;
         isReady = false;
+    }
+
+    void Start()
+    {
+        StartCoroutine(MousePositionChecker());
     }
 
     private bool IsGoodUnit(int index)
@@ -70,12 +77,80 @@ public class PlayerTurnManager : MonoBehaviour
         }
     }
 
+    private void ChooseUnitViaMouseClick()
+    {
+        if (bm.Turn != Turn.Player)
+        {
+            return;
+        }
+        if (!isReady)
+        {
+            if (ChosenByMouseIndex != -1 && !bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
+            {
+                ChosenUnit = ChosenByMouseIndex;
+            }
+        }
+        else
+        {
+            if (ChosenByMouseIndex != -1 && bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
+            {
+                ChosenEnemy = ChosenByMouseIndex;
+            }
+        }
+    }
+    
+    IEnumerator MousePositionChecker()
+    {
+        while(true)
+        {
+            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            int index = -1;
+            double distance = double.MaxValue;
+            for (int i = 0; i < bm.playerUnitsAmount + bm.enemyUnitsAmount; i++)
+            {
+                if (bm.units[i] == null || used[i])
+                {
+                    continue;
+                }
+                var unitPosition = bm.units[i].Info.Position;
+                var distanceToUnit = Math.Sqrt((mousePos.x - unitPosition.x) * (mousePos.x - unitPosition.x) +
+                                               (mousePos.y - unitPosition.y) * (mousePos.y - unitPosition.y));
+                if (distanceToUnit < distance)
+                {
+                    distance = distanceToUnit;
+                    index = i;
+                }
+            }
+            
+            if(index == -1)
+            {
+                ChosenByMouseIndex = -1;
+                continue;
+            }
+
+            if (Math.Abs(mousePos.x - bm.units[index].Info.Position.x) < 0.5 && Math.Abs(mousePos.y - bm.units[index].Info.Position.y) < 0.5)
+            {
+                ChosenByMouseIndex = index;
+            }
+            else
+            {
+                ChosenByMouseIndex = -1;
+            }
+            yield return null;
+        }
+    }
+
 
     void Update()
     {
         if (bm.Turn != Turn.Player || bm.gamePhase != GamePhase.Playing)
         {
             return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            ChooseUnitViaMouseClick();
         }
         
         amount = bm.units.Count;

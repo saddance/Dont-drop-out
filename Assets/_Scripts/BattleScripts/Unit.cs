@@ -28,6 +28,9 @@ public class Unit : MonoBehaviour
             Renderer.color = Color.green;
         else if (PlayerTurnManager.self.ChosenEnemy != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenEnemy] == this)
             Renderer.color = Color.red;
+        else if(PlayerTurnManager.self.ChosenByMouseIndex != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenByMouseIndex] == this 
+                                                                && PlayerTurnManager.self.isReady == Info.IsEnemysUnit && BattleManager.self.Turn == Turn.Player)
+            Renderer.color = Color.blue;
         else
             Renderer.color = Color.black;
     }
@@ -46,7 +49,6 @@ public class UnitInfo
     public int Health;
 	public int Strength;
     public bool IsDestroyed { get { return Health <= 0; } }
-
 
     public UnitInfo(bool isEnemysUnit, float x, float y, float z)
     {

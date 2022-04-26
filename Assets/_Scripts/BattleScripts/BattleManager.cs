@@ -48,12 +48,14 @@ public class BattleManager: MonoBehaviour
         if (enemyUnitsAlive == 0)
         {
             Debug.Log("Player won");
+            Turn = Turn.Nobody;
             gamePhase = GamePhase.Win;
         }
 
         if (playerUnitsAlive == 0)
         {
             Debug.Log("Player lost");
+            Turn = Turn.Nobody;
             gamePhase = GamePhase.Loss;
         }
     }
@@ -85,7 +87,8 @@ public class BattleManager: MonoBehaviour
     {
         for (int i = 0; i < playerUnitsAmount; i++)
         {
-            var info = new UnitInfo(false, -5, 1.5f * (i - (playerUnitsAmount - 1) / 2f), 0);
+            var pos = new Vector3(-5, 1.5f * (i - (playerUnitsAmount - 1) / 2f), 0);
+            var info = new UnitInfo(false, pos);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
@@ -93,7 +96,8 @@ public class BattleManager: MonoBehaviour
         }
         for (int i = 0; i < enemyUnitsAmount; i++)
         {
-            var info = new UnitInfo(true, 5, 1.5f * (i - (enemyUnitsAmount - 1) / 2f), 0);
+            var pos = new Vector3(5, 1.5f * (i - (enemyUnitsAmount - 1) / 2f), 0);
+            var info = new UnitInfo(true, pos);
             var obj = Instantiate(prefab);
             obj.Init(info);
 
@@ -131,7 +135,8 @@ public enum Turn
 {
     Enemy,
     Start,
-    Player
+    Player,
+    Nobody
 }
 
 public enum GamePhase

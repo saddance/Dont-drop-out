@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractableObject : MonoBehaviour
 {
     private bool IsInittialized;
+
     public void Init()
     {
         IsInittialized = true;
@@ -19,6 +20,6 @@ public class InteractableObject : MonoBehaviour
     void Update()
     {
         //if (!IsInittialized)
-            //Debug.Log("InteractableObject is not initialized");
+            //Debug.Log("InteractableObject is not initialized"); 
     }
 }

@@ -59,7 +59,7 @@ public class EnemyTurnManager : MonoBehaviour
             {
                 yield break;
             }
-            var aim = playersUnitsAlive[Random.Range(0, playersUnitsAlive.Count - 1)];
+            var aim = playersUnitsAlive[Random.Range(0, playersUnitsAlive.Count)];
             Debug.Log("Enemy " + (i - bm.playerUnitsAmount).ToString() + " attacked " + aim.ToString());
             ptm.chosenUnit = aim;
             ptm.chosenEnemy = i;

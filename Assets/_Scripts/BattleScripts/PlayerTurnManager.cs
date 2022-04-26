@@ -175,19 +175,6 @@ public class PlayerTurnManager : MonoBehaviour
         amount = bm.units.Count;
         if (isReady)
         {
-            if (ChosenEnemy == -1)
-            {
-                ChosenEnemy = bm.playerUnitsAmount;
-                while (ChosenEnemy < bm.playerUnitsAmount + bm.enemyUnitsAmount && bm.units[ChosenEnemy].Info.IsDestroyed)
-                {
-                    ChosenEnemy++;
-                }
-                if (ChosenEnemy == bm.playerUnitsAmount + bm.enemyUnitsAmount)
-                {
-                    Debug.LogAssertion("No enemies to fight!");
-                }
-            }
-
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 UpdateChosenEnemy(1);
@@ -202,14 +189,13 @@ public class PlayerTurnManager : MonoBehaviour
         {
             if (ChosenUnit == -1)
             {
-                ChosenUnit = 0;
-                while (ChosenUnit < bm.playerUnitsAmount && (used[ChosenUnit] || bm.units[ChosenUnit].Info.IsDestroyed))
+                int index = 0;
+                while (index < bm.playerUnitsAmount && (used[index] || bm.units[index].Info.IsDestroyed))
                 {
-                    ChosenUnit++;
+                    index++;
                 }
-                if(ChosenUnit == bm.playerUnitsAmount)
+                if(index == bm.playerUnitsAmount)
                 {
-                    ChosenUnit = -1;
                     for (int i = 0; i < bm.playerUnitsAmount; i++)
                         used[i] = false;
 

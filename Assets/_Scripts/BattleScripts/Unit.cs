@@ -1,18 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using Random = UnityEngine.Random;
 
 public class Unit : MonoBehaviour
 {
     public UnitInfo Info;
     public SpriteRenderer Renderer;
+    private BattleManager bm;
+    private PlayerTurnManager ptm;
 
     void Awake()
     {
         Renderer = GetComponent<SpriteRenderer>();
         Renderer.color = Color.black;   
+    }
+
+    void Start()
+    {
+        bm = BattleManager.self;
+        ptm = PlayerTurnManager.self;
     }
 
     void Update()
@@ -24,15 +34,20 @@ public class Unit : MonoBehaviour
         }
        
 
-        if (PlayerTurnManager.self.ChosenUnit != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenUnit] == this)
+        if (ptm.chosenUnit != -1 && bm.units[ptm.chosenUnit] == this)
             Renderer.color = Color.green;
-        else if (PlayerTurnManager.self.ChosenEnemy != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenEnemy] == this)
+        else if (ptm.chosenEnemy != -1 && bm.units[ptm.chosenEnemy] == this)
             Renderer.color = Color.red;
-        else if(PlayerTurnManager.self.ChosenByMouseIndex != -1 && BattleManager.self.units[PlayerTurnManager.self.ChosenByMouseIndex] == this 
-                                                                && PlayerTurnManager.self.isReady == Info.IsEnemysUnit && BattleManager.self.Turn == Turn.Player)
+        else if(isChosenByMouse())
             Renderer.color = Color.blue;
         else
             Renderer.color = Color.black;
+    }
+
+    private bool isChosenByMouse()
+    {
+        return ptm.ChosenByMouseIndex != -1 && bm.units[ptm.ChosenByMouseIndex] == this 
+                                            && ptm.isReady == Info.IsEnemysUnit && bm.Turn == Turn.Player;
     }
 
     public void Init(UnitInfo info)

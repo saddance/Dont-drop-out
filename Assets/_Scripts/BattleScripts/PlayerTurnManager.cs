@@ -14,8 +14,8 @@ public class PlayerTurnManager : MonoBehaviour
     private BattleManager bm;
     private bool[] used;
     private int amount;
-    public int ChosenUnit { get; private set; }
-    public int ChosenEnemy { get; private set; }
+    public int chosenUnit;
+    public int chosenEnemy;
     public int ChosenByMouseIndex { get; private set; }
     public bool isReady;
 
@@ -25,8 +25,8 @@ public class PlayerTurnManager : MonoBehaviour
         bm = BattleManager.self;
         amount = bm.units.Count;
         used = new bool[amount];
-        ChosenUnit = -1;
-        ChosenEnemy = -1;
+        chosenUnit = -1;
+        chosenEnemy = -1;
         isReady = false;
     }
 
@@ -43,14 +43,14 @@ public class PlayerTurnManager : MonoBehaviour
 
     private void UpdateChosenUnit(int direction)
     {
-        var index = ChosenUnit == -1 ? -1 : ChosenUnit;
+        var index = chosenUnit == -1 ? -1 : chosenUnit;
 
         for (int i = 0; i < amount; i++)
         {
             index = (amount + index + direction) % amount;
             if (IsGoodUnit(index))
             {
-                ChosenUnit = index;
+                chosenUnit = index;
                 break;
             }
         }
@@ -64,14 +64,14 @@ public class PlayerTurnManager : MonoBehaviour
 
     private void UpdateChosenEnemy(int direction)
     {
-        var index = ChosenEnemy == -1 ? -1 : ChosenEnemy;
+        var index = chosenEnemy == -1 ? -1 : chosenEnemy;
 
         for (int i = 0; i < amount; i++)
         {
             index = (amount + index + direction) % amount;
             if (IsBadUnit(index))
             {
-                ChosenEnemy = index;
+                chosenEnemy = index;
                 break;
             }
         }
@@ -87,16 +87,16 @@ public class PlayerTurnManager : MonoBehaviour
         {
             if (ChosenByMouseIndex != -1 && !bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
             {
-                ChosenUnit = ChosenByMouseIndex;
-                Attack();
+                chosenUnit = ChosenByMouseIndex;
+                TryToAttack();
             }
         }
         else
         {
             if (ChosenByMouseIndex != -1 && bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
             {
-                ChosenEnemy = ChosenByMouseIndex;
-                Attack();
+                chosenEnemy = ChosenByMouseIndex;
+                TryToAttack();
             }
         }
     }
@@ -142,23 +142,34 @@ public class PlayerTurnManager : MonoBehaviour
         }
     }
     
-    void Attack()
+    void TryToAttack()
     {
         if (isReady)
         {
-            Debug.Log("Player is attacking enemy");
-            bm.Fight(ChosenUnit, ChosenEnemy);
-            used[ChosenUnit] = true;
-            ChosenEnemy = -1;
-            ChosenUnit = -1;
-            isReady = false;
+            if (chosenEnemy != -1)
+            {
+                StartCoroutine(Attack());
+            }
         }
         else
         {
-            isReady = true;
+            if (chosenUnit != -1)
+            {
+                isReady = true;
+            }
         }
     }
 
+    IEnumerator Attack()
+    {
+        Debug.Log("Player is attacking enemy");
+        bm.Fight(chosenUnit, chosenEnemy);
+        yield return new WaitForSeconds(1);
+        used[chosenUnit] = true;
+        chosenEnemy = -1;
+        chosenUnit = -1;
+        isReady = false;
+    }
 
     void Update()
     {
@@ -187,7 +198,7 @@ public class PlayerTurnManager : MonoBehaviour
         }
         else
         {
-            if (ChosenUnit == -1)
+            if (chosenUnit == -1)
             {
                 int index = 0;
                 while (index < bm.playerUnitsAmount && (used[index] || bm.units[index].Info.IsDestroyed))
@@ -216,14 +227,14 @@ public class PlayerTurnManager : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
-            Attack();
+            TryToAttack();
         }
 
         if (Input.GetKeyDown("escape") && isReady)
         {
-            ChosenEnemy = -1;
+            chosenEnemy = -1;
             isReady = false;
-            used[ChosenUnit] = false;
+            used[chosenUnit] = false;
         }
     }
 }

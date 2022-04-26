@@ -6,6 +6,7 @@ public class EnemyTurnManager : MonoBehaviour
 {
     public static EnemyTurnManager self;
     private BattleManager bm;
+    private PlayerTurnManager ptm;
     private bool isMoving = false;
 
     void Awake()
@@ -16,6 +17,7 @@ public class EnemyTurnManager : MonoBehaviour
     void Start()
     {
         bm = BattleManager.self;
+        ptm = PlayerTurnManager.self;
     }
 
 
@@ -59,12 +61,16 @@ public class EnemyTurnManager : MonoBehaviour
             }
             var aim = playersUnitsAlive[Random.Range(0, playersUnitsAlive.Count - 1)];
             Debug.Log("Enemy " + (i - bm.playerUnitsAmount).ToString() + " attacked " + aim.ToString());
+            ptm.chosenUnit = aim;
+            ptm.chosenEnemy = i;
             bm.Fight(i, aim);
             playersUnitsAlive.Clear();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1);
         }
 
         isMoving = false;
+        ptm.chosenUnit = -1;
+        ptm.chosenEnemy = -1;
         bm.StopEnemyMove();
     }
 }

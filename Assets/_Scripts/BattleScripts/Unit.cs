@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Unit : MonoBehaviour
@@ -16,7 +17,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         Renderer = GetComponent<SpriteRenderer>();
-        Renderer.color = Color.black;   
+        Renderer.color = Color.black;
     }
 
     void Start()

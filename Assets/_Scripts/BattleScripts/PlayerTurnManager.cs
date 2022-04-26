@@ -163,12 +163,14 @@ public class PlayerTurnManager : MonoBehaviour
     IEnumerator Attack()
     {
         Debug.Log("Player is attacking enemy");
-        bm.Fight(chosenUnit, chosenEnemy);
+        bm.Turn = Turn.Nobody;
         yield return new WaitForSeconds(1);
+        bm.Fight(chosenUnit, chosenEnemy);
         used[chosenUnit] = true;
         chosenEnemy = -1;
         chosenUnit = -1;
         isReady = false;
+        bm.Turn = Turn.Player;
     }
 
     void Update()

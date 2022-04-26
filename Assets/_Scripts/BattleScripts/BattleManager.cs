@@ -14,8 +14,8 @@ public class BattleManager: MonoBehaviour
     
     public static BattleManager self;
     public Unit prefab;
-    
-    public Turn Turn { get; private set; }
+
+    public Turn Turn;
     public List<Unit> units;
     public GamePhase gamePhase;
 

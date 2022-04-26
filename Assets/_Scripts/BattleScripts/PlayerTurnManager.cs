@@ -88,6 +88,7 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenByMouseIndex != -1 && !bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
             {
                 ChosenUnit = ChosenByMouseIndex;
+                Attack();
             }
         }
         else
@@ -95,6 +96,7 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenByMouseIndex != -1 && bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
             {
                 ChosenEnemy = ChosenByMouseIndex;
+                Attack();
             }
         }
     }
@@ -137,6 +139,23 @@ public class PlayerTurnManager : MonoBehaviour
                 ChosenByMouseIndex = -1;
             }
             yield return null;
+        }
+    }
+    
+    void Attack()
+    {
+        if (isReady)
+        {
+            Debug.Log("Player is attacking enemy");
+            bm.Fight(ChosenUnit, ChosenEnemy);
+            used[ChosenUnit] = true;
+            ChosenEnemy = -1;
+            ChosenUnit = -1;
+            isReady = false;
+        }
+        else
+        {
+            isReady = true;
         }
     }
 
@@ -211,19 +230,7 @@ public class PlayerTurnManager : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
-            if (isReady)
-            {
-                Debug.Log("Player is attacking enemy");
-                bm.Fight(ChosenUnit, ChosenEnemy);
-                used[ChosenUnit] = true;
-                ChosenEnemy = -1;
-                ChosenUnit = -1;
-                isReady = false;
-            }
-            else
-            {
-                isReady = true;
-            }
+            Attack();
         }
 
         if (Input.GetKeyDown("escape") && isReady)

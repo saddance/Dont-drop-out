@@ -320,8 +320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 209cdf51ba3a2cf45becc2af21caac7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
-  Banana: {fileID: 1471258689603448461, guid: 091cf13a54683c440902bea1c64ea3e2, type: 3}
 --- !u!114 &1694843160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +333,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldText: {fileID: 4900000, guid: e3f308681ffe2e243b7516a1b64049e5, type: 3}
+  prefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
+  prefabInteractable: {fileID: 1471258689603448461, guid: 091cf13a54683c440902bea1c64ea3e2, type: 3}
 --- !u!114 &1694843161
 MonoBehaviour:
   m_ObjectHideFlags: 0

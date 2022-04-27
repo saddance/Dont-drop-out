@@ -1,34 +1,76 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
+using System.Linq;
+using System.Collections;
 
 public class BattleManager: MonoBehaviour
 {
-    [Header("Units amount constants")]
-    [SerializeField] public int playerUnitsAmount = 5;
-    [SerializeField] public int enemyUnitsAmount = 5;
-    
+
+    [HideInInspector] public int playerUnitsAmount;
+    [HideInInspector] public int enemyUnitsAmount;
+
     private int playerUnitsAlive;
     private int enemyUnitsAlive;
     
     public static BattleManager self;
-    public Unit prefab;
+    public Unit unitPrefab;
     
     public Turn Turn { get; private set; }
     public List<Unit> units;
     public GamePhase gamePhase;
 
-    void Awake()
+    #region Start
+
+    private void Awake()
     {
         self = this;
         units = new List<Unit>();
         Turn = Turn.Start;
         gamePhase = GamePhase.Playing;
-        playerUnitsAlive = playerUnitsAmount;
-        enemyUnitsAlive = enemyUnitsAmount;
+
         GenerateUnits();
     }
+
+    private void GenerateUnits()
+    {
+        GenerateFriends();
+        GenerateEnemies();
+    }
+
+    private void GenerateFriends()
+    {
+        var friends = GameManager.currentSave.personalities
+            .Where(p => p.asFriend != null && p.asFriend.IsParticipating())
+            .ToList();
+
+        playerUnitsAlive = playerUnitsAmount = friends.Count;
+        for (int i = 0; i < friends.Count; i++)
+        {
+            var info = new UnitInfo(friends[i].asFriend.self, false, new Vector3(-5, 1.5f * (i - (friends.Count - 1) / 2f)));
+            InstantiateUnit(info);
+        }
+    }
+
+    private void GenerateEnemies()
+    {
+        var enemies = GameManager.currentSave.personalities[GameManager.currentSave.battleWith].asEnemy.people.ToList();
+
+        enemyUnitsAlive = enemyUnitsAmount = enemies.Count;
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            var info = new UnitInfo(enemies[i], true, new Vector3(5, 1.5f * (i - (enemies.Count - 1) / 2f)));
+            InstantiateUnit(info);
+        }
+    }
+
+    private void InstantiateUnit(UnitInfo info)
+    {
+        var obj = Instantiate(unitPrefab);
+        obj.Init(info);
+        units.Add(obj);
+    }
+    #endregion
 
     void Update()
     {
@@ -49,13 +91,21 @@ public class BattleManager: MonoBehaviour
         {
             Debug.Log("Player won");
             gamePhase = GamePhase.Win;
+            StartCoroutine(FinishBattle(true));
         }
 
         if (playerUnitsAlive == 0)
         {
             Debug.Log("Player lost");
             gamePhase = GamePhase.Loss;
+            StartCoroutine(FinishBattle(false));
         }
+    }
+
+    IEnumerator FinishBattle(bool isWin)
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.EndBattle(isWin);
     }
 
     public void StopPlayerMove()
@@ -81,25 +131,6 @@ public class BattleManager: MonoBehaviour
         Turn = Turn.Player;
     }
 
-    void GenerateUnits()
-    {
-        for (int i = 0; i < playerUnitsAmount; i++)
-        {
-            var info = new UnitInfo(false, -5, 1.5f * (i - (playerUnitsAmount - 1) / 2f), 0);
-            var obj = Instantiate(prefab);
-            obj.Init(info);
-
-            units.Add(obj);
-        }
-        for (int i = 0; i < enemyUnitsAmount; i++)
-        {
-            var info = new UnitInfo(true, 5, 1.5f * (i - (enemyUnitsAmount - 1) / 2f), 0);
-            var obj = Instantiate(prefab);
-            obj.Init(info);
-
-            units.Add(obj);
-        }
-    }
 
     public void Fight(int attackIndex, int defendIndex)
     {

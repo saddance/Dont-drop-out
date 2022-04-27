@@ -7,15 +7,16 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        GameStateManager.NewGame();
+        GameManager.StartNewGame();
     }
 
     public void QuitGame()
     {
-        GameStateManager.ExitGame();
+        GameManager.ExitGame();
     }
 
-    public void LoadGame() {
-        GameStateManager.LoadGame();
+    public void LoadGame()
+    {
+        GameManager.LoadSavedGame();
     }
 }

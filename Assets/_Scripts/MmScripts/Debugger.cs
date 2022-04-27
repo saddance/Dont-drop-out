@@ -14,16 +14,11 @@ public class Debugger : MonoBehaviour
             if (Hero.Pause)
                 Hero.Pause = false;
             else
-                GameStateManager.ExitGame();
+                GameManager.ExitGame();
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            GameStateManager.SaveGame();
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            var saves = GameStateManager.GetSaveNames();
-            print(string.Join(" ", saves));
+            GameManager.SaveGame();
         }
     }
 }

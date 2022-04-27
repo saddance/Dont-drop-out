@@ -20,7 +20,7 @@ public class HeroMotion : MonoBehaviour
 
     void Start()
     {
-        var pos = GameStateManager.currentSave.playerPosition;
+        var pos = GameManager.currentSave.playerPosition;
         transform.position = new Vector3(pos.x, pos.y);
     }
 
@@ -35,12 +35,14 @@ public class HeroMotion : MonoBehaviour
             {
                 var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
                     Mathf.RoundToInt(transform.position.y) + lastDirection.y];
-                var component = objAhead.GetComponent<InteractableObject>();
-                if (component != null)
+                if (objAhead != null)
                 {
-                    Pause = true;
-                    print("Interaction starts");
-                    return;
+                    var component = objAhead.GetComponent<InteractableObject>();
+                    if (component != null)
+                    {
+                        GameManager.StartBattle(component.personality);
+                        return;
+                    }
                 }
             }
 

@@ -18,6 +18,12 @@ public class HeroMotion : MonoBehaviour
     private WASDHandler handler = new WASDHandler();
     public bool Pause;
 
+    void Start()
+    {
+        var pos = GameStateManager.currentSave.playerPosition;
+        transform.position = new Vector3(pos.x, pos.y);
+    }
+
     void Update()
     {
         if (Pause)

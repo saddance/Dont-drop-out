@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class GameStateManager
 {
     public static SaveData currentSave;
+    static string mmStageName = "MmStage";
 
     private static string SavePath { get { return $"{Application.persistentDataPath}/saves"; } }
 
@@ -28,71 +29,75 @@ public static class GameStateManager
             Directory.CreateDirectory(SavePath);
     }
 
-    public static void GenDefaultSave()
-    {
-        currentSave = new SaveData();
-        currentSave.saveName = Random.Range(1000000, 10000000).ToString();
-        currentSave.personalities = new Personality[5];
-        for (int i = 0; i < 5; i++)
-            currentSave.personalities[i] = new Personality
-            {
-                enemy = new EnemyPData
-                {
-                    maxFriends = Random.Range(0, 2),
-                    selfStrength = Random.Range(80, 120)
-                }
-            };
-    }
-
     public static void NewGame()
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
-            return;
-        GenDefaultSave();
-        SceneManager.LoadScene(1);
+            throw new System.Exception("Can't start a new game not from main menu");
+
+        currentSave = SaveDataHandler.GenDefaultSave();
+        SceneManager.LoadScene(mmStageName);
     }
 
     public static void SaveGame()
     {
+        if (currentSave == null)
+            throw new System.Exception("Can't start a new game not from game menu");
+
+        SaveDataHandler.UpdateSaveData(currentSave);
+
         var stream = new FileStream(GetPath(), FileMode.Create);
         var formatter = new BinaryFormatter();
         formatter.Serialize(stream, currentSave);
         stream.Close();
+
+        Debug.Log($"Game saved in {GetPath()}");
     }
 
-    public static void ExitGame()
+    public static void ExitGame(bool withSave = true)
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
             Application.Quit();
         else
         {
-            SaveGame();
+            if (withSave)
+                SaveGame();
+            currentSave = null;
             SceneManager.LoadScene(0);
         }
     }
 
-    public static void LoadGame(string name)
+    public static void LoadGame(string name = null)
     {
+        if (name == null)
+            name = GetSaveNames()[0];
+
         var stream = new FileStream(GetPath(name), FileMode.Open);
         var formatter = new BinaryFormatter();
         currentSave = formatter.Deserialize(stream) as SaveData;
         stream.Close();
 
-        SceneManager.LoadScene(1);
+        Debug.Log($"Game loaded from {GetPath()}");
+        SceneManager.LoadScene(mmStageName);
     }
 
-    public static string[] GetSaveNames(string saves)
+    public static string[] GetSaveNames()
     {
-        var files = Directory.EnumerateFiles(SavePath);
+        var files = Directory.EnumerateFiles(SavePath).OrderByDescending(file => File.GetLastAccessTime(file));
         List<string> names = new List<string>();
+
         foreach (var file in files)
         {
             var formatter = new BinaryFormatter();
-
             var stream = new FileStream(file, FileMode.Open);
-            if (formatter.Deserialize(stream) is SaveData)
-                names.Add(string.Join("", file.Split('/').Last().Where(x => int.TryParse(new string(x, 1), out int _)).ToArray()));
+            try
+            {
+                if (formatter.Deserialize(stream) is SaveData)
+                    names.Add(string.Join("", file.Split('/').Last().Where(x => int.TryParse(new string(x, 1), out int _)).ToArray()));
+            }
+            catch (System.Exception) { }
+            stream.Close();
         }
+        
         return names.ToArray();
     }
 

@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ab8b2f6ac56edbd4c8c1dff5c885214a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8774401d9dfc5c4e80b7f8ff1a471b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -220,7 +220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTime: 0.4
   comeBackTime: 0.15
-  direction: {x: 0, y: 0, z: 0}
   Pause: 0
 --- !u!1 &1694843155
 GameObject:

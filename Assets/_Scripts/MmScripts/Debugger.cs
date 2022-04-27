@@ -5,18 +5,25 @@ using UnityEngine;
 public class Debugger : MonoBehaviour
 {
     public HeroMotion Hero;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Hero.Pause = false;
+            if (Hero.Pause)
+                Hero.Pause = false;
+            else
+                GameStateManager.ExitGame();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            GameStateManager.SaveGame();
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            var saves = GameStateManager.GetSaveNames();
+            print(string.Join(" ", saves));
         }
     }
 }

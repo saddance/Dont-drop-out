@@ -24,11 +24,11 @@ public class Personality
 public class SaveData
 {
     public string saveName;
-    public Vector2Int playerPosition = new Vector2Int(0, 0);
+    public Vector2IntS playerPosition = new Vector2Int(0, 0);
     public Personality[] personalities = null;
-    private Vector2Int[] positions = null;
+    private Vector2IntS[] positions = null;
 
-    public Vector2Int[] Positions
+    public Vector2IntS[] Positions
     {
         get
         {
@@ -38,5 +38,27 @@ public class SaveData
             }
             return positions;
         }
+    }
+}
+
+[Serializable]
+public class Vector2IntS
+{
+    public int x;
+    public int y;
+
+    public Vector2IntS(Vector2Int v)
+    {
+        x = v.x; y = v.y;
+    }
+
+    public Vector2Int Get()
+    {
+        return new Vector2Int(x, y);
+    }
+
+    public static implicit operator Vector2IntS(Vector2Int v)
+    {
+        return new Vector2IntS(v);
     }
 }

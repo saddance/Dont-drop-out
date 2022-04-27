@@ -62,23 +62,17 @@ public class UnitInfo
 {
     public bool IsEnemysUnit;
     public Vector3 Position;
+    public int MaxHealth;
     public int Health;
 	public int Strength;
     public bool IsDestroyed { get { return Health <= 0; } }
 
-    public UnitInfo(bool isEnemysUnit, float x, float y, float z)
+
+    public UnitInfo(UnitData data, bool isEnemy, Vector3 position)
     {
-        IsEnemysUnit = isEnemysUnit;
-        Position = new Vector3(x, y, z);
-        Health = 100 + Random.Range(-10, 10);
-        Strength = 40 + Random.Range(-10, 10);
-    }
-    
-    public UnitInfo(bool isEnemysUnit, Vector3 position)
-    {
-        IsEnemysUnit = isEnemysUnit;
+        IsEnemysUnit = isEnemy;
         Position = position;
-        Health = 100 + Random.Range(-10, 10);
-        Strength = 40 + Random.Range(-10, 10);
+        MaxHealth = Health = data.maxHealth;
+        Strength = data.strength;
     }
 }

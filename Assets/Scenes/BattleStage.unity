@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerUnitsAmount: 5
   enemyUnitsAmount: 5
-  prefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
+  unitPrefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
   units: []
   gamePhase: 1
 --- !u!20 &519420031

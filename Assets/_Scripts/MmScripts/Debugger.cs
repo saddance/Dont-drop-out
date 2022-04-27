@@ -5,18 +5,20 @@ using UnityEngine;
 public class Debugger : MonoBehaviour
 {
     public HeroMotion Hero;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Hero.Pause = false;
+            if (Hero.Pause)
+                Hero.Pause = false;
+            else
+                GameManager.ExitGame();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.SaveGame();
         }
     }
 }

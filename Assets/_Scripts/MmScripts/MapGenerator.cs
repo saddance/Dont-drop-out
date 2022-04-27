@@ -1,51 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class MapGenerator : MonoBehaviour
 {
-    public static MapGenerator instance = null;
     [SerializeField] private TextAsset fieldText;
+    [SerializeField] GameObject prefabObstacle;
+    [SerializeField] GameObject prefabInteractable;
 
-    public void CreateFromFile()
+    private void InitPersonalityMap()
+    {
+        var save = GameManager.currentSave;
+
+        for (int i = 0; i < save.mapPositions.Length; i++)
+        {
+            if (save.personalities[i].hidden)
+                continue;
+
+            MapObjectManager.instance.GenerateByPrefab(
+                prefabInteractable,
+                save.mapPositions[i].x,
+                save.mapPositions[i].y);
+
+            MapObjectManager.instance[save.mapPositions[i].x, save.mapPositions[i].y]
+                .GetComponent<InteractableObject>()
+                .Init(save.personalities[i]);
+        }
+    }
+
+    private void CheckForPositionInit(List<Vector2Int> spawnPositions)
+    {
+        var save = GameManager.currentSave;
+
+        if (save.mapPositions == null)
+        {
+            save.mapPositions = new Vector2IntS[save.personalities.Length];
+            for (int i = 0; i < save.mapPositions.Length; i++)
+            {
+                if (save.personalities[i].hidden)
+                    continue;
+                save.mapPositions[i] = spawnPositions[Random.Range(0, spawnPositions.Count)];
+                spawnPositions.Remove(save.mapPositions[i].GetV());
+            }
+        }
+    }
+
+    private List<Vector2Int> ProcessFileAndSpawnObst()
     {
         var lines = fieldText.text.Split('\n');
 
         var height = lines.Length;
         var width = lines[0].Trim().Length;
 
-        MapObjectManager.instance.MakeField(height, width);
+        MapObjectManager.instance.MakeField(width, height);
+        List<Vector2Int> spawnPositions = new List<Vector2Int>();
+
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
                 var symbol = lines[i][j];
-                MapObjectManager.instance.GenerateByPrefab(GetPrefabFromSymbol(symbol), j, i);
+
+                if (symbol == '1')
+                    MapObjectManager.instance.GenerateByPrefab(prefabObstacle, j, i);
+                else if (symbol == '2')
+                    spawnPositions.Add(new Vector2Int(j, i));
             }
         }
+
+        return spawnPositions;
     }
 
-    public GameObject GetPrefabFromSymbol(char symbol)
-    {
-        if (symbol == '1')
-            return MapObjectManager.instance.PrefabObstacle;
-        if (symbol == '2')
-            return MapObjectManager.instance.Banana;
-        return null;
-    }
-
-    void Awake()
-    {
-        if (instance == null)
-            instance = this;
-    }
-    
     void Start()
     {
-        CreateFromFile();
+        CheckForPositionInit(ProcessFileAndSpawnObst());
+        InitPersonalityMap();
     }
 }

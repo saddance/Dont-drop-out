@@ -8,9 +8,6 @@ public class MapObjectManager : MonoBehaviour
 {
 	public static MapObjectManager instance = null;
 	private GameObject[,] gridArray;
-	
-	public GameObject PrefabObstacle;
-	public GameObject Banana;
 
 	public GameObject this[int x, int y]
 	{
@@ -42,16 +39,6 @@ public class MapObjectManager : MonoBehaviour
 		var obj = Instantiate(prefab);
 		obj.transform.position = new Vector3(x, y, 0);
 		this[x, y] = obj;
-	}
-
-	void Start()
-	{
-
-	}
-
-	void Update()
-	{
-
 	}
 }
 

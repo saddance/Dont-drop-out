@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,9 +14,9 @@ public static class GameManager
 {
     public static SaveData currentSave;
 
-    static string mapSceneName = "MmStage";
-    static string menuSceneName = "MenuStage";
-    static string battleSceneName = "BattleStage";
+    private static readonly string mapSceneName = "MmStage";
+    private static readonly string menuSceneName = "MenuStage";
+    private static readonly string battleSceneName = "BattleStage";
 
     public static GameStage Stage
     {
@@ -26,18 +25,18 @@ public static class GameManager
             var scene = SceneManager.GetActiveScene();
             if (scene.name == menuSceneName)
                 return GameStage.menu;
-            else if (scene.name == mapSceneName)
+            if (scene.name == mapSceneName)
                 return GameStage.map;
-            else if (scene.name == battleSceneName)
+            if (scene.name == battleSceneName)
                 return GameStage.battle;
-            throw new System.Exception("No such stage!!!");
+            throw new Exception("No such stage!!!");
         }
     }
 
     private static void StartScene()
     {
         if (currentSave == null)
-            throw new System.Exception("No currentSave!!!");
+            throw new Exception("No currentSave!!!");
 
         SceneManager.LoadScene(currentSave.battleWith == -1 ? mapSceneName : battleSceneName);
     }
@@ -45,7 +44,7 @@ public static class GameManager
     public static void StartNewGame()
     {
         if (Stage != GameStage.menu)
-            throw new System.Exception("Can't start a new game not from main menu");
+            throw new Exception("Can't start a new game not from main menu");
 
         currentSave = SaveDataGenerator.GenDefaultSave();
         StartScene();
@@ -62,11 +61,11 @@ public static class GameManager
     public static void StartBattle(Personality personality)
     {
         if (Stage != GameStage.map)
-            throw new System.Exception("Can't start battle game not from map");
+            throw new Exception("Can't start battle game not from map");
 
-        int index = currentSave.personalities.ToList().IndexOf(personality);
+        var index = currentSave.personalities.ToList().IndexOf(personality);
         if (index == -1)
-            throw new System.Exception("No such personality!");
+            throw new Exception("No such personality!");
 
         currentSave.battleWith = index;
         StartScene();
@@ -75,7 +74,7 @@ public static class GameManager
     public static void EndBattle(bool isWin)
     {
         if (Stage != GameStage.battle)
-            throw new System.Exception("Can't end battle game not from map");
+            throw new Exception("Can't end battle game not from map");
 
         if (isWin)
         {
@@ -92,7 +91,7 @@ public static class GameManager
     public static void LoadSavedGame(string name = null)
     {
         if (Stage != GameStage.menu)
-            throw new System.Exception("Can't load game not from main menu");
+            throw new Exception("Can't load game not from main menu");
 
         if (name == null)
             name = SavingManager.GetSaveNames()[0];
@@ -104,7 +103,9 @@ public static class GameManager
     public static void ExitGame(bool withSave = true)
     {
         if (Stage == GameStage.menu)
+        {
             Application.Quit();
+        }
         else
         {
             if (withSave)
@@ -113,6 +114,4 @@ public static class GameManager
             SceneManager.LoadScene(0);
         }
     }
-
-
 }

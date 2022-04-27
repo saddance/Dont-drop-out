@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System;
-
 
 [Serializable]
 public class UnitData
@@ -15,7 +12,6 @@ public class UnitData
 public class EnemyPData
 {
     public UnitData[] people;
-
 }
 
 [Serializable]
@@ -23,13 +19,16 @@ public class FriendPData
 {
     public UnitData self;
 
-    public bool IsParticipating() { return true; }
+    public bool IsParticipating()
+    {
+        return true;
+    }
 }
 
 [Serializable]
 public class Personality
 {
-    public bool hidden = false;
+    public bool hidden;
     public EnemyPData asEnemy;
     public FriendPData asFriend;
 }
@@ -38,12 +37,12 @@ public class Personality
 public class SaveData
 {
     public string saveName = "1337"; // must be equal to file name
-    public int battleWith = -1; 
+    public int battleWith = -1;
     public Personality[] personalities = new Personality[0]; // can't be null, null in object means it's obstacle
 
     // Map reading options
     public Vector2IntS playerPosition = new Vector2Int(-1, -1); // minus means hasn't assigned
-    public Vector2IntS[] mapPositions = null;
+    public Vector2IntS[] mapPositions;
 }
 
 [Serializable]
@@ -54,7 +53,8 @@ public class Vector2IntS
 
     public Vector2IntS(Vector2Int v)
     {
-        x = v.x; y = v.y;
+        x = v.x;
+        y = v.y;
     }
 
     public Vector2Int GetV()
@@ -77,7 +77,9 @@ public class Vector3S
 
     public Vector3S(Vector3 v)
     {
-        x = v.x; y = v.y; z = v.z;
+        x = v.x;
+        y = v.y;
+        z = v.z;
     }
 
     public Vector3 Get()

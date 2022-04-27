@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
@@ -13,7 +11,8 @@ public class FollowPlayer : MonoBehaviour
 
     private void Update()
     {
-        GameManager.currentSave.playerPosition = new Vector2Int(Mathf.RoundToInt(player.position.x), Mathf.RoundToInt(player.position.y));
+        GameManager.currentSave.playerPosition =
+            new Vector2Int(Mathf.RoundToInt(player.position.x), Mathf.RoundToInt(player.position.y));
     }
 
     private void LateUpdate()

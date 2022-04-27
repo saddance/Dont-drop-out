@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Debugger : MonoBehaviour
@@ -7,7 +5,7 @@ public class Debugger : MonoBehaviour
     public HeroMotion Hero;
 
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -16,9 +14,7 @@ public class Debugger : MonoBehaviour
             else
                 GameManager.ExitGame();
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GameManager.SaveGame();
-        }
+
+        if (Input.GetKeyDown(KeyCode.P)) GameManager.SaveGame();
     }
 }

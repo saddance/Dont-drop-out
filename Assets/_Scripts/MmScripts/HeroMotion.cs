@@ -1,30 +1,26 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using UnityEditor;
 using UnityEngine;
-using Vector3 = UnityEngine.Vector3;
-using System.Threading;
 
 public class HeroMotion : MonoBehaviour
 {
-    [Header("Walking constants")]
-    [SerializeField] private float moveTime;
+    [Header("Walking constants")] [SerializeField]
+    private float moveTime;
+
     [SerializeField] private float comeBackTime;
+    public bool Pause;
+    private readonly WASDHandler handler = new WASDHandler();
+    private bool isMoving;
 
     public Vector3Int lastDirection { get; private set; }
-    private bool isMoving = false;
-    private WASDHandler handler = new WASDHandler();
-    public bool Pause;
 
-    void Start()
+    private void Start()
     {
         var pos = GameManager.currentSave.playerPosition;
         transform.position = new Vector3(pos.x, pos.y);
     }
 
-    void Update()
+    private void Update()
     {
         if (Pause)
             return;
@@ -32,7 +28,6 @@ public class HeroMotion : MonoBehaviour
         if (!isMoving)
         {
             if (Input.GetKeyDown(KeyCode.E))
-            {
                 try
                 {
                     var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
@@ -42,14 +37,15 @@ public class HeroMotion : MonoBehaviour
                     GameManager.StartBattle(component.personality);
                     return;
                 }
-                catch (Exception) { }
-            }
+                catch (Exception)
+                {
+                }
 
             // TODO : rewrite this shit
             var code = handler.GetPressedButton();
             if (code == null)
                 return;
-            else if (code == KeyCode.W)
+            if (code == KeyCode.W)
                 TryGo(new Vector3Int(0, 1, 0), code.Value);
             else if (code == KeyCode.A)
                 TryGo(new Vector3Int(-1, 0, 0), code.Value);
@@ -57,11 +53,10 @@ public class HeroMotion : MonoBehaviour
                 TryGo(new Vector3Int(0, -1, 0), code.Value);
             else if (code == KeyCode.D)
                 TryGo(new Vector3Int(1, 0, 0), code.Value);
-
         }
     }
 
-    void TryGo(Vector3Int direction, KeyCode code)
+    private void TryGo(Vector3Int direction, KeyCode code)
     {
         lastDirection = direction;
         if (CanIGo())
@@ -71,29 +66,29 @@ public class HeroMotion : MonoBehaviour
         }
     }
 
-    IEnumerator Walk(Vector3 direction, KeyCode code)
+    private IEnumerator Walk(Vector3 direction, KeyCode code)
     {
-        float startTime = Time.time;
-        Vector3 startPosition = transform.position;
+        var startTime = Time.time;
+        var startPosition = transform.position;
 
         while (Time.time <= startTime + moveTime)
         {
-            float elapsed = Time.time - startTime;
+            var elapsed = Time.time - startTime;
             if (elapsed <= comeBackTime && handler.GetPressedButton() != code)
             {
                 direction = Vector3.zero;
                 break;
             }
-            transform.position = startPosition + (elapsed / moveTime) * direction;
+
+            transform.position = startPosition + elapsed / moveTime * direction;
             yield return new WaitForEndOfFrame();
         }
 
         transform.position = startPosition + direction;
         isMoving = false;
-        yield break;
     }
 
-    bool CanIGo()
+    private bool CanIGo()
     {
         try
         {

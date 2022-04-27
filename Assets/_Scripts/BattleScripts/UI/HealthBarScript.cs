@@ -1,34 +1,29 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public partial class HealthBarScript : MonoBehaviour
+public class HealthBarScript : MonoBehaviour
 {
     public Slider slider;
 
     public Unit unit;
-    
-    void Awake()
+
+    private bool isFirstTime = true;
+
+    private void Awake()
     {
         unit = GetComponentInParent<Unit>();
     }
 
-    private bool isFirstTime = true;
-    void Update()
+    private void Update()
     {
-        if (unit == null)
-        {
-            return;
-        }
+        if (unit == null) return;
 
         if (isFirstTime)
         {
             SetMaxHealth(unit.Info.Health);
             isFirstTime = false;
         }
-        
+
         SetHealth(unit.Info.Health);
     }
 
@@ -37,7 +32,7 @@ public partial class HealthBarScript : MonoBehaviour
         slider.maxValue = health;
         slider.value = health;
     }
-    
+
     public void SetHealth(int health)
     {
         slider.value = health;

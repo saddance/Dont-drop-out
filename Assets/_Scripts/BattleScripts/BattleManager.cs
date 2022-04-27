@@ -1,24 +1,104 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
+using UnityEngine;
 
-public class BattleManager: MonoBehaviour
-{ 
+public class BattleManager : MonoBehaviour
+{
+    public static BattleManager self;
     [HideInInspector] public int playerUnitsAmount;
     [HideInInspector] public int enemyUnitsAmount;
 
-    private int playerUnitsAlive;
-    private int enemyUnitsAlive;
-    
-    public static BattleManager self;
-
     public Turn turn;
     public Unit unitPrefab;
-    
+
     public List<Unit> units;
     public GamePhase gamePhase;
+    private int enemyUnitsAlive;
+
+    private int playerUnitsAlive;
+
+    private void Update()
+    {
+        if (gamePhase != GamePhase.Playing) return;
+
+        switch (turn)
+        {
+            case Turn.Start:
+                turn = Turn.Player;
+                Debug.Log("Started. Now it's the Player's turn");
+                return;
+        }
+
+        if (enemyUnitsAlive == 0)
+        {
+            Debug.Log("Player won");
+            turn = Turn.Nobody;
+            gamePhase = GamePhase.Win;
+            StartCoroutine(FinishBattle(true));
+        }
+
+        if (playerUnitsAlive == 0)
+        {
+            Debug.Log("Player lost");
+            turn = Turn.Nobody;
+            gamePhase = GamePhase.Loss;
+            StartCoroutine(FinishBattle(false));
+        }
+    }
+
+    private IEnumerator FinishBattle(bool isWin)
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.EndBattle(isWin);
+    }
+
+    public void StopPlayerMove()
+    {
+        if (turn != Turn.Player)
+        {
+            Debug.LogError("It's not the Player's move");
+            return;
+        }
+
+        Debug.Log("Player passed. Now it's the Enemy's turn");
+        turn = Turn.Enemy;
+    }
+
+    public void StopEnemyMove()
+    {
+        if (turn != Turn.Enemy)
+        {
+            Debug.LogError("It's not the Enemy's move");
+            return;
+        }
+
+        Debug.Log("Enemy passed. Now it's the Player's turn");
+        turn = Turn.Player;
+    }
+
+    public void Fight(int attackIndex, int defendIndex)
+    {
+        var attacker = units[attackIndex];
+        var defender = units[defendIndex];
+        if (attacker == null || defender == null)
+        {
+            Debug.Log(units.Count);
+            throw new Exception("Who is absent?");
+        }
+
+        defender.Info.Health -= attacker.Info.Strength;
+        if (defender.Info.IsDestroyed)
+        {
+            if (defender.Info.IsEnemysUnit)
+                enemyUnitsAlive--;
+            else
+                playerUnitsAlive--;
+
+            Destroy(units[defendIndex].gameObject);
+        }
+    }
 
     #region Start
 
@@ -45,9 +125,10 @@ public class BattleManager: MonoBehaviour
             .ToList();
 
         playerUnitsAlive = playerUnitsAmount = friends.Count;
-        for (int i = 0; i < friends.Count; i++)
+        for (var i = 0; i < friends.Count; i++)
         {
-            var info = new UnitInfo(friends[i].asFriend.self, false, new Vector3(-5, 1.5f * (i - (friends.Count - 1) / 2f)));
+            var info = new UnitInfo(friends[i].asFriend.self, false,
+                new Vector3(-5, 1.5f * (i - (friends.Count - 1) / 2f)));
             InstantiateUnit(info);
         }
     }
@@ -57,7 +138,7 @@ public class BattleManager: MonoBehaviour
         var enemies = GameManager.currentSave.personalities[GameManager.currentSave.battleWith].asEnemy.people.ToList();
 
         enemyUnitsAlive = enemyUnitsAmount = enemies.Count;
-        for (int i = 0; i < enemies.Count; i++)
+        for (var i = 0; i < enemies.Count; i++)
         {
             var info = new UnitInfo(enemies[i], true, new Vector3(5, 1.5f * (i - (enemies.Count - 1) / 2f)));
             InstantiateUnit(info);
@@ -70,93 +151,8 @@ public class BattleManager: MonoBehaviour
         obj.Init(info);
         units.Add(obj);
     }
+
     #endregion
-
-    void Update()
-    {
-        if (gamePhase != GamePhase.Playing)
-        {
-            return;
-        }
-        
-        switch (turn)
-        {
-            case Turn.Start:
-                turn = Turn.Player;
-                Debug.Log("Started. Now it's the Player's turn");
-                return;
-        }
-
-        if (enemyUnitsAlive == 0)
-        {
-            Debug.Log("Player won");
-            turn = Turn.Nobody;
-            gamePhase = GamePhase.Win;
-            StartCoroutine(FinishBattle(true));
-        }
-
-        if (playerUnitsAlive == 0)
-        {
-            Debug.Log("Player lost");
-            turn = Turn.Nobody;
-            gamePhase = GamePhase.Loss;
-            StartCoroutine(FinishBattle(false));
-        }
-    }
-
-    IEnumerator FinishBattle(bool isWin)
-    {
-        yield return new WaitForSeconds(1.5f);
-        GameManager.EndBattle(isWin);
-    }
-
-    public void StopPlayerMove()
-    {
-        if (turn != Turn.Player)
-        {
-            Debug.LogError("It's not the Player's move");
-            return;
-        }
-
-        Debug.Log("Player passed. Now it's the Enemy's turn");
-        turn = Turn.Enemy;
-    }
-
-    public void StopEnemyMove()
-    {
-        if (turn != Turn.Enemy)
-        {
-            Debug.LogError("It's not the Enemy's move");
-            return;
-        }
-        Debug.Log("Enemy passed. Now it's the Player's turn");
-        turn = Turn.Player;
-    }
-
-    public void Fight(int attackIndex, int defendIndex)
-    {
-        var attacker = units[attackIndex];
-        var defender = units[defendIndex];
-        if (attacker == null || defender == null)
-        {
-            Debug.Log(units.Count);
-            throw new Exception("Who is absent?");
-        }
-        defender.Info.Health -= attacker.Info.Strength;
-        if (defender.Info.IsDestroyed)
-        {
-            if (defender.Info.IsEnemysUnit)
-            {
-                enemyUnitsAlive--;
-            }
-            else
-            {
-                playerUnitsAlive--;
-            }
-
-            Destroy(units[defendIndex].gameObject);
-        }
-    }
 }
 
 public enum Turn

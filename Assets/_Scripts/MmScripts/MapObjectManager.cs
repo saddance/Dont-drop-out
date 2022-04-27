@@ -11,7 +11,9 @@ public class MapObjectManager : MonoBehaviour
 
 	public GameObject this[int x, int y]
 	{
-		get { return gridArray[x, y]; }
+		get { 
+			return gridArray[x, y];
+		}
 		set
 		{
 			if (value != null && gridArray[x, y] != null)

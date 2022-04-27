@@ -33,17 +33,16 @@ public class HeroMotion : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
-                    Mathf.RoundToInt(transform.position.y) + lastDirection.y];
-                if (objAhead != null)
+                try
                 {
+                    var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
+                        Mathf.RoundToInt(transform.position.y) + lastDirection.y];
+
                     var component = objAhead.GetComponent<InteractableObject>();
-                    if (component != null)
-                    {
-                        GameManager.StartBattle(component.personality);
-                        return;
-                    }
+                    GameManager.StartBattle(component.personality);
+                    return;
                 }
+                catch (Exception) { }
             }
 
             // TODO : rewrite this shit

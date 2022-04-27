@@ -5,8 +5,7 @@ using System.Linq;
 using System.Collections;
 
 public class BattleManager: MonoBehaviour
-{
-
+{ 
     [HideInInspector] public int playerUnitsAmount;
     [HideInInspector] public int enemyUnitsAmount;
 
@@ -15,7 +14,7 @@ public class BattleManager: MonoBehaviour
     
     public static BattleManager self;
 
-    public Turn Turn;
+    public Turn turn;
     public Unit unitPrefab;
     
     public List<Unit> units;
@@ -27,7 +26,7 @@ public class BattleManager: MonoBehaviour
     {
         self = this;
         units = new List<Unit>();
-        Turn = Turn.Start;
+        turn = Turn.Start;
         gamePhase = GamePhase.Playing;
 
         GenerateUnits();
@@ -80,10 +79,10 @@ public class BattleManager: MonoBehaviour
             return;
         }
         
-        switch (Turn)
+        switch (turn)
         {
             case Turn.Start:
-                Turn = Turn.Player;
+                turn = Turn.Player;
                 Debug.Log("Started. Now it's the Player's turn");
                 return;
         }
@@ -91,7 +90,7 @@ public class BattleManager: MonoBehaviour
         if (enemyUnitsAlive == 0)
         {
             Debug.Log("Player won");
-            Turn = Turn.Nobody;
+            turn = Turn.Nobody;
             gamePhase = GamePhase.Win;
             StartCoroutine(FinishBattle(true));
         }
@@ -99,7 +98,7 @@ public class BattleManager: MonoBehaviour
         if (playerUnitsAlive == 0)
         {
             Debug.Log("Player lost");
-            Turn = Turn.Nobody;
+            turn = Turn.Nobody;
             gamePhase = GamePhase.Loss;
             StartCoroutine(FinishBattle(false));
         }
@@ -113,25 +112,25 @@ public class BattleManager: MonoBehaviour
 
     public void StopPlayerMove()
     {
-        if (Turn != Turn.Player)
+        if (turn != Turn.Player)
         {
             Debug.LogError("It's not the Player's move");
             return;
         }
 
         Debug.Log("Player passed. Now it's the Enemy's turn");
-        Turn = Turn.Enemy;
+        turn = Turn.Enemy;
     }
 
     public void StopEnemyMove()
     {
-        if (Turn != Turn.Enemy)
+        if (turn != Turn.Enemy)
         {
             Debug.LogError("It's not the Enemy's move");
             return;
         }
         Debug.Log("Enemy passed. Now it's the Player's turn");
-        Turn = Turn.Player;
+        turn = Turn.Player;
     }
 
     public void Fight(int attackIndex, int defendIndex)

@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveTime: 0.4
-  comeBackTime: 0.15
+  comeBackTime: 0.08
   Pause: 0
 --- !u!1 &1694843155
 GameObject:

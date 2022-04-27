@@ -32,7 +32,7 @@ public class EnemyTurnManager : MonoBehaviour
             }
             return;
         }
-        if (!isMoving && bm.Turn == Turn.Enemy)
+        if (!isMoving && bm.turn == Turn.Enemy)
         {
             StartCoroutine(AttackOnPlayer());
         }
@@ -43,7 +43,8 @@ public class EnemyTurnManager : MonoBehaviour
         isMoving = true;
         for (int i = bm.playerUnitsAmount; i < bm.playerUnitsAmount + bm.enemyUnitsAmount; i++)
         {
-            if(bm.units[i] == null)
+            yield return new WaitForSeconds(0.2f);
+            if (bm.units[i] == null)
             {
                 continue;
             }
@@ -65,12 +66,13 @@ public class EnemyTurnManager : MonoBehaviour
             ptm.chosenEnemy = i;
             bm.Fight(i, aim);
             playersUnitsAlive.Clear();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
         }
 
         isMoving = false;
         ptm.chosenUnit = -1;
         ptm.chosenEnemy = -1;
-        bm.StopEnemyMove();
+        if (bm.turn == Turn.Enemy)
+            bm.StopEnemyMove();
     }
 }

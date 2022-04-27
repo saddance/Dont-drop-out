@@ -79,7 +79,7 @@ public class PlayerTurnManager : MonoBehaviour
 
     private void ChooseUnitViaMouseClick()
     {
-        if (bm.Turn != Turn.Player)
+        if (bm.turn != Turn.Player)
         {
             return;
         }
@@ -124,13 +124,7 @@ public class PlayerTurnManager : MonoBehaviour
                 }
             }
             
-            if(index == -1)
-            {
-                ChosenByMouseIndex = -1;
-                continue;
-            }
-
-            if (Math.Abs(mousePos.x - bm.units[index].Info.Position.x) < 0.5 && Math.Abs(mousePos.y - bm.units[index].Info.Position.y) < 0.5)
+            if (index != -1 && Math.Abs(mousePos.x - bm.units[index].Info.Position.x) < 0.5 && Math.Abs(mousePos.y - bm.units[index].Info.Position.y) < 0.5)
             {
                 ChosenByMouseIndex = index;
             }
@@ -162,20 +156,20 @@ public class PlayerTurnManager : MonoBehaviour
 
     IEnumerator Attack()
     {
+        bm.turn = Turn.Nobody;
+        yield return new WaitForSeconds(0.4f);
         Debug.Log("Player is attacking enemy");
-        bm.Turn = Turn.Nobody;
-        yield return new WaitForSeconds(1);
         bm.Fight(chosenUnit, chosenEnemy);
         used[chosenUnit] = true;
         chosenEnemy = -1;
         chosenUnit = -1;
         isReady = false;
-        bm.Turn = Turn.Player;
+        bm.turn = Turn.Player;
     }
 
     void Update()
     {
-        if (bm.Turn != Turn.Player || bm.gamePhase != GamePhase.Playing)
+        if (bm.turn != Turn.Player || bm.gamePhase != GamePhase.Playing)
         {
             return;
         }

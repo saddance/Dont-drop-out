@@ -20,7 +20,7 @@ static class SaveDataGenerator
         for (int i = 0; i < strength; i++)
             personality.asEnemy.people[Random.Range(0, peopleCnt)].strength++;
 
-        int hp = Random.Range(30, 60);
+        int hp = Random.Range(20, 40);
         for (int i = 0; i < hp; i++)
             personality.asEnemy.people[Random.Range(0, peopleCnt)].maxHealth++;
     }

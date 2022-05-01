@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class EnemyTurnManager : MonoBehaviour
 {
-    public static EnemyTurnManager self;
     private BattleManager bm;
     private bool isMoving;
-    private PlayerTurnManager ptm;
+
+    #region Start
 
     private void Awake()
     {
-        self = this;
-    }
-
-    private void Start()
-    {
         bm = BattleManager.self;
-        ptm = PlayerTurnManager.self;
     }
 
+    #endregion
+
+    #region Update
 
     private void Update()
     {
@@ -51,17 +48,19 @@ public class EnemyTurnManager : MonoBehaviour
             if (playersUnitsAlive.Count == 0) yield break;
             var aim = playersUnitsAlive[Random.Range(0, playersUnitsAlive.Count)];
             Debug.Log("Enemy " + (i - bm.playerUnitsAmount) + " attacked " + aim);
-            ptm.chosenUnit = aim;
-            ptm.chosenEnemy = i;
+            bm.ptm.chosenUnit = aim;
+            bm.ptm.chosenEnemy = i;
             bm.Fight(i, aim);
             playersUnitsAlive.Clear();
             yield return new WaitForSeconds(0.5f);
         }
 
         isMoving = false;
-        ptm.chosenUnit = -1;
-        ptm.chosenEnemy = -1;
+        bm.ptm.chosenUnit = -1;
+        bm.ptm.chosenEnemy = -1;
         if (bm.turn == Turn.Enemy)
             bm.StopEnemyMove();
     }
+
+    #endregion
 }

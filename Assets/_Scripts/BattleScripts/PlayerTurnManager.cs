@@ -35,8 +35,6 @@ public class PlayerTurnManager : MonoBehaviour
 
     private void Update()
     {
-        if (bm.turn != Turn.Player || bm.gamePhase != GamePhase.Playing) return;
-
         if (Input.GetMouseButtonDown(0)) ChooseUnitViaMouseClick();
 
         amount = bm.units.Count;

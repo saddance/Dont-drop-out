@@ -5,38 +5,11 @@ using UnityEngine;
 public class EnemyTurnManager : MonoBehaviour
 {
     private BattleManager bm;
-    private bool isMoving;
-
-    #region Start
-
-    private void Awake()
-    {
-        bm = BattleManager.self;
-    }
-
-    #endregion
 
     #region Update
 
-    private void Update()
-    {
-        if (bm.gamePhase != GamePhase.Playing)
-        {
-            if (isMoving)
-            {
-                isMoving = false;
-                StopCoroutine(AttackOnPlayer());
-            }
-
-            return;
-        }
-
-        if (!isMoving && bm.turn == Turn.Enemy) StartCoroutine(AttackOnPlayer());
-    }
-
     private IEnumerator AttackOnPlayer()
     {
-        isMoving = true;
         for (var i = bm.playerUnitsAmount; i < bm.playerUnitsAmount + bm.enemyUnitsAmount; i++)
         {
             yield return new WaitForSeconds(0.2f);
@@ -55,11 +28,24 @@ public class EnemyTurnManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        isMoving = false;
         bm.ptm.chosenUnit = -1;
         bm.ptm.chosenEnemy = -1;
         if (bm.turn == Turn.Enemy)
             bm.StopEnemyMove();
+    }
+
+    #endregion
+
+    #region Start
+
+    private void Awake()
+    {
+        bm = BattleManager.self;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(AttackOnPlayer());
     }
 
     #endregion

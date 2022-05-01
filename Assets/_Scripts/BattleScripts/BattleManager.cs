@@ -30,8 +30,6 @@ public class BattleManager : MonoBehaviour
         turn = Turn.Start;
         gamePhase = GamePhase.Playing;
         GenerateUnits();
-        ptm = gameObject.AddComponent<PlayerTurnManager>();
-        etm = gameObject.AddComponent<EnemyTurnManager>();
     }
 
     private void GenerateUnits()
@@ -86,6 +84,7 @@ public class BattleManager : MonoBehaviour
         {
             case Turn.Start:
                 turn = Turn.Player;
+                ptm = gameObject.AddComponent<PlayerTurnManager>();
                 Debug.Log("Started. Now it's the Player's turn");
                 return;
         }
@@ -121,6 +120,8 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
+        Destroy(ptm);
+        etm = gameObject.AddComponent<EnemyTurnManager>();
         Debug.Log("Player passed. Now it's the Enemy's turn");
         turn = Turn.Enemy;
     }
@@ -133,6 +134,8 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
+        Destroy(etm);
+        ptm = gameObject.AddComponent<PlayerTurnManager>();
         Debug.Log("Enemy passed. Now it's the Player's turn");
         turn = Turn.Player;
     }

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class HeroMotion : MonoBehaviour
 {
-    [Header("Walking constants")] [SerializeField]
-    private float moveTime;
-
+    [Header("Walking constants")] 
+    [SerializeField] private float moveTime;
     [SerializeField] private float comeBackTime;
+
     public bool Pause;
     private readonly WASDHandler handler = new WASDHandler();
     private bool isMoving;
+    
 
     public Vector3Int lastDirection { get; private set; }
 
@@ -18,6 +19,18 @@ public class HeroMotion : MonoBehaviour
     {
         var pos = GameManager.currentSave.playerPosition;
         transform.position = new Vector3(pos.x, pos.y);
+    }
+    
+    private Personality GetPersonalityAhead()
+    {
+        int x = Mathf.RoundToInt(transform.position.x) + lastDirection.x;
+        int y = Mathf.RoundToInt(transform.position.y) + lastDirection.y;
+
+        if (x < 0 || y < 0 || MapObjectManager.instance.Length.x >= x ||
+            MapObjectManager.instance.Length.y >= y)
+            return null;
+
+        return MapObjectManager.instance[x,y]?.GetComponent<InteractableObject>()?.personality;
     }
 
     private void Update()
@@ -28,18 +41,15 @@ public class HeroMotion : MonoBehaviour
         if (!isMoving)
         {
             if (Input.GetKeyDown(KeyCode.E))
-                try
+            {
+                var personality = GetPersonalityAhead();
+                if (personality != null)
                 {
-                    var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
-                        Mathf.RoundToInt(transform.position.y) + lastDirection.y];
-
-                    var component = objAhead.GetComponent<InteractableObject>();
-                    GameManager.StartBattle(component.personality);
+                    InteractionSystem.instance.StartInteraction(personality);
+                    Pause = true;
                     return;
                 }
-                catch (Exception)
-                {
-                }
+            }
 
             // TODO : rewrite this shit
             var code = handler.GetPressedButton();
@@ -70,6 +80,7 @@ public class HeroMotion : MonoBehaviour
     {
         var startTime = Time.time;
         var startPosition = transform.position;
+
 
         while (Time.time <= startTime + moveTime)
         {

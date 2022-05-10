@@ -5,6 +5,8 @@ public class MapObjectManager : MonoBehaviour
     public static MapObjectManager instance;
     private GameObject[,] gridArray;
 
+    public Vector2Int Length => new Vector2Int(gridArray.GetLength(0), gridArray.GetLength(1));
+
     public GameObject this[int x, int y]
     {
         get => gridArray[x, y];

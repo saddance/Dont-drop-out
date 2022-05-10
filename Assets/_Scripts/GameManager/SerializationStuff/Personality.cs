@@ -8,4 +8,4 @@ public class Personality
     public EnemyPData asEnemy;
     public FriendPData asFriend;
     public DialogPData asDialog;
-}
+}   

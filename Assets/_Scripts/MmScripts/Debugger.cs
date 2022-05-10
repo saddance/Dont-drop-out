@@ -9,10 +9,7 @@ public class Debugger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Hero.Pause)
-                Hero.Pause = false;
-            else
-                GameManager.ExitGame();
+            GameManager.ExitGame();
         }
 
         if (Input.GetKeyDown(KeyCode.P)) GameManager.SaveGame();

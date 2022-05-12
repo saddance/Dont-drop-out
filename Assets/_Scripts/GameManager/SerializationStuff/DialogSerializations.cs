@@ -16,13 +16,29 @@ public class DialogStart : IComparable<DialogStart>
 
     public int CompareTo(DialogStart other)
     {
-        return happened.CompareTo(other.happened);
+        return priority.CompareTo(other.priority);
     }
 
     public DialogStart(string prefix, PossibleTimes times)
     {
         dialogPrefix = prefix;
         startType = times;
+    }
+
+    public bool CanBeUsed()
+    {
+        if (startType == PossibleTimes.Unlimited)
+            return true;
+        else if (startType == PossibleTimes.OnceADay)
+            throw new NotImplementedException();
+        else
+            return !happened;
+    }
+
+    public void Use()
+    {
+        happened = true;
+        // lastDay !!!
     }
 
     public enum PossibleTimes

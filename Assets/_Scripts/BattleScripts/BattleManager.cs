@@ -92,7 +92,6 @@ public class BattleManager : MonoBehaviour
         if (enemyUnitsAlive == 0)
         {
             Debug.Log("Player won");
-            turn = Turn.Nobody;
             gamePhase = GamePhase.Win;
             StartCoroutine(FinishBattle(true));
         }
@@ -100,7 +99,6 @@ public class BattleManager : MonoBehaviour
         if (playerUnitsAlive == 0)
         {
             Debug.Log("Player lost");
-            turn = Turn.Nobody;
             gamePhase = GamePhase.Loss;
             StartCoroutine(FinishBattle(false));
         }
@@ -108,6 +106,10 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator FinishBattle(bool isWin)
     {
+        turn = Turn.Nobody;
+        Destroy(ptm);
+        Destroy(etm);
+
         yield return new WaitForSeconds(1.5f);
         GameManager.EndBattle(isWin);
     }
@@ -159,6 +161,7 @@ public class BattleManager : MonoBehaviour
                 playerUnitsAlive--;
 
             Destroy(units[defendIndex].gameObject);
+            Update();
         }
     }
 

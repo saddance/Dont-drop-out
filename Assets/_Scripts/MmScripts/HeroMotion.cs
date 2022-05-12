@@ -30,8 +30,9 @@ public class HeroMotion : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
                 try
                 {
-                    var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
-                        Mathf.RoundToInt(transform.position.y) + lastDirection.y];
+                    var x = Mathf.RoundToInt(transform.position.x) + lastDirection.x;
+                    var y = Mathf.RoundToInt(transform.position.y) + lastDirection.y;
+                    var objAhead = MapObjectManager.instance[x, y];
 
                     var component = objAhead.GetComponent<InteractableObject>();
                     GameManager.StartBattle(component.personality);

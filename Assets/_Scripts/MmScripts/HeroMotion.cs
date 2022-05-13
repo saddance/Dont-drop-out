@@ -10,7 +10,7 @@ public class HeroMotion : MonoBehaviour
     [SerializeField] private float comeBackTime;
     public bool Pause;
     private readonly WASDHandler handler = new WASDHandler();
-    private bool isMoving;
+    public bool isMoving;
 
     public Vector3Int lastDirection { get; private set; }
 
@@ -24,22 +24,39 @@ public class HeroMotion : MonoBehaviour
     {
         if (Pause)
             return;
+        
+        if (Input.GetKeyDown(KeyCode.P)) GameManager.SaveGame();
+        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            try
+            {
+                var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
+                    Mathf.RoundToInt(transform.position.y) + lastDirection.y];
+
+                var component = objAhead.GetComponent<InteractableObject>();
+                GameManager.StartBattle(component.personality);
+                return;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            
+        }
 
         if (!isMoving)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-                try
-                {
-                    var objAhead = MapObjectManager.instance[Mathf.RoundToInt(transform.position.x) + lastDirection.x,
-                        Mathf.RoundToInt(transform.position.y) + lastDirection.y];
-
-                    var component = objAhead.GetComponent<InteractableObject>();
-                    GameManager.StartBattle(component.personality);
-                    return;
-                }
-                catch (Exception)
-                {
-                }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (Pause)
+                    Pause = false;
+                else
+                    GameManager.ExitGame();
+            }
 
             // TODO : rewrite this shit
             var code = handler.GetPressedButton();

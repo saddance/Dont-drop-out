@@ -43,6 +43,15 @@ public class SaveData
     // Map reading options
     public Vector2IntS playerPosition = new Vector2Int(-1, -1); // minus means hasn't assigned
     public Vector2IntS[] mapPositions;
+
+    public InventoryObject[] inventory;
+}
+
+[Serializable]
+public class InventoryObject
+{
+    public string itemName;
+    public int Amount;
 }
 
 [Serializable]

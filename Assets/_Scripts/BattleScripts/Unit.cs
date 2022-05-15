@@ -3,6 +3,14 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public SpriteRenderer Renderer;
+    public Sprite UnitSprite;
+    public Sprite EnemySprite;
+    public Sprite ChosenUnitByMouseSprite;
+    public Sprite ChosenEnemyByMouseSprite;
+    public Sprite UnitAttackingSprite;
+    public Sprite EnemyAttackingSprite;
+    public Sprite UnitAttackedSprite;
+    public Sprite EnemyAttackedSprite;
     private BattleManager bm;
     public UnitInfo Info;
     private PlayerTurnManager ptm;
@@ -10,7 +18,6 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         Renderer = GetComponent<SpriteRenderer>();
-        Renderer.color = Color.black;
     }
 
     private void Start()
@@ -29,13 +36,49 @@ public class Unit : MonoBehaviour
 
 
         if (ptm.chosenUnit != -1 && bm.units[ptm.chosenUnit] == this)
-            Renderer.color = Color.green;
+        {
+            if (bm.turn == Turn.Player)
+            {
+                Renderer.sprite = UnitAttackingSprite;
+            }
+            else
+            {
+                Renderer.sprite = UnitAttackedSprite;
+            }
+        }
         else if (ptm.chosenEnemy != -1 && bm.units[ptm.chosenEnemy] == this)
-            Renderer.color = Color.red;
+        {
+            if (bm.turn == Turn.Player)
+            {
+                Renderer.sprite = EnemyAttackedSprite;
+            }
+            else
+            {
+                Renderer.sprite = EnemyAttackingSprite;
+            }
+        }
         else if (isChosenByMouse())
-            Renderer.color = Color.blue;
+        {
+            if (!Info.IsEnemysUnit)
+            {
+                Renderer.sprite = ChosenUnitByMouseSprite;
+            }
+            else
+            {
+                Renderer.sprite = ChosenEnemyByMouseSprite;
+            }
+        }
         else
-            Renderer.color = Color.black;
+        {
+            if (!Info.IsEnemysUnit)
+            {
+                Renderer.sprite = UnitSprite;
+            }
+            else
+            {
+                Renderer.sprite = EnemySprite;
+            }
+        }
     }
 
     private bool isChosenByMouse()

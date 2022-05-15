@@ -118,7 +118,6 @@ public class PlayerTurnManager : MonoBehaviour
 
     private IEnumerator Attack()
     {
-        bm.turn = Turn.Nobody;
         yield return new WaitForSeconds(0.4f);
         Debug.Log("Player is attacking enemy");
         bm.Fight(chosenUnit, chosenEnemy);

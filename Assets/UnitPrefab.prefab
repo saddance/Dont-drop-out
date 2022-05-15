@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4861504695195885760
@@ -97,6 +97,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 0}
+  UnitSprite: {fileID: 7482667652216324306, guid: 63cea38f39dfc4d62b4ac1a9c265c507, type: 3}
+  EnemySprite: {fileID: 7482667652216324306, guid: 8ac8119e811b541c2ad468887001960e, type: 3}
+  ChosenUnitByMouseSprite: {fileID: 7482667652216324306, guid: 6b66604f11068464181a7eeba524bcd7, type: 3}
+  ChosenEnemyByMouseSprite: {fileID: 7482667652216324306, guid: a9a22e3a658444907a462ccfbcb53287, type: 3}
+  UnitAttackingSprite: {fileID: 7482667652216324306, guid: 81d95afe823a242b7ba9411d6c6a1c43, type: 3}
+  EnemyAttackingSprite: {fileID: 7482667652216324306, guid: 065bc579865fd4ef08fdcfca37affd07, type: 3}
+  UnitAttackedSprite: {fileID: 7482667652216324306, guid: 889ee7eeccc624f688566888df30a737, type: 3}
+  EnemyAttackedSprite: {fileID: 7482667652216324306, guid: 7d8a6431cf74d47fd930008c0df029c9, type: 3}
 --- !u!1 &2218597978697663213
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,81 +35,16 @@ public class PlayerTurnManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) ChooseUnitViaMouseClick();
 
-        amount = bm.units.Count;
-        if (isReady)
+        if (!isReady)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow)) UpdateChosenEnemy(1);
-
-            if (Input.GetKeyDown(KeyCode.DownArrow)) UpdateChosenEnemy(-1);
-        }
-        else
-        {
-            if (chosenUnit == -1)
+            var index = 0;
+            while (index < bm.playerUnitsAmount && (used[index] || bm.units[index].Info.IsDestroyed)) index++;
+            if (index == bm.playerUnitsAmount)
             {
-                var index = 0;
-                while (index < bm.playerUnitsAmount && (used[index] || bm.units[index].Info.IsDestroyed)) index++;
-                if (index == bm.playerUnitsAmount)
-                {
-                    for (var i = 0; i < bm.playerUnitsAmount; i++)
-                        used[i] = false;
+                for (var i = 0; i < bm.playerUnitsAmount; i++)
+                    used[i] = false;
 
-                    bm.StopPlayerMove();
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow)) UpdateChosenUnit(1);
-
-            if (Input.GetKeyDown(KeyCode.DownArrow)) UpdateChosenUnit(-1);
-        }
-
-        if (Input.GetKeyDown("space")) TryToAttack();
-
-        if (Input.GetKeyDown("escape") && isReady)
-        {
-            chosenEnemy = -1;
-            isReady = false;
-            used[chosenUnit] = false;
-        }
-    }
-
-    private bool IsGoodUnit(int index)
-    {
-        return 0 <= index && index < bm.playerUnitsAmount
-                          && !used[index] && !bm.units[index].Info.IsDestroyed;
-    }
-
-    private void UpdateChosenUnit(int direction)
-    {
-        var index = chosenUnit == -1 ? -1 : chosenUnit;
-
-        for (var i = 0; i < amount; i++)
-        {
-            index = (amount + index + direction) % amount;
-            if (IsGoodUnit(index))
-            {
-                chosenUnit = index;
-                break;
-            }
-        }
-    }
-
-    private bool IsBadUnit(int index)
-    {
-        return bm.playerUnitsAmount <= index && index < bm.playerUnitsAmount + bm.enemyUnitsAmount
-                                             && !bm.units[index].Info.IsDestroyed;
-    }
-
-    private void UpdateChosenEnemy(int direction)
-    {
-        var index = chosenEnemy == -1 ? -1 : chosenEnemy;
-
-        for (var i = 0; i < amount; i++)
-        {
-            index = (amount + index + direction) % amount;
-            if (IsBadUnit(index))
-            {
-                chosenEnemy = index;
-                break;
+                bm.StopPlayerMove();
             }
         }
     }
@@ -131,6 +66,11 @@ public class PlayerTurnManager : MonoBehaviour
             {
                 chosenEnemy = ChosenByMouseIndex;
                 TryToAttack();
+            }
+            else
+            {
+                chosenUnit = -1;
+                isReady = false;
             }
         }
     }

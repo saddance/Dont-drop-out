@@ -328,7 +328,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1694843155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d9ec902668920442821a08e28a3ff1f, type: 3}
   m_Name: 
@@ -368,11 +368,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1694843155}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 628a00eb02c246b28e4583543bf748b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldText: {fileID: 0}
-  prefabObstacle: {fileID: 0}
-  prefabInteractable: {fileID: 0}
+  fieldText: {fileID: 4900000, guid: cbd998ebb08581c4d82fa42a02106ec7, type: 3}
+  prefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
+  prefabInteractable: {fileID: 1471258689603448461, guid: 091cf13a54683c440902bea1c64ea3e2, type: 3}

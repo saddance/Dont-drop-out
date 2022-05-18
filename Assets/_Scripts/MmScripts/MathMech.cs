@@ -16,96 +16,104 @@ namespace _Scripts.MmScripts
     {
         public List<int> Labels;
     }
+
     public class MathMech : MonoBehaviour
     {
-        
-    [SerializeField] private TextAsset fieldText;
-    //[SerializeField] private GameObject prefabObstacle;
-    [SerializeField] private GameObject prefabInteractable;
+        [SerializeField] private TextAsset fieldText;
+        [SerializeField] private GameObject prefabObstacle;
+        [SerializeField] private GameObject prefabInteractable;
 
-    private void Start()
-    {
-        CheckForPositionInit(ProcessFileAndSpawnObst());
-        InitPersonalityMap();
-    }
-
-    private void InitPersonalityMap()
-    {
-        var save = GameManager.currentSave;
-
-        for (var i = 0; i < save.mapPositions.Length; i++)
+        private void Start()
         {
-            if (save.personalities[i].hidden)
-                continue;
-            
-            // Строчка ниже не подходит под то что спрайты разные у нас 
-            // Отрефактори, Витя ^_^
-            MapObjectManager.instance.GenerateByPrefab(
-                prefabInteractable,
-                save.mapPositions[i].x,
-                save.mapPositions[i].y);
-            
-            MapObjectManager.instance[save.mapPositions[i].x, save.mapPositions[i].y]
-                .GetComponent<InteractableObject>()
-                .Init(save.personalities[i]);
+            CheckForPositionInit(ProcessFileAndSpawnObst());
+            InitPersonalityMap();
         }
-    }
 
-    private void CheckForPositionInit(List<List<Vector2Int>> spawnPositions)
-    {
-        var save = GameManager.currentSave;
-
-        if (save.mapPositions == null)
+        private void InitPersonalityMap()
         {
-            save.mapPositions = new Vector2IntS[save.personalities.Length];
+            var save = GameManager.currentSave;
+
             for (var i = 0; i < save.mapPositions.Length; i++)
             {
                 if (save.personalities[i].hidden)
                     continue;
-                var type = Random.Range(0, 16);
-                save.mapPositions[i] = spawnPositions[type][Random.Range(0, spawnPositions[type].Count)];
-                spawnPositions[type].Remove(save.mapPositions[i].GetV());
+
+                // Строчка ниже не подходит под то что спрайты разные у нас 
+                // Отрефактори, Витя ^_^
+                MapObjectManager.instance.GenerateByPrefab(
+                    prefabInteractable,
+                    save.mapPositions[i].x,
+                    save.mapPositions[i].y);
+
+                MapObjectManager.instance[save.mapPositions[i].x, save.mapPositions[i].y]
+                    .GetComponent<InteractableObject>()
+                    .Init(save.personalities[i]);
             }
         }
-    }
-    private List<List<Vector2Int>> ProcessFileAndSpawnObst()
-    {
-        var lines = fieldText.text.Split('\n');
 
-        var height = lines.Length;
-        var width = lines[0].Trim().Length;
-
-        MapObjectManager.instance.MakeField(width, height);
-        var spawnPositions = new List<List<Vector2Int>>(16);
-
-        for (var i = 0; i < height; i++)
-        for (var j = 0; j < width; j += 3)
+        private void CheckForPositionInit(List<List<Vector2Int>> spawnPositions)
         {
-            // X00 - XFF and SpaceSpaceSpace
-            var hexNumber = lines[i].Substring(j, 3);
-            var firstSymbol = hexNumber[0];
-            if (firstSymbol != ' ')
-            {
-                var index = Char.IsDigit(firstSymbol) ? firstSymbol - '0' : firstSymbol - 'A';
-                spawnPositions[index].Add(new Vector2Int(j / 3, i));
-                var pathToFile = "Sprites/sprite" + hexNumber.Substring(1, 2);
-                var sprite = Resources.Load<Sprite>(pathToFile);
-                var gameObj = new GameObject();
-                SpriteRenderer rend = gameObj.AddComponent<SpriteRenderer>();
-                rend.sprite = sprite;
-                Instantiate(gameObj);
-                gameObj.transform.position = new Vector3(j / 3, i, 0);
-                if (hexNumber[1] <= '7')
-                {
-                }
+            var save = GameManager.currentSave;
 
-                if (hexNumber[1] >= '8')
+            if (save.mapPositions == null)
+            {
+                save.mapPositions = new Vector2IntS[save.personalities.Length];
+                for (var i = 0; i < save.mapPositions.Length; i++)
                 {
-                    MapObjectManager.instance[j / 3, i] = gameObj;
+                    if (save.personalities[i].hidden)
+                        continue;
+                    var type = Random.Range(0, 16);
+                    save.mapPositions[i] = spawnPositions[type][Random.Range(0, spawnPositions[type].Count)];
+                    spawnPositions[type].Remove(save.mapPositions[i].GetV());
                 }
             }
         }
-        return spawnPositions;
-    }
+
+        private List<List<Vector2Int>> ProcessFileAndSpawnObst()
+        {
+            var lines = fieldText.text.Split('\n');
+
+            var height = lines.Length;
+            var width = lines[0].Trim().Length;
+
+            MapObjectManager.instance.MakeField(width, height);
+            var spawnPositions = new List<List<Vector2Int>>();
+            for (int i = 0; i < 16; i++)
+                spawnPositions.Add(new List<Vector2Int>());
+
+            for (var i = 0; i < height; i++)
+            for (var j = 0; j < width; j += 3)
+            {
+                // X00 - XFF and SpaceSpaceSpace
+                var hexNumber = lines[i].Substring(j, 3);
+                var firstSymbol = hexNumber[0];
+
+                if (firstSymbol != ' ')
+                {
+                    var index = Char.IsDigit(firstSymbol) ? firstSymbol - '0' : 10 + firstSymbol - 'A';
+                    spawnPositions[index].Add(new Vector2Int(j / 3, i));
+                    var pathToFile = "Sprites/" + hexNumber.Substring(1, 2);
+                    var sprite = Resources.Load<Sprite>(pathToFile);
+                    Debug.Log("Found sprite");
+
+                    var gameObj = new GameObject();
+                    SpriteRenderer rend = gameObj.AddComponent<SpriteRenderer>();
+                    rend.sprite = sprite;
+                    Instantiate(gameObj);
+                    gameObj.transform.position = new Vector3(j / 3, i, 0);
+                    Debug.Log("Instantiated sprite");
+                    if (hexNumber[1] <= '7')
+                    {
+                    }
+
+                    if (hexNumber[1] >= '8')
+                    {
+                        MapObjectManager.instance[j / 3, i] = gameObj;
+                    }
+                }
+            }
+
+            return spawnPositions;
+        }
     }
 }

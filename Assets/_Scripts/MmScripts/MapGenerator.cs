@@ -66,7 +66,10 @@ public class MapGenerator : MonoBehaviour
             var symbol = lines[i][j];
 
             if (symbol == '1')
+            {
                 MapObjectManager.instance.GenerateByPrefab(prefabObstacle, j, i);
+                Debug.Log("SuccesfullyGeneratedByPrefab");
+            }
             else if (symbol == '2')
                 spawnPositions.Add(new Vector2Int(j, i));
         }

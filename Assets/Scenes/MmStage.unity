@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 1694843157}
   - component: {fileID: 1694843156}
   - component: {fileID: 1694843159}
+  - component: {fileID: 1694843163}
   - component: {fileID: 1694843160}
   - component: {fileID: 1694843161}
   - component: {fileID: 1694843162}
@@ -360,3 +361,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hero: {fileID: 725627528}
+--- !u!114 &1694843163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694843155}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628a00eb02c246b28e4583543bf748b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldText: {fileID: 0}
+  prefabObstacle: {fileID: 0}
+  prefabInteractable: {fileID: 0}

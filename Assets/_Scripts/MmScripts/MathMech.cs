@@ -87,7 +87,6 @@ namespace _Scripts.MmScripts
                 // X00 - XFF and SpaceSpaceSpace
                 var hexNumber = lines[i].Substring(j, 3);
                 var firstSymbol = hexNumber[0];
-
                 if (firstSymbol != ' ')
                 {
                     var index = Char.IsDigit(firstSymbol) ? firstSymbol - '0' : 10 + firstSymbol - 'A';

@@ -26,6 +26,8 @@ internal static class SaveDataGenerator
         personality.asDialog = new DialogPData();
         personality.asDialog.availableDialogStarts = new DialogStart[1];
         personality.asDialog.availableDialogStarts[0] = new DialogStart("enemy-greet", DialogStart.PossibleTimes.Unlimited);
+
+        personality.asHumanOnMap = HumanAnimPData.Default;
     }
 
     private static void GenFriendData(Personality personality)
@@ -66,7 +68,8 @@ internal static class SaveDataGenerator
         {
             playerPosition = new Vector2Int(3, 3),
             saveName = Random.Range(1000000, 10000000).ToString(),
-            personalities = new Personality[enemiesCount + friendsCount]
+            personalities = new Personality[enemiesCount + friendsCount],
+            heroHumanAnim = HumanAnimPData.Default
         };
         for (var i = 0; i < enemiesCount; i++)
             save.personalities[i] = GenDefaultPersonality(true);

@@ -48,3 +48,31 @@ public class Vector3S
         return new Vector3S(v);
     }
 }
+
+[Serializable]
+public class ColorS
+{
+    public float r;
+    public float g;
+    public float b;
+    public float a;
+
+
+    public ColorS(Color c)
+    {
+        r = c.r;
+        g = c.g;
+        b = c.b;
+        a = c.a;
+    }
+
+    public Color Get()
+    {
+        return new Color(r, g, b, a);
+    }
+
+    public static implicit operator ColorS(Color c)
+    {
+        return new ColorS(c);
+    }
+}

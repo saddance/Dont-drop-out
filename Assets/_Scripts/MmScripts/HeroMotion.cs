@@ -14,7 +14,7 @@ public class HeroMotion : MonoBehaviour
     }
 
     private readonly WASDHandler handler = new WASDHandler();
-    private bool isMoving;
+    public bool isMoving { get; private set; }
     
 
     public Vector3Int lastDirection { get; private set; }

@@ -18,6 +18,11 @@ public static class GameManager
     private static readonly string menuSceneName = "MenuStage";
     private static readonly string battleSceneName = "BattleStage";
 
+    static GameManager()
+    {
+        currentSave = SaveDataGenerator.GenDefaultSave();
+    }
+
     public static GameStage Stage
     {
         get

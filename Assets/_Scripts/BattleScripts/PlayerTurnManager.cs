@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerTurnManager : MonoBehaviour
 {
-    public static PlayerTurnManager self;
     public int chosenUnit;
     public int chosenEnemy;
     public bool isReady;
@@ -13,9 +12,10 @@ public class PlayerTurnManager : MonoBehaviour
     private bool[] used;
     public int ChosenByMouseIndex { get; private set; }
 
+    #region Start
+
     private void Awake()
     {
-        self = this;
         bm = BattleManager.self;
         amount = bm.units.Count;
         used = new bool[amount];
@@ -29,10 +29,12 @@ public class PlayerTurnManager : MonoBehaviour
         StartCoroutine(MousePositionChecker());
     }
 
+    #endregion
+
+    #region Update
+
     private void Update()
     {
-        if (bm.turn != Turn.Player || bm.gamePhase != GamePhase.Playing) return;
-
         if (Input.GetMouseButtonDown(0)) ChooseUnitViaMouseClick();
 
         amount = bm.units.Count;
@@ -188,4 +190,6 @@ public class PlayerTurnManager : MonoBehaviour
         isReady = false;
         bm.turn = Turn.Player;
     }
+
+    #endregion
 }

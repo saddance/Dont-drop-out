@@ -5,19 +5,25 @@ public class Unit : MonoBehaviour
     public SpriteRenderer Renderer;
     private BattleManager bm;
     public UnitInfo Info;
-    private PlayerTurnManager ptm;
+
+    #region Start
 
     private void Awake()
     {
         Renderer = GetComponent<SpriteRenderer>();
         Renderer.color = Color.black;
+        bm = BattleManager.self;
     }
 
-    private void Start()
+    public void Init(UnitInfo info)
     {
-        bm = BattleManager.self;
-        ptm = PlayerTurnManager.self;
+        Info = info;
+        transform.position = info.Position;
     }
+
+    #endregion
+
+    #region Update
 
     private void Update()
     {
@@ -28,9 +34,9 @@ public class Unit : MonoBehaviour
         }
 
 
-        if (ptm.chosenUnit != -1 && bm.units[ptm.chosenUnit] == this)
+        if (bm.ptm.chosenUnit != -1 && bm.units[bm.ptm.chosenUnit] == this)
             Renderer.color = Color.green;
-        else if (ptm.chosenEnemy != -1 && bm.units[ptm.chosenEnemy] == this)
+        else if (bm.ptm.chosenEnemy != -1 && bm.units[bm.ptm.chosenEnemy] == this)
             Renderer.color = Color.red;
         else if (isChosenByMouse())
             Renderer.color = Color.blue;
@@ -40,15 +46,11 @@ public class Unit : MonoBehaviour
 
     private bool isChosenByMouse()
     {
-        return ptm.ChosenByMouseIndex != -1 && bm.units[ptm.ChosenByMouseIndex] == this
-                                            && ptm.isReady == Info.IsEnemysUnit && bm.turn == Turn.Player;
+        return bm.ptm.ChosenByMouseIndex != -1 && bm.units[bm.ptm.ChosenByMouseIndex] == this
+                                               && bm.ptm.isReady == Info.IsEnemysUnit && bm.turn == Turn.Player;
     }
 
-    public void Init(UnitInfo info)
-    {
-        Info = info;
-        transform.position = info.Position;
-    }
+    #endregion
 }
 
 public class UnitInfo

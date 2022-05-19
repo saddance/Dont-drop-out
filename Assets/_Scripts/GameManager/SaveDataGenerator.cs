@@ -22,6 +22,12 @@ internal static class SaveDataGenerator
         var hp = Random.Range(20, 40);
         for (var i = 0; i < hp; i++)
             personality.asEnemy.people[Random.Range(0, peopleCnt)].maxHealth++;
+
+        personality.asDialog = new DialogPData();
+        personality.asDialog.availableDialogStarts = new DialogStart[1];
+        personality.asDialog.availableDialogStarts[0] = new DialogStart("enemy-greet", DialogStart.PossibleTimes.Unlimited);
+
+        personality.asHumanOnMap = HumanAnimPData.Default;
     }
 
     private static void GenFriendData(Personality personality)
@@ -64,6 +70,7 @@ internal static class SaveDataGenerator
             saveName = Random.Range(1000000, 10000000).ToString(),
             personalities = new Personality[enemiesCount + friendsCount],
             inventory = new InventoryObject[3]
+            heroHumanAnim = HumanAnimPData.Default
         };
 
         for (var i = 0; i < 3; i++)

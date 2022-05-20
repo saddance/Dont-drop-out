@@ -374,5 +374,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldText: {fileID: 4900000, guid: cbd998ebb08581c4d82fa42a02106ec7, type: 3}
-  prefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
   prefabInteractable: {fileID: 1471258689603448461, guid: 091cf13a54683c440902bea1c64ea3e2, type: 3}

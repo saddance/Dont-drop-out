@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New item", menuName = "Item")]
+[CreateAssetMenu(menuName = "Item", order = 70)]
 public class Item : ScriptableObject
 { 
     public Sprite image;

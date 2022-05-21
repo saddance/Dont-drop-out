@@ -56,7 +56,6 @@ public class FootHumanPart : HumanPart
             {
                 p += Time.deltaTime / stepTime;
                 UpdateMovingPosition(p);
-                print("Walking");
                 yield return new WaitForEndOfFrame();
             }
 

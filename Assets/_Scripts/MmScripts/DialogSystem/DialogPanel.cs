@@ -9,7 +9,6 @@ public class DialogPanel : MonoBehaviour
     [SerializeField] private float lettersSpawnSpeed;
     [SerializeField] private Text mainText;
     [SerializeField] private SelectionButton selectionButtonPrefab;
-    private Image image;
     private RectTransform rectTransform;
     private VerticalLayoutGroup layout;
 
@@ -18,7 +17,6 @@ public class DialogPanel : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
         layout = GetComponent<VerticalLayoutGroup>();
     }
 
@@ -39,11 +37,8 @@ public class DialogPanel : MonoBehaviour
 
     public void Init(DialogState state)
     {
-        image = GetComponent<Image>();
         this.state = state;
-
         SetupLayout();
-
     }
 
 

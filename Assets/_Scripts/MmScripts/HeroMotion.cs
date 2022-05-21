@@ -10,7 +10,7 @@ public class HeroMotion : MonoBehaviour
 
     private bool Pause
     {
-        get => InteractionSystem.instance.OnDialog || isMoving;
+        get => InteractionSystem.instance.OnDialog || InventorySystem.instance.OnInventory || isMoving;
     }
 
     private readonly WASDHandler handler = new WASDHandler();
@@ -45,17 +45,10 @@ public class HeroMotion : MonoBehaviour
 			GameManager.SaveGame();
         
 		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			if (Pause)
-				Pause = false;
-			else
-				GameManager.ExitGame();
-		}
+		    GameManager.ExitGame();
 
         if (Input.GetKeyDown(KeyCode.I))
-        {
-            
-        }
+            InventorySystem.instance.ShowInventory();
 
         if (Input.GetKeyDown(KeyCode.E))
         {

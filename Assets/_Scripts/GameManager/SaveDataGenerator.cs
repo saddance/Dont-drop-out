@@ -73,14 +73,12 @@ internal static class SaveDataGenerator
             heroHumanAnim = HumanAnimPData.Default
         };
 
-        for (var i = 0; i < 3; i++)
+        save.inventory[0] = new InventoryObject
         {
-            save.inventory[i] = new InventoryObject
-            {
-                itemName = "beer",
-                amount = 1
-            };
-        }
+            itemName = "beer",
+            amount = 1
+        };
+
         for (var i = 0; i < enemiesCount; i++)
             save.personalities[i] = GenDefaultPersonality(true);
         for (var i = 0; i < friendsCount; i++)

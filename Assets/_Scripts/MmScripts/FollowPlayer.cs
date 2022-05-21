@@ -3,6 +3,7 @@ using UnityEngine;
 public class FollowPlayer : MonoBehaviour
 {
     private Transform player;
+    [SerializeField] private float minDistance = 0.05f;
 
     private void Start()
     {
@@ -11,12 +12,15 @@ public class FollowPlayer : MonoBehaviour
 
     private void Update()
     {
-        GameManager.currentSave.playerPosition =
-            new Vector2Int(Mathf.RoundToInt(player.position.x), Mathf.RoundToInt(player.position.y));
+        var pos = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+        if (GameManager.currentSave != null)
+            GameManager.currentSave.playerPosition = pos;
     }
 
     private void LateUpdate()
     {
-        transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
+        var dest = new Vector3(player.position.x, player.position.y, transform.position.z);
+        var delta = (dest - transform.position);
+        transform.position += delta * (Mathf.Max(0, delta.magnitude - minDistance) / delta.magnitude); 
     }
 }

@@ -533,3 +533,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdef921632e8e14e9fa3bcd651d7df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minDistance: 0.01

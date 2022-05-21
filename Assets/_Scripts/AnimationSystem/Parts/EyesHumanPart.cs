@@ -83,13 +83,13 @@ public class EyesHumanPart : HumanPart
         else
         {
             Vector3 dest;
-            if (transform.localPosition.x > Mathf.Abs(normalPosition.x) + 1e-3 || 
-                to.x > Mathf.Abs(normalPosition.x) + 1e-3)
+            if (transform.localPosition.x > Mathf.Abs(normalPosition.x) + 1e-6 || 
+                to.x > Mathf.Abs(normalPosition.x) + 1e-6)
                 dest = new Vector3(headBorder, normalPosition.y);
             else
                 dest = new Vector3(-headBorder, normalPosition.y);
 
-            if ((dest - transform.localPosition).magnitude < 1e-3)
+            if ((dest - transform.localPosition).magnitude < 1e-6)
             {
                 onFront = !onFront;
                 MoveTo(to, isFront);

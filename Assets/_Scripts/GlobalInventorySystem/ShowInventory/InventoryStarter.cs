@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySystem : MonoBehaviour
+public class InventoryStarter : MonoBehaviour
 {
-    public static InventorySystem instance;
+    public static InventoryStarter instance;
     public bool OnInventory { get; private set; } = false;
 
     [SerializeField] private InventoryPanel inventoryPanelPrefab;
@@ -23,6 +23,14 @@ public class InventorySystem : MonoBehaviour
         currentPanel = Instantiate(inventoryPanelPrefab, transform);
 
         currentPanel.GetComponentInChildren<ExitInventoryButton>().Init(() => ExitInventory());
+    }
+
+    private void LateUpdate()
+    {
+        if (!OnInventory)
+            return;
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ExitInventory();
     }
 
     private void ExitInventory()

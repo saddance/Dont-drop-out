@@ -10,7 +10,7 @@ public class HeroMotion : MonoBehaviour
 
     private bool Pause
     {
-        get => InteractionSystem.instance.OnDialog || InventorySystem.instance.OnInventory || isMoving;
+        get => InteractionSystem.instance.OnDialog || InventoryStarter.instance.OnInventory || isMoving;
     }
 
     private readonly WASDHandler handler = new WASDHandler();
@@ -48,7 +48,7 @@ public class HeroMotion : MonoBehaviour
 		    GameManager.ExitGame();
 
         if (Input.GetKeyDown(KeyCode.I))
-            InventorySystem.instance.ShowInventory();
+            InventoryStarter.instance.ShowInventory();
 
         if (Input.GetKeyDown(KeyCode.E))
         {

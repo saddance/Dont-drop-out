@@ -2,33 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class InventoryShownItem : MonoBehaviour
+public class InventoryShownItem : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image image;
     [SerializeField] Text count;
+    [SerializeField] Image selectionBorder;
+
+    InventoryPanel parent;
 
     private int index = -1;
-    private InventoryObject obj
-    {
-        get
-        {
-            if (GameManager.currentSave == null)
-                return null;
-            if (0 <= index && index < GameManager.currentSave.inventory.Length)
-                return GameManager.currentSave.inventory[index];
-            else
-                return null;
-        }
-    }
 
-    public void Init(int inventoryIndex)
+    public void Init(int inventoryIndex, InventoryPanel panel)
     {
         index = inventoryIndex;
+        parent = panel;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        parent.ReactOnSelection(index);
     }
 
     private void LateUpdate()
     {
+        var obj = InventoryMaster.At(index);
         if (obj == null)
         {
             image.sprite = null;
@@ -37,7 +36,7 @@ public class InventoryShownItem : MonoBehaviour
         }
         else
         {
-            var item = Resources.Load<Item>($"Items/{obj.itemName}");
+            var item = InventoryMaster.ItemAt(index);
             image.sprite = item.image;
             image.color = Color.white;
             if (item.MaxAmount > 1)
@@ -45,6 +44,8 @@ public class InventoryShownItem : MonoBehaviour
             else
                 count.text = "";
         }
+
+        selectionBorder.enabled = parent.selectedIndex == index;
     }
 
 }

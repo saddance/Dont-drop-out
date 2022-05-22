@@ -69,15 +69,16 @@ internal static class SaveDataGenerator
             playerPosition = new Vector2Int(3, 3),
             saveName = Random.Range(1000000, 10000000).ToString(),
             personalities = new Personality[enemiesCount + friendsCount],
-            inventory = new InventoryObject[3],
+            inventory = new InventoryObject[18],
             heroHumanAnim = HumanAnimPData.Default
         };
 
-        save.inventory[0] = new InventoryObject
-        {
-            itemName = "beer",
-            amount = 1
-        };
+        for (int i = 0; i < 3; i++)
+            save.inventory[i] = new InventoryObject
+            {
+                itemName = "beer",
+                amount = (i == 0 ? 1 : 2)
+            };
 
         for (var i = 0; i < enemiesCount; i++)
             save.personalities[i] = GenDefaultPersonality(true);

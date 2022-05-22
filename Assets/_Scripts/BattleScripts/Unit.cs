@@ -84,7 +84,8 @@ public class Unit : MonoBehaviour
     private bool isChosenByMouse()
     {
         return ptm.ChosenByMouseIndex != -1 && bm.units[ptm.ChosenByMouseIndex] == this
-                                            && ptm.isReady == Info.IsEnemysUnit && bm.turn == Turn.Player;
+                                            && (Info.IsEnemysUnit && ptm.phase == Phase.UnitChosen || !Info.IsEnemysUnit && ptm.phase == Phase.NododyChosen)
+                                            && bm.turn == Turn.Player;
     }
 
     public void Init(UnitInfo info)

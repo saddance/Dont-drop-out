@@ -50,17 +50,17 @@ public class EnemyTurnManager : MonoBehaviour
                     playersUnitsAlive.Add(j);
             if (playersUnitsAlive.Count == 0) yield break;
             var aim = playersUnitsAlive[Random.Range(0, playersUnitsAlive.Count)];
-            Debug.Log("Enemy " + (i - bm.playerUnitsAmount) + " attacked " + aim);
-            ptm.chosenUnit = aim;
-            ptm.chosenEnemy = i;
+            ptm.selectedUnit = aim;
+            ptm.selectedEnemy = i;
             bm.Fight(i, aim);
+            Debug.Log("Enemy " + (i - bm.playerUnitsAmount) + " attacked unit " + aim);
             playersUnitsAlive.Clear();
             yield return new WaitForSeconds(0.5f);
         }
 
         isMoving = false;
-        ptm.chosenUnit = -1;
-        ptm.chosenEnemy = -1;
+        ptm.selectedUnit = -1;
+        ptm.selectedEnemy = -1;
         if (bm.turn == Turn.Enemy)
             bm.StopEnemyMove();
     }

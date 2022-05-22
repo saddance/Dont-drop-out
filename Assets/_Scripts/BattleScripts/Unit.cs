@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
         }
 
 
-        if (ptm.chosenUnit != -1 && bm.units[ptm.chosenUnit] == this)
+        if (ptm.selectedUnit != -1 && bm.units[ptm.selectedUnit] == this)
         {
             if (bm.turn == Turn.Player)
             {
@@ -46,7 +46,7 @@ public class Unit : MonoBehaviour
                 Renderer.sprite = UnitAttackedSprite;
             }
         }
-        else if (ptm.chosenEnemy != -1 && bm.units[ptm.chosenEnemy] == this)
+        else if (ptm.selectedEnemy != -1 && bm.units[ptm.selectedEnemy] == this)
         {
             if (bm.turn == Turn.Player)
             {
@@ -83,8 +83,8 @@ public class Unit : MonoBehaviour
 
     private bool isChosenByMouse()
     {
-        return ptm.ChosenByMouseIndex != -1 && bm.units[ptm.ChosenByMouseIndex] == this
-                                            && (Info.IsEnemysUnit && ptm.phase == Phase.UnitChosen || !Info.IsEnemysUnit && ptm.phase == Phase.NododyChosen)
+        return ptm.SelectedIndex != -1 && bm.units[ptm.SelectedIndex] == this
+                                            && (Info.IsEnemysUnit && ptm.selected == Selected.Unit || !Info.IsEnemysUnit && ptm.selected == Selected.Nodody)
                                             && bm.turn == Turn.Player;
     }
 

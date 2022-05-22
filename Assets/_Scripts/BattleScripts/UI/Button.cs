@@ -14,8 +14,8 @@ public class Button : MonoBehaviour
         ptm.TryToAttack();
     }
 
-    public void Cancel()
+    public void Deselect()
     {
-        ptm.CancelChoice();
+        ptm.Deselect();
     }
 }

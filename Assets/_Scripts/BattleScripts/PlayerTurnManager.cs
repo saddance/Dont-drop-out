@@ -6,14 +6,14 @@ using UnityEngine.EventSystems;
 public class PlayerTurnManager : MonoBehaviour
 {
     public static PlayerTurnManager self;
-    public int chosenUnit;
-    public int chosenEnemy;
-    public Phase phase;
+    public int selectedUnit;
+    public int selectedEnemy;
+    public Selected selected;
     private int amount;
     private BattleManager bm;
     private bool[] used;
 
-    public int ChosenByMouseIndex { get; private set; }
+    public int SelectedIndex { get; private set; }
 
     private void Awake()
     {
@@ -21,9 +21,9 @@ public class PlayerTurnManager : MonoBehaviour
         bm = BattleManager.self;
         amount = bm.units.Count;
         used = new bool[amount];
-        chosenUnit = -1;
-        chosenEnemy = -1;
-        phase = Phase.NododyChosen;
+        selectedUnit = -1;
+        selectedEnemy = -1;
+        selected = Selected.Nodody;
     }
 
     private void Start()
@@ -35,7 +35,7 @@ public class PlayerTurnManager : MonoBehaviour
     {
         if (bm.turn != Turn.Player || bm.gamePhase != GamePhase.Playing) return;
 
-        if (Input.GetMouseButtonDown(0)) ChooseUnitViaMouseClick();
+        if (Input.GetMouseButtonDown(0)) SelectUnitViaMouseClick();
         
         var index = 0;
         while (index < bm.playerUnitsAmount && (used[index] || bm.units[index].Info.IsDestroyed)) index++;
@@ -48,25 +48,25 @@ public class PlayerTurnManager : MonoBehaviour
         }
     }
 
-    private void ChooseUnitViaMouseClick()
+    private void SelectUnitViaMouseClick()
     {
         if (bm.turn != Turn.Player) return;
-        if (phase == Phase.NododyChosen)
+        if (selected == Selected.Nodody)
         {
-            if (ChosenByMouseIndex != -1 && !bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
+            if (SelectedIndex != -1 && !bm.units[SelectedIndex].Info.IsEnemysUnit)
             {
-                chosenUnit = ChosenByMouseIndex;
-                Debug.Log("Unit " + chosenUnit + " selected");
-                phase = Phase.UnitChosen;
+                selectedUnit = SelectedIndex;
+                Debug.Log("Unit " + selectedUnit + " selected");
+                selected = Selected.Unit;
             }
         }
-        else if (phase == Phase.UnitChosen)
+        else if (selected == Selected.Unit)
         {
-            if (ChosenByMouseIndex != -1 && bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
+            if (SelectedIndex != -1 && bm.units[SelectedIndex].Info.IsEnemysUnit)
             {
-                chosenEnemy = ChosenByMouseIndex;
-                Debug.Log("Enemy " + chosenEnemy + " selected");
-                phase = Phase.EnemyChosen;
+                selectedEnemy = SelectedIndex;
+                Debug.Log("Enemy " + (selectedEnemy - bm.playerUnitsAmount)  + " selected");
+                selected = Selected.Enemy;
             }
         }
     }
@@ -93,50 +93,50 @@ public class PlayerTurnManager : MonoBehaviour
 
             if (index != -1 && Math.Abs(mousePos.x - bm.units[index].Info.Position.x) < 0.5 &&
                 Math.Abs(mousePos.y - bm.units[index].Info.Position.y) < 0.5)
-                ChosenByMouseIndex = index;
+                SelectedIndex = index;
             else
-                ChosenByMouseIndex = -1;
+                SelectedIndex = -1;
             yield return null;
         }
     }
 
     public void TryToAttack()
     {
-        if (chosenEnemy != -1) StartCoroutine(Attack());
+        if (selectedEnemy != -1) StartCoroutine(Attack());
     }
 
-    public void CancelChoice()
+    public void Deselect()
     {
-        if (phase == Phase.UnitChosen)
+        if (selected == Selected.Unit)
         {
-            chosenUnit = -1;
-            phase = Phase.NododyChosen;
-            Debug.Log("Unit deselected");
+            selected = Selected.Nodody;
+            Debug.Log("Unit " + selectedUnit + " deselected");
+            selectedUnit = -1;
         }
-        if (phase == Phase.EnemyChosen)
+        if (selected == Selected.Enemy)
         {
-            chosenEnemy = -1;
-            phase = Phase.UnitChosen;
-            Debug.Log("Enemy deselected");
+            selected = Selected.Unit;
+            Debug.Log("Enemy " +  (selectedEnemy - bm.playerUnitsAmount) + " deselected");
+            selectedEnemy = -1;
         }
     }
     
     private IEnumerator Attack()
     {
         yield return new WaitForSeconds(0.4f);
-        Debug.Log("Unit " + chosenUnit + " attacked enemy" + chosenEnemy);
-        bm.Fight(chosenUnit, chosenEnemy);
-        used[chosenUnit] = true;
-        chosenEnemy = -1;
-        chosenUnit = -1;
-        phase = Phase.NododyChosen;
+        Debug.Log("Unit " + selectedUnit + " attacked enemy " + (selectedEnemy - bm.playerUnitsAmount));
+        bm.Fight(selectedUnit, selectedEnemy);
+        used[selectedUnit] = true;
+        selectedEnemy = -1;
+        selectedUnit = -1;
+        selected = Selected.Nodody;
         bm.turn = Turn.Player;
     }
 }
 
-public enum Phase
+public enum Selected
 {
-    NododyChosen,
-    UnitChosen,
-    EnemyChosen
+    Nodody,
+    Unit,
+    Enemy
 }

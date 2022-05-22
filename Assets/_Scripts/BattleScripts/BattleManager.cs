@@ -87,7 +87,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log(units.Count);
             throw new Exception("Who is absent?");
         }
-
+        
         defender.Info.Health -= attacker.Info.Strength;
         if (defender.Info.IsDestroyed)
         {

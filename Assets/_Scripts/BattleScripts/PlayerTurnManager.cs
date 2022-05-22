@@ -12,7 +12,7 @@ public class PlayerTurnManager : MonoBehaviour
     private int amount;
     private BattleManager bm;
     private bool[] used;
-    private GameObject button1;
+
     public int ChosenByMouseIndex { get; private set; }
 
     private void Awake()
@@ -56,6 +56,7 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenByMouseIndex != -1 && !bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
             {
                 chosenUnit = ChosenByMouseIndex;
+                Debug.Log("Unit " + chosenUnit + " selected");
                 phase = Phase.UnitChosen;
             }
         }
@@ -64,6 +65,7 @@ public class PlayerTurnManager : MonoBehaviour
             if (ChosenByMouseIndex != -1 && bm.units[ChosenByMouseIndex].Info.IsEnemysUnit)
             {
                 chosenEnemy = ChosenByMouseIndex;
+                Debug.Log("Enemy " + chosenEnemy + " selected");
                 phase = Phase.EnemyChosen;
             }
         }
@@ -109,18 +111,20 @@ public class PlayerTurnManager : MonoBehaviour
         {
             chosenUnit = -1;
             phase = Phase.NododyChosen;
+            Debug.Log("Unit deselected");
         }
         if (phase == Phase.EnemyChosen)
         {
             chosenEnemy = -1;
             phase = Phase.UnitChosen;
+            Debug.Log("Enemy deselected");
         }
     }
     
     private IEnumerator Attack()
     {
         yield return new WaitForSeconds(0.4f);
-        Debug.Log("Player is attacking enemy");
+        Debug.Log("Unit " + chosenUnit + " attacked enemy" + chosenEnemy);
         bm.Fight(chosenUnit, chosenEnemy);
         used[chosenUnit] = true;
         chosenEnemy = -1;

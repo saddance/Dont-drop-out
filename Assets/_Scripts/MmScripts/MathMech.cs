@@ -83,6 +83,7 @@ namespace _Scripts.MmScripts
             for (int i = 0; i < 16; i++)
                 spawnPositions.Add(new List<Vector2Int>());
 
+            var parent = new GameObject();
             for (var i = 0; i < height; i++)
             for (var j = 0; j < width; j += 3)
             {
@@ -100,8 +101,9 @@ namespace _Scripts.MmScripts
                 var gameObj = new GameObject();
                 SpriteRenderer rend = gameObj.AddComponent<SpriteRenderer>();
                 rend.sprite = sprite;
-                Instantiate(gameObj);
                 gameObj.transform.position = new Vector3(j / 3, i, 0);
+                gameObj.transform.parent = parent.transform;
+                
                 if (hexNumber[1] <= '7')
                 {
                 }

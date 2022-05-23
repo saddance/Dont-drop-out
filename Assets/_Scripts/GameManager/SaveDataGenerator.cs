@@ -68,7 +68,6 @@ internal static class SaveDataGenerator
             save.personalities[i] = GenDefaultPersonality(true);
         for (var i = 0; i < friendsCount; i++)
             save.personalities[i + enemiesCount] = GenDefaultPersonality(false);
-
         return save;
     }
 }

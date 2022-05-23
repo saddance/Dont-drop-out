@@ -59,7 +59,7 @@ public class InteractionSystem : MonoBehaviour
         if (dialogPanel != null)
             Destroy(dialogPanel.gameObject);
         dialogPanel = Instantiate(panelPrefab, transform);
-        dialogPanel.Init(currentState);
+        dialogPanel.Init(currentState, _personality);
     }
 
 

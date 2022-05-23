@@ -3,11 +3,11 @@
 internal static class SaveDataGenerator
 {
     private static readonly int enemiesCount = 3;
-    private static readonly int friendsCount = 3;
+    private static readonly int friendsCount = 0;
 
-
-    private static void GenEnemyData(Personality personality)
+    private static Personality GenEnemyData()
     {
+        Personality personality = new Personality();
         personality.asEnemy = new EnemyPData();
 
         var peopleCnt = Random.Range(1, 4);
@@ -23,44 +23,35 @@ internal static class SaveDataGenerator
         for (var i = 0; i < hp; i++)
             personality.asEnemy.people[Random.Range(0, peopleCnt)].maxHealth++;
 
-        personality.asDialog = new DialogPData();
-        personality.asDialog.availableDialogStarts = new DialogStart[1];
+        personality.asDialog = new DialogPData()
+        {
+            availableDialogStarts = new DialogStart[1],
+            personalityName = "КН-щик"
+        };
         personality.asDialog.availableDialogStarts[0] = new DialogStart("enemy-greet", DialogStart.PossibleTimes.Unlimited);
 
-        personality.asHumanOnMap = HumanAnimPData.Default;
-    }
-
-    private static void GenFriendData(Personality personality)
-    {
-        personality.asFriend = new FriendPData();
-        personality.asFriend.self = new UnitData();
-
-        var strength = Random.Range(3, 7);
-        for (var i = 0; i < strength; i++)
-            personality.asFriend.self.strength++;
-
-        var hp = Random.Range(10, 20);
-        for (var i = 0; i < hp; i++)
-            personality.asFriend.self.maxHealth++;
-    }
-
-    private static Personality GenDefaultPersonality(bool isEnemy)
-    {
-        var personality = new Personality();
-
-        if (isEnemy)
-        {
-            personality.hidden = false;
-            GenEnemyData(personality);
-        }
-        else
-        {
-            personality.hidden = true;
-            GenFriendData(personality);
-        }
+        personality.asHumanOnMap = HumanAnimPData.Enemy;
 
         return personality;
     }
+
+    //private static Personality GenFriendData()
+    //{
+    //    var personality = new Personality();
+
+    //    personality.asFriend = new FriendPData();
+    //    personality.asFriend.self = new UnitData();
+
+    //    var strength = Random.Range(3, 7);
+    //    for (var i = 0; i < strength; i++)
+    //        personality.asFriend.self.strength++;
+
+    //    var hp = Random.Range(10, 20);
+    //    for (var i = 0; i < hp; i++)
+    //        personality.asFriend.self.maxHealth++;
+
+    //    return personality;
+    //}
 
     public static SaveData GenDefaultSave()
     {
@@ -70,7 +61,7 @@ internal static class SaveDataGenerator
             saveName = Random.Range(1000000, 10000000).ToString(),
             personalities = new Personality[enemiesCount + friendsCount],
             inventory = new InventoryObject[18],
-            heroHumanAnim = HumanAnimPData.Default
+            heroHumanAnim = HumanAnimPData.Rand
         };
 
         for (int i = 0; i < 3; i++)
@@ -81,9 +72,9 @@ internal static class SaveDataGenerator
             };
 
         for (var i = 0; i < enemiesCount; i++)
-            save.personalities[i] = GenDefaultPersonality(true);
-        for (var i = 0; i < friendsCount; i++)
-            save.personalities[i + enemiesCount] = GenDefaultPersonality(false);
+            save.personalities[i] = GenEnemyData();
+        //for (var i = 0; i < friendsCount; i++)
+        //    save.personalities[i + enemiesCount] = GenDefaultPersonality(false);
 
         return save;
     }

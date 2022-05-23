@@ -6,6 +6,8 @@ using UnityEngine;
 [Serializable]
 public class FriendPData
 {
+    int friendScore;
+
     public UnitData self;
 
     public bool IsParticipating()

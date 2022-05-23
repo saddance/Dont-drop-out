@@ -5,28 +5,28 @@ using UnityEngine.UI;
 
 public class DialogPanel : MonoBehaviour
 {
-    [SerializeField] private float showAnimationDuration;
-    [SerializeField] private float lettersSpawnSpeed;
     [SerializeField] private Text mainText;
     [SerializeField] private SelectionButton selectionButtonPrefab;
-    private RectTransform rectTransform;
-    private VerticalLayoutGroup layout;
+    [SerializeField] private Text dialogName;
+    [SerializeField] private VerticalLayoutGroup layout;
 
+    private RectTransform rectTransform;
     private DialogState state;
+    private Personality personality;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        layout = GetComponent<VerticalLayoutGroup>();
     }
 
     private void SetupLayout()
     {
         mainText.text = state.russianText;
+        dialogName.text = personality.asDialog.personalityName;
 
         foreach (var option in state.options)
         {
-            var button = Instantiate(selectionButtonPrefab, transform);
+            var button = Instantiate(selectionButtonPrefab, layout.transform);
             button.SetUp(option);
         }
 
@@ -35,9 +35,10 @@ public class DialogPanel : MonoBehaviour
             (layout.spacing + selectionButtonPrefab.GetComponent<RectTransform>().sizeDelta.y));
     }
 
-    public void Init(DialogState state)
+    public void Init(DialogState state, Personality personality)
     {
         this.state = state;
+        this.personality = personality;
         SetupLayout();
     }
 

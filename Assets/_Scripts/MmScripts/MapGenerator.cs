@@ -19,9 +19,6 @@ public class MapGenerator : MonoBehaviour
 
         for (var i = 0; i < save.mapPositions.Length; i++)
         {
-            if (save.personalities[i].hidden)
-                continue;
-
             MapObjectManager.instance.GenerateByPrefab(
                 prefabInteractable,
                 save.mapPositions[i].x,
@@ -42,8 +39,6 @@ public class MapGenerator : MonoBehaviour
             save.mapPositions = new Vector2IntS[save.personalities.Length];
             for (var i = 0; i < save.mapPositions.Length; i++)
             {
-                if (save.personalities[i].hidden)
-                    continue;
                 save.mapPositions[i] = spawnPositions[Random.Range(0, spawnPositions.Count)];
                 spawnPositions.Remove(save.mapPositions[i].GetV());
             }

@@ -52,5 +52,6 @@ public class DialogStart : IComparable<DialogStart>
 [Serializable]
 public class DialogPData
 {
+    public string personalityName;
     public DialogStart[] availableDialogStarts;
 }

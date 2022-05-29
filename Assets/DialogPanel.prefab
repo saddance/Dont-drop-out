@@ -78,11 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'ghbdtn
-
-    jjj
-
-    ffff'
+  m_Text: 
 --- !u!1 &1144509184362871320
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,3 +421,6 @@ MonoBehaviour:
   selectionButtonPrefab: {fileID: 244232365790332592, guid: 6249a58425ddfd245b7f19f682d58667, type: 3}
   dialogName: {fileID: 5015918281944511024}
   layout: {fileID: 4602909722218691294}
+  appearTime: 0.2
+  lettersSpeed: 40
+  optionsDelay: 0.08

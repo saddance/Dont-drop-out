@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredFriendship: 0
   requiredItemTag: 
-  russianText: 
-  options: []
+  russianText: "\u041F\u0440\u0438\u0432\u0435\u0442, \u0434\u0440\u0443\u0436\u0438\u0449\u0435!"
+  options:
+  - russianText: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439!"
+    option: 2
+    nextDialogPrefix: 

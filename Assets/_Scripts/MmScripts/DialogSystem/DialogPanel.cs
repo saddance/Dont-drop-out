@@ -9,6 +9,7 @@ public class DialogPanel : MonoBehaviour
     [SerializeField] private SelectionButton selectionButtonPrefab;
     [SerializeField] private Text dialogName;
     [SerializeField] private VerticalLayoutGroup layout;
+    [SerializeField] private DialogRelationship relationship;
     [SerializeField] private float appearTime;
     [SerializeField] private float lettersSpeed;
     [SerializeField] private float optionsDelay;
@@ -31,6 +32,7 @@ public class DialogPanel : MonoBehaviour
     void SetupLayout()
     {
         dialogName.text = personality.asDialog.personalityName;
+        relationship.Init(personality);
 
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,
             rectTransform.sizeDelta.y + state.options.Length *
@@ -38,7 +40,6 @@ public class DialogPanel : MonoBehaviour
 
         StartCoroutine(Appear());
     }
-
 
     IEnumerator Appear()
     {

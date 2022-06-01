@@ -17,6 +17,8 @@ public static class SavingManager
 
     private static string GetPath(string name)
     {
+        if (name == null)
+            name = "autosave " + DateTime.Now.ToLocalTime().ToString(@"d.MM.yy, hh-mm-ss");
         return $"{SavePath}/{name}";
     }
 

@@ -3,14 +3,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogRelationship : MonoBehaviour
+public class DialogRelationshipIcon : MonoBehaviour
 {
     [SerializeField] private Text smile;
     [SerializeField] private Text score;
 
     public void Init(Personality pers)
     {
-        if (pers.asFriend == null)
+        if (pers.asFriend == null || pers.asFriend.State == null)
             gameObject.SetActive(false);
         else
         {

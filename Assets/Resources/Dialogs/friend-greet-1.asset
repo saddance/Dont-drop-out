@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e25dd18441d2214ea807527b697f10c, type: 3}
   m_Name: friend-greet-1
   m_EditorClassIdentifier: 
-  requiredFriendship: 0
-  requiredItemTag: 
-  russianText: "\u041F\u0440\u0438\u0432\u0435\u0442, \u0434\u0440\u0443\u0436\u0438\u0449\u0435!"
+  requirements:
+    friendshipReq: 0
+    stateReq: 45
+  russianText: "\u041F\u0440\u0438\u0432\u0435\u0442! \u042F \u0440\u0430\u0434 \u0442\u0435\u0431\u044F
+    \u0432\u0438\u0434\u0435\u0442\u044C!"
   options:
-  - russianText: "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439!"
+  - requirements:
+      friendshipReq: -1000
+      stateReq: 45
+    effects:
+      friendshipAffect: 0
+    isHiddenWhenInactive: 0
+    russianInactiveText: 
+    russianText: "\u0418 \u044F \u0442\u0435\u0431\u044F"
     option: 2
     nextDialogPrefix: 

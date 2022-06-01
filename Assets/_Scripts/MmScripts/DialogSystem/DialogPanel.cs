@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class DialogPanel : MonoBehaviour
     [SerializeField] private SelectionButton selectionButtonPrefab;
     [SerializeField] private Text dialogName;
     [SerializeField] private VerticalLayoutGroup layout;
-    [SerializeField] private DialogRelationship relationship;
+    [SerializeField] private DialogRelationshipIcon relationship;
     [SerializeField] private float appearTime;
     [SerializeField] private float lettersSpeed;
     [SerializeField] private float optionsDelay;
@@ -26,7 +27,8 @@ public class DialogPanel : MonoBehaviour
     }
 
     private bool WasSkip() =>
-        Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return);
+        Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape) || 
+        Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonDown(0);
     
 
     void SetupLayout()
@@ -35,7 +37,7 @@ public class DialogPanel : MonoBehaviour
         relationship.Init(personality);
 
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,
-            rectTransform.sizeDelta.y + state.options.Length *
+            rectTransform.sizeDelta.y + state.options.Where(x => x.IsShown(personality)).Count() *
             (layout.spacing + selectionButtonPrefab.GetComponent<RectTransform>().sizeDelta.y));
 
         StartCoroutine(Appear());
@@ -85,6 +87,9 @@ public class DialogPanel : MonoBehaviour
         float time = Time.time;
         foreach (var option in state.options)
         {
+            if (!option.IsShown(personality))
+                continue;
+
             time += optionsDelay;
             while (Time.time < time && !immediatly)
             {
@@ -93,7 +98,7 @@ public class DialogPanel : MonoBehaviour
             }
 
             var button = Instantiate(selectionButtonPrefab, layout.transform);
-            button.SetUp(option);
+            button.SetUp(option, personality);
         }
         
         IsReady = true;

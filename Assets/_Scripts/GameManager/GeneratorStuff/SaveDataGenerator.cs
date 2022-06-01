@@ -1,77 +1,25 @@
 ﻿using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 internal static class SaveDataGenerator
 {
-    private static readonly int enemiesCount = 3;
-    private static readonly int friendsCount = 3;
-
-    private static Personality GenEnemyData()
-    {
-        Personality personality = new Personality();
-
-        personality.asEnemy = new EnemyPData();
-
-        var peopleCnt = Random.Range(1, 4);
-        personality.asEnemy.people = new UnitData[peopleCnt];
-        for (var i = 0; i < peopleCnt; i++)
-            personality.asEnemy.people[i] = new UnitData();
-        var strength = Random.Range(8, 16);
-        for (var i = 0; i < strength; i++)
-            personality.asEnemy.people[Random.Range(0, peopleCnt)].strength++;
-        var hp = Random.Range(20, 40);
-        for (var i = 0; i < hp; i++)
-            personality.asEnemy.people[Random.Range(0, peopleCnt)].maxHealth++;
-
-        personality.asDialog = new DialogPData()
-        {
-            availableDialogStarts = new DialogStart[1],
-            personalityName = "КН-щик"
-        };
-        personality.asDialog.availableDialogStarts[0] = new DialogStart("enemy-greet", DialogStart.PossibleTimes.Unlimited);
-
-        personality.asHumanOnMap = HumanAnimPData.Enemy;
-
-        return personality;
-    }
-
-    private static Personality GenFriendData()
+    private static Personality GenPersonalityByDesc(GenerationDescriptor desc)
     {
         var personality = new Personality();
 
         personality.asFriend = new FriendPData()
         {
-            onBattle = new UnitData(),
+            onBattle = desc.onBattleAsFriend.Gen(),
             friendScore = 0,
-            states = new FriendshipState[2]
-            {
-                new FriendshipState()
-                {
-                    chr = '1',
-                    isParticipating = false,
-                    scoreSegment = new Vector2Int(-1000, 9)
-                },
-                new FriendshipState()
-                {
-                    chr = 'E',
-                    isParticipating = true,
-                    scoreSegment = new Vector2Int(10, 1000)
-                }
-            }
-        };
-        personality.asFriend.onBattle = new UnitData()
-        {
-            maxHealth = Random.Range(10, 20),
-            strength = Random.Range(3, 7)
+            states = desc.friendshipStates
         };
 
-        personality.asHumanOnMap = HumanAnimPData.Rand;
-        personality.asDialog = new DialogPData()
+        personality.asHumanOnMap = desc.GetOnMap();
+        personality.asDialog = desc.dialogData;
+        personality.asEnemy = new EnemyPData()
         {
-            personalityName = "Друг",
-            availableDialogStarts = new DialogStart[1]
-            {
-                new DialogStart("friend-greet", DialogStart.PossibleTimes.Unlimited)
-            }
+            people = desc.enemyUnits.Select(x => x.Gen()).ToArray()
         };
 
         return personality;
@@ -82,10 +30,10 @@ internal static class SaveDataGenerator
         var save = new SaveData
         {
             playerPosition = new Vector2Int(3, 3),
-            saveName = Random.Range(1000000, 10000000).ToString(),
-            personalities = new Personality[enemiesCount + friendsCount],
+            saveName = null,
             inventory = new InventoryObject[18],
-            heroHumanAnim = HumanAnimPData.Rand
+            heroHumanAnim = HumanAnimPData.Rand,
+            hero = new UnitData() { maxHealth = 20, strength = 4 }
         };
 
         for (int i = 0; i < 3; i++)
@@ -95,11 +43,11 @@ internal static class SaveDataGenerator
                 amount = (i == 0 ? 1 : 2)
             };
 
-        for (var i = 0; i < enemiesCount; i++)
-            save.personalities[i] = GenEnemyData();
-        for (var i = 0; i < friendsCount; i++)
-            save.personalities[i + enemiesCount] = GenFriendData();
-
+        List<Personality> personalities = new List<Personality>();
+        foreach (var desc in Resources.LoadAll<GenerationDescriptor>("Generation"))
+            for (var i = 0; i < desc.count; i++)
+                personalities.Add(GenPersonalityByDesc(desc));
+        save.personalities = personalities.ToArray();
         return save;
     }
 }

@@ -60,6 +60,9 @@ public class HeroMotion : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+            GameManager.currentSave.currentDay++;
+
         // TODO : rewrite this shit
         var code = handler.GetPressedButton();
         if (code == null)

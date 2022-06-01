@@ -519,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldText: {fileID: 4900000, guid: e3f308681ffe2e243b7516a1b64049e5, type: 3}
-  prefabObstacle: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
+  prefabEnvironment: {fileID: 7091438796680513982, guid: 444625aef3c7b744f8e8afdad938ea96, type: 3}
   prefabInteractable: {fileID: 8375001552349009171, guid: 10664af2677e1f041a5e1b119482dfe5, type: 3}
 --- !u!114 &1694843161
 MonoBehaviour:

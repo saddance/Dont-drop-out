@@ -44,3 +44,4 @@ MonoBehaviour:
       x: 10
       y: 20
   onMap: 1
+  labels: 02000000

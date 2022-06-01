@@ -19,6 +19,7 @@ public class GenerationDescriptor : ScriptableObject
     
     [Header("as On Map")]
     public HumanAnimType onMap;
+    public int[] labels;
 
     public HumanAnimPData GetOnMap()
     {

@@ -21,6 +21,10 @@ internal static class SaveDataGenerator
         {
             people = desc.enemyUnits.Select(x => x.Gen()).ToArray()
         };
+        personality.asMapObject = new MapObjectPData()
+        {
+            labels = desc.labels
+        };
 
         return personality;
     }

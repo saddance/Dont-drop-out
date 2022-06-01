@@ -8,4 +8,5 @@ public class Personality
     public FriendPData asFriend;
     public DialogPData asDialog;
     public HumanAnimPData asHumanOnMap;
+    public MapObjectPData asMapObject;
 }   

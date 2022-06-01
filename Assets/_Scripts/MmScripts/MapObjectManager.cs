@@ -30,12 +30,18 @@ public class MapObjectManager : MonoBehaviour
         gridArray = new GameObject[height, width];
     }
 
-    public void GenerateByPrefab(GameObject prefab, int x, int y)
+    public void GenerateByPrefab(GameObject prefab, int x, int y, Sprite sprite = null, bool setOnMap = true)
     {
         if (prefab == null)
+        {
+            Debug.LogError("null prefab tried to be spawned");
             return;
+        }
         var obj = Instantiate(prefab);
         obj.transform.position = new Vector3(x, y, 0);
-        this[x, y] = obj;
+        if (sprite != null)
+            obj.GetComponent<SpriteRenderer>().sprite = sprite;
+        if (setOnMap)
+            this[x, y] = obj.gameObject;
     }
 }

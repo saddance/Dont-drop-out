@@ -48,3 +48,4 @@ MonoBehaviour:
       lastDayUsed: -1
   enemyUnits: []
   onMap: 0
+  labels: 01000000

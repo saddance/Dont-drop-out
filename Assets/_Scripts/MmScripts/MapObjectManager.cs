@@ -37,7 +37,8 @@ public class MapObjectManager : MonoBehaviour
             Debug.LogError("null prefab tried to be spawned");
             return;
         }
-        var obj = Instantiate(prefab);
+        var obj = Instantiate(prefab, transform);
+        obj.transform.name = $"object at ({x}, {y})";
         obj.transform.position = new Vector3(x, y, 0);
         if (sprite != null)
             obj.GetComponent<SpriteRenderer>().sprite = sprite;

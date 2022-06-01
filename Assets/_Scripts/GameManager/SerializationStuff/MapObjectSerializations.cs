@@ -6,4 +6,5 @@ using UnityEngine;
 public class MapObjectPData
 {
     public int[] labels;
+    public string defaultSpriteName;
 }

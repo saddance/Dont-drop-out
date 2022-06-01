@@ -5,7 +5,7 @@ using UnityEngine;
 public class NPCAnimator : HumanAnimator
 {
     private InteractableObject interactor;
-    private GameObject hero;
+    private HeroMotion hero;
 
     public override HumanAnimPData animData { 
         get
@@ -17,10 +17,10 @@ public class NPCAnimator : HumanAnimator
     private void Awake()
     {
         interactor = GetComponent<InteractableObject>();
-        hero = GameObject.FindGameObjectWithTag("Player");
+        hero = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroMotion>();
     }
 
-    public void LookAtHero()
+    private void LookAtHero()
     {
         Vector3Int delta = new Vector3Int(
             Mathf.RoundToInt(hero.transform.position.x - transform.position.x),
@@ -30,9 +30,16 @@ public class NPCAnimator : HumanAnimator
         SetLookingFromVector(delta, lookingState);
     }
 
+    private bool IsTalkingWithHero()
+    {
+        var v = transform.position - hero.transform.position;
+        return (Mathf.Abs(v.x - hero.lastDirection.x) <= 1e-3 &&
+            Mathf.Abs(v.y - hero.lastDirection.y) <= 1e-3);
+    }
+
     public void LateUpdate()
     {
-        if (InteractionSystem.instance.OnDialog)
+        if (IsTalkingWithHero())
             LookAtHero();
         else
             lookingState = LookingState.front;

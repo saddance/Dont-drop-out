@@ -66,6 +66,17 @@ public class DialogPData
     public DialogStart[] dailyDialogStarts = new DialogStart[0];
     public DialogStart[] commonDialogStarts = new DialogStart[0];
 
+    public DialogPData CreateCopy()
+    {
+        return new DialogPData()
+        {
+            personalityName = (string)personalityName.Clone(),
+            uniqueDialogStarts = uniqueDialogStarts.Select(x => new DialogStart(x.dialogPrefix, x.importance)).ToArray(),
+            dailyDialogStarts = dailyDialogStarts.Select(x => new DialogStart(x.dialogPrefix, x.importance)).ToArray(),
+            commonDialogStarts = commonDialogStarts.Select(x => new DialogStart(x.dialogPrefix, x.importance)).ToArray()
+        };
+    }
+
     // First - all must shown dialogs
     // If no, random from unique & daily
     // Else common, sorted by importance

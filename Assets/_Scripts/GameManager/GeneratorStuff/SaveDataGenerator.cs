@@ -16,11 +16,11 @@ internal static class SaveDataGenerator
         };
 
         personality.asHumanOnMap = desc.GetOnMap();
-        personality.asDialog = desc.dialogData;
+        personality.asDialog = desc.dialogData.CreateCopy();
         personality.asEnemy = new EnemyPData()
         {
             people = desc.enemyUnits.Select(x => x.Gen()).ToArray()
-        };
+        }; 
         personality.asMapObject = new MapObjectPData()
         {
             labels = desc.labels

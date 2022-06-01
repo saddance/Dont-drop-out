@@ -22,10 +22,17 @@ public class MapGenerator : MonoBehaviour
         {
             if (save.mapPositions[i] != null)
             {
+                Sprite defaultSprite = null;
+                if (save.personalities[i].asMapObject?.defaultSpriteName != null &&
+                    save.personalities[i].asMapObject?.defaultSpriteName != "")
+                    defaultSprite = Resources.Load<Sprite>($"Tiles/{save.personalities[i].asMapObject.defaultSpriteName}");
+
                 MapObjectManager.instance.GenerateByPrefab(
                     prefabInteractable,
                     save.mapPositions[i].x,
-                    save.mapPositions[i].y);
+                    save.mapPositions[i].y,
+                    defaultSprite
+                    );
 
                 MapObjectManager.instance[save.mapPositions[i].x, save.mapPositions[i].y]
                     .GetComponent<InteractableObject>()

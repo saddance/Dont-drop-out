@@ -9,7 +9,7 @@ public class InteractionSystem : MonoBehaviour
 {
     public static InteractionSystem instance;
     public bool OnDialog { get; private set; } = false;
-    private Personality _personality;
+    public Personality personality { get; private set; }
     private DialogState currentState;
     private DialogPanel dialogPanel;
     [SerializeField] private DialogPanel panelPrefab;
@@ -22,11 +22,11 @@ public class InteractionSystem : MonoBehaviour
         states = Resources.LoadAll<DialogState>("Dialogs");
     }
 
-    private DialogPData DialogInfo => _personality.asDialog;
+    private DialogPData DialogInfo => personality.asDialog;
     private int CurrentDay => GameManager.currentSave.currentDay;
 
     private DialogState[] GetAvailableStates(string prefix = "") => states
-        .Where(x => x.name.StartsWith(prefix) && x.IsActive(_personality))
+        .Where(x => x.name.StartsWith(prefix) && x.IsActive(personality))
         .ToArray();
 
 
@@ -50,7 +50,7 @@ public class InteractionSystem : MonoBehaviour
 
     private DialogStart GetBestStart()
     {
-        var dialogInfo = _personality.asDialog;
+        var dialogInfo = personality.asDialog;
 
         var result = SelectRandom(GetAvailableSpecialStarts()
             .Where(x => x.importance == DialogStart.Importance.MustBeShown));
@@ -83,14 +83,14 @@ public class InteractionSystem : MonoBehaviour
         if (personality.asDialog == null)
             return;
 
-        _personality = personality;
+        this.personality = personality;
         var bestStart = GetBestStart();
         if (bestStart == null)
             return;
 
         OnDialog = true;
 
-        _personality.asDialog.lastDayUsed = GameManager.currentSave.currentDay;
+        this.personality.asDialog.lastDayUsed = GameManager.currentSave.currentDay;
         bestStart.lastDayUsed = GameManager.currentSave.currentDay;
 
         ChangeToState(new DialogOption() { 
@@ -104,7 +104,7 @@ public class InteractionSystem : MonoBehaviour
         if (dialogPanel != null)
             Destroy(dialogPanel.gameObject);
         dialogPanel = Instantiate(panelPrefab, transform);
-        dialogPanel.Init(currentState, _personality);
+        dialogPanel.Init(currentState, personality);
     }
 
 
@@ -120,7 +120,7 @@ public class InteractionSystem : MonoBehaviour
         if (!OnDialog)
             throw new System.Exception("Can't change state while on dialog!");
 
-        option.effects.Effect(_personality);
+        option.effects.Effect(personality);
 
         switch (option.option)
         {
@@ -134,7 +134,7 @@ public class InteractionSystem : MonoBehaviour
                 break;
 
             case DialogOption.OptionType.startBattle:
-                GameManager.StartBattle(_personality);
+                GameManager.StartBattle(personality);
                 break;
 
             default:

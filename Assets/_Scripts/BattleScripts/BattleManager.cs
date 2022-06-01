@@ -47,7 +47,7 @@ public class BattleManager : MonoBehaviour
         playerUnitsAlive = playerUnitsAmount = friends.Count;
         for (var i = 0; i < friends.Count; i++)
         {
-            var info = new UnitInfo(friends[i].asFriend.self, false,
+            var info = new UnitInfo(friends[i].asFriend.onBattle, false,
                 new Vector3(-5, 1.5f * (i - (friends.Count - 1) / 2f)));
             InstantiateUnit(info);
         }

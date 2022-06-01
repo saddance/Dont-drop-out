@@ -6,20 +6,33 @@ using UnityEngine.UI;
 public class SelectionButton : MonoBehaviour
 {
     [SerializeField] float additionalSize;
+    [SerializeField] Color inactiveColor = new Color(0.5f, 0.5f, 0.5f); 
     Text text;
     Image image;
     DialogOption option;
+    Button button;
 
     private void Awake()
     {
         text = GetComponentInChildren<Text>();
         image = GetComponentInChildren<Image>();
+        button = GetComponentInChildren<Button>();
     }
 
-    public void SetUp(DialogOption option)
+    public void SetUp(DialogOption option, Personality personality)
     {
         this.option = option;
-        text.text = option.russianText;
+        if (option.IsActive(personality))
+        {
+            text.text = option.russianText;
+            button.interactable = true;
+        }
+        else
+        {
+            text.text = option.russianInactiveText;
+            button.interactable = false;
+            image.color = inactiveColor;
+        }
     }
 
     public void ShowUp()

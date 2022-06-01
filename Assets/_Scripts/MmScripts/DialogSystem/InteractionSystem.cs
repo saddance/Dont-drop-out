@@ -14,28 +14,68 @@ public class InteractionSystem : MonoBehaviour
     private DialogPanel dialogPanel;
     [SerializeField] private DialogPanel panelPrefab;
 
+    private DialogState[] states;
 
     private void Awake()
     {
-        instance = this; 
+        instance = this;
+        states = Resources.LoadAll<DialogState>("Dialogs");
+    }
+
+    private DialogPData DialogInfo => _personality.asDialog;
+    private int CurrentDay => GameManager.currentSave.currentDay;
+
+    private DialogState[] GetAvailableStates(string prefix = "") => states
+        .Where(x => x.name.StartsWith(prefix) && x.IsActive(_personality))
+        .ToArray();
+
+
+    private IEnumerable<DialogStart> GetAvailableSpecialStarts() => DialogInfo.uniqueDialogStarts
+            .Where(x => x.lastDayUsed == -1)
+            .Concat(DialogInfo.dailyDialogStarts
+                    .Where(x => x.lastDayUsed < CurrentDay)
+                    )
+            .Where(x => GetAvailableStates(x.dialogPrefix).Any());
+
+    private IEnumerable<DialogStart> GetAvailableCommonStarts() => DialogInfo.commonDialogStarts
+        .Where(x => GetAvailableStates(x.dialogPrefix).Any());
+
+    private DialogStart SelectRandom(IEnumerable<DialogStart> dialogStarts)
+    {
+        var arr = dialogStarts.ToArray();
+        if (arr.Length == 0)
+            return null;
+        return arr[Random.Range(0, arr.Length)];
     }
 
     private DialogStart GetBestStart()
     {
-        var starts = _personality.asDialog.availableDialogStarts;
-        return starts
-            .OrderBy(x => x)
-            .Where(x => x.CanBeUsed())
-            .FirstOrDefault();
+        var dialogInfo = _personality.asDialog;
+
+        var result = SelectRandom(GetAvailableSpecialStarts()
+            .Where(x => x.importance == DialogStart.Importance.MustBeShown));
+        if (result != null)
+            return result;
+
+        if (DialogInfo.lastDayUsed != CurrentDay)
+        {
+            result = SelectRandom(GetAvailableSpecialStarts());
+            if (result != null)
+                return result;
+        }
+
+        result = SelectRandom(GetAvailableCommonStarts()
+            .Where(x => x.importance == DialogStart.Importance.MustBeShown));
+        if (result != null)
+            return result;
+
+        return SelectRandom(GetAvailableCommonStarts());
     }
 
     private DialogState LoadState(string prefix)
     {
-        var states = Resources
-            .LoadAll<DialogState>("Dialogs")
-            .Where(x => x.name.StartsWith(prefix))
-            .ToList();
-        return states[Random.Range(0, states.Count)];
+        var states = GetAvailableStates(prefix);
+        return states[Random.Range(0, states.Length)];
     }
 
     public void StartInteraction(Personality personality)
@@ -49,9 +89,14 @@ public class InteractionSystem : MonoBehaviour
             return;
 
         OnDialog = true;
+
+        _personality.asDialog.lastDayUsed = GameManager.currentSave.currentDay;
+        bestStart.lastDayUsed = GameManager.currentSave.currentDay;
+
         ChangeToState(new DialogOption() { 
             nextDialogPrefix = bestStart.dialogPrefix, 
-            option = DialogOption.OptionType.nextDialog });
+            option = DialogOption.OptionType.nextDialog,
+            effects = new DialogEffects() });
     }
 
     private void ShowDialogState()
@@ -59,7 +104,7 @@ public class InteractionSystem : MonoBehaviour
         if (dialogPanel != null)
             Destroy(dialogPanel.gameObject);
         dialogPanel = Instantiate(panelPrefab, transform);
-        dialogPanel.Init(currentState);
+        dialogPanel.Init(currentState, _personality);
     }
 
 
@@ -75,18 +120,23 @@ public class InteractionSystem : MonoBehaviour
         if (!OnDialog)
             throw new System.Exception("Can't change state while on dialog!");
 
+        option.effects.Effect(_personality);
+
         switch (option.option)
         {
             case DialogOption.OptionType.nextDialog:
                 currentState = LoadState(option.nextDialogPrefix);
                 ShowDialogState();
                 break;
+
             case DialogOption.OptionType.quit:
                 EndInteraction();
                 break;
+
             case DialogOption.OptionType.startBattle:
                 GameManager.StartBattle(_personality);
                 break;
+
             default:
                 break;
         }

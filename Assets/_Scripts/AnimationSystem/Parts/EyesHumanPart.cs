@@ -92,10 +92,10 @@ public class EyesHumanPart : HumanPart
             }
             else
             {
-                if (transform.localPosition.x > normalPosition.x + 1e-6)
-                    dest = new Vector3(headBorder, normalPosition.y);
-                else
+                if (transform.localPosition.x < normalPosition.x - 1e-6)
                     dest = new Vector3(-headBorder, normalPosition.y);
+                else
+                    dest = new Vector3(headBorder, normalPosition.y);
             }
             if ((dest - transform.localPosition).magnitude < 1e-6)
             {

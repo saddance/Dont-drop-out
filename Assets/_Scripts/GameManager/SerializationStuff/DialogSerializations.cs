@@ -3,54 +3,70 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[Serializable]
+public class DialogRequirements
+{
+    public int friendshipReq = -1000;
+    public char stateReq = '-';
+
+    public bool IsSatisfied(Personality personality)
+    {
+        if (personality.asFriend != null)
+        {
+            if (personality.asFriend.friendScore < friendshipReq)
+                return false;
+            if (stateReq != '-' && (personality.asFriend.State == null || personality.asFriend.State.chr != stateReq))
+                return false;
+        } 
+        return true;
+    }
+}
 
 [Serializable]
-public class DialogStart : IComparable<DialogStart>
+public class DialogEffects
 {
-    public int priority = 0;
-    public bool happened = false;
-    public int lastDayHappened = -1;
-    
-    public string dialogPrefix;
-    public PossibleTimes startType; 
+    public int friendshipAffect = 0;
 
-    public int CompareTo(DialogStart other)
+    public void Effect(Personality personality)
     {
-        return priority.CompareTo(other.priority);
+        if (personality.asFriend != null)
+        {
+            personality.asFriend.friendScore += friendshipAffect;
+        }
     }
+}
 
-    public DialogStart(string prefix, PossibleTimes times)
+[Serializable]
+public class DialogStart
+{
+    public string dialogPrefix;
+    public Importance importance; // makes sense only on unique or daily dialogs
+    public int lastDayUsed = -1;
+
+    public DialogStart(string prefix, Importance importance = Importance.Common)
     {
         dialogPrefix = prefix;
-        startType = times;
+        this.importance = importance;
     }
 
-    public bool CanBeUsed()
+    public enum Importance
     {
-        if (startType == PossibleTimes.Unlimited)
-            return true;
-        else if (startType == PossibleTimes.OnceADay)
-            throw new NotImplementedException();
-        else
-            return !happened;
-    }
-
-    public void Use()
-    {
-        happened = true;
-        // lastDay !!!
-    }
-
-    public enum PossibleTimes
-    {
-        OnceAGame,
-        OnceADay,
-        Unlimited
+        MustBeShown,
+        Common
     }
 }
 
 [Serializable]
 public class DialogPData
 {
-    public DialogStart[] availableDialogStarts;
+    public string personalityName = "MISSING_NO";
+    public int lastDayUsed = -1;
+
+    public DialogStart[] uniqueDialogStarts = new DialogStart[0];
+    public DialogStart[] dailyDialogStarts = new DialogStart[0];
+    public DialogStart[] commonDialogStarts = new DialogStart[0];
+
+    // First - all must shown dialogs
+    // If no, random from unique & daily
+    // Else common, sorted by importance
 }

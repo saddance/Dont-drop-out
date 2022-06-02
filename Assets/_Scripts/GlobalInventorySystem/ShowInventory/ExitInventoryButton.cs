@@ -15,5 +15,7 @@ public class ExitInventoryButton : MonoBehaviour
     public void Init(System.Action action)
     {
         button.onClick.AddListener(delegate { action(); });
+        foreach (var component in GetComponentsInChildren<MonoBehaviour>())
+            component.enabled = true;
     }
 }

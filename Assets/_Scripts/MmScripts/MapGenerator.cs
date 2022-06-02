@@ -7,8 +7,9 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private TextAsset fieldText;
     [SerializeField] private GameObject prefabEnvironment;
     [SerializeField] private GameObject prefabInteractable;
+    [SerializeField] private GameObject prefabHumanInteractable;
 
-    private void Start()
+    private void Awake()
     {
         CheckForPositionInit(ProcessFileAndSpawnObst());
         InitPersonalityMap();
@@ -22,17 +23,22 @@ public class MapGenerator : MonoBehaviour
         {
             if (save.mapPositions[i] != null)
             {
-                Sprite defaultSprite = null;
-                if (save.personalities[i].asMapObject?.defaultSpriteName != null &&
-                    save.personalities[i].asMapObject?.defaultSpriteName != "")
-                    defaultSprite = Resources.Load<Sprite>($"Tiles/{save.personalities[i].asMapObject.defaultSpriteName}");
-
-                MapObjectManager.instance.GenerateByPrefab(
-                    prefabInteractable,
-                    save.mapPositions[i].x,
-                    save.mapPositions[i].y,
-                    defaultSprite
-                    );
+                if (save.personalities[i].asHumanOnMap == null)
+                {
+                    var noHumanSprite = Resources.Load<Sprite>($"Sprites/{save.personalities[i].asMapObject.noHumanSprite}");
+                    MapObjectManager.instance.GenerateByPrefab(
+                        prefabInteractable,
+                        save.mapPositions[i].x,
+                        save.mapPositions[i].y,
+                        noHumanSprite);
+                }
+                else
+                {
+                    MapObjectManager.instance.GenerateByPrefab(
+                        prefabHumanInteractable,
+                        save.mapPositions[i].x,
+                        save.mapPositions[i].y);
+                }
 
                 MapObjectManager.instance[save.mapPositions[i].x, save.mapPositions[i].y]
                     .GetComponent<InteractableObject>()
@@ -76,9 +82,9 @@ public class MapGenerator : MonoBehaviour
         var lines = fieldText.text.Split('\n');
 
         var height = lines.Length;
-        var width = lines[0].Trim().Length;
+        var width = lines[0].Trim('\r').Length;
 
-        MapObjectManager.instance.MakeField(height, width/ 3);
+        MapObjectManager.instance.MakeField(width/ 3, height);
         var spawnPositions = new List<List<Vector2Int>>();
         for (int i = 0; i < 16; i++)
             spawnPositions.Add(new List<Vector2Int>());
@@ -87,9 +93,18 @@ public class MapGenerator : MonoBehaviour
             for (var j = 0; j < width; j += 3)
             {
                 // X00 - XFF and SpaceSpaceSpace
-                var hexNumber = lines[i].Substring(j, 3);
+                var hexNumber = lines[height - 1 - i].Substring(j, 3);
+                if (hexNumber == "   ")
+                    continue;
+
                 var firstSymbol = hexNumber[0];
-                if (firstSymbol != ' ')
+
+                if (firstSymbol == 'S')
+                {
+                    if (GameManager.currentSave.playerPosition == null)
+                        GameManager.currentSave.playerPosition = new Vector2Int(j / 3, i);
+                }
+                else if (firstSymbol != ' ')
                 {
                     var index = char.IsDigit(firstSymbol) ? firstSymbol - '0' : 10 + firstSymbol - 'A';
                     spawnPositions[index].Add(new Vector2Int(j / 3, i));
@@ -97,7 +112,7 @@ public class MapGenerator : MonoBehaviour
 
                 var sprite = Resources.Load<Sprite>($"Tiles/{hexNumber.Substring(1, 2)}");
 
-                MapObjectManager.instance.GenerateByPrefab(prefabEnvironment, i, j / 3, sprite, hexNumber[1] > '7');
+                MapObjectManager.instance.GenerateByPrefab(prefabEnvironment, j / 3, i, sprite, hexNumber[1] > '7');
             }
 
         return spawnPositions;

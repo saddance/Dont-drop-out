@@ -17,7 +17,7 @@ public class SaveData
     public int battleWith = -1; 
     
     // Map reading options
-    public Vector2IntS playerPosition = new Vector2Int(-1, -1); // minus means hasn't assigned
+    public Vector2IntS playerPosition = null; // minus means hasn't assigned
     public Vector2IntS[] mapPositions;
     public InventoryObject[] inventory;
 }

@@ -10,26 +10,41 @@ public class InventoryStarter : MonoBehaviour
 
     [SerializeField] private InventoryPanel inventoryPanelPrefab;
     private InventoryPanel currentPanel;
-
+    private bool canBeExited;
+    private System.Action<int> afterSelection;
+    public string requestedTag { get; private set; }
 
     private void Awake()
     {
         instance = this;
     }
 
-    public void ShowInventory()
+    public void ShowInventory(bool canBeExited = true)
     {
+        if (OnInventory)
+            throw new System.Exception("Can't show inventory while on inventory!");
         OnInventory = true;
+        this.canBeExited = canBeExited;
         currentPanel = Instantiate(inventoryPanelPrefab, transform);
 
-        currentPanel.GetComponentInChildren<ExitInventoryButton>().Init(() => ExitInventory());
+        if (canBeExited)
+            currentPanel.GetComponentInChildren<ExitInventoryButton>().Init(() => ExitInventory());
+    }
+
+    public void ShowInventoryForSelection(string requiredTag, System.Action<int> forWhom, bool canBeExited = true)
+    {
+        ShowInventory(canBeExited);
+
+        currentPanel.GetComponentInChildren<SelectInventoryButton>().Init(() => SelectOnInventory());
+        requestedTag = requiredTag;
+        afterSelection = forWhom;
     }
 
     private void LateUpdate()
     {
         if (!OnInventory)
             return;
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (canBeExited && (Input.GetKeyDown(KeyCode.Escape)))
             ExitInventory();
     }
 
@@ -38,5 +53,14 @@ public class InventoryStarter : MonoBehaviour
         OnInventory = false;
         if (currentPanel != null)
             Destroy(currentPanel.gameObject);
+    }
+
+    private void SelectOnInventory()
+    {
+        if (currentPanel.selectedIndex == -1)
+            return;
+
+        ExitInventory();
+        afterSelection(currentPanel.selectedIndex);
     }
 }

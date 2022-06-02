@@ -20,11 +20,14 @@ internal static class SaveDataGenerator
         personality.asEnemy = new EnemyPData()
         {
             people = desc.enemyUnits.Select(x => x.Gen()).ToArray()
-        }; 
+        };
         personality.asMapObject = new MapObjectPData()
         {
-            labels = desc.labels
+            labels = desc.labels,
+            noHumanSprite = null
         };
+        if (desc.noHumanSprite != null)
+            personality.asMapObject.noHumanSprite = desc.noHumanSprite.name;
 
         return personality;
     }
@@ -33,7 +36,6 @@ internal static class SaveDataGenerator
     {
         var save = new SaveData
         {
-            playerPosition = new Vector2Int(3, 3),
             saveName = null,
             inventory = new InventoryObject[18],
             heroHumanAnim = HumanAnimPData.Rand,

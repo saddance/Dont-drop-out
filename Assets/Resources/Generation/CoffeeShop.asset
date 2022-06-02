@@ -10,39 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
-  m_Name: Enemy
+  m_Name: CoffeeShop
   m_EditorClassIdentifier: 
-  count: 3
+  count: 1
   friendshipStates: []
   onBattleAsFriend:
     strengthPoss:
-      x: 2
-      y: 3
+      x: 0
+      y: 0
     healthPoss:
-      x: 10
-      y: 20
+      x: 0
+      y: 0
   dialogData:
-    personalityName: "\u041A\u041D-\u0449\u0438\u043A"
+    personalityName: "\u0410\u0432\u0442\u043E\u043C\u0430\u0442 \u0441 \u043A\u043E\u0444\u0435"
     lastDayUsed: -1
     uniqueDialogStarts: []
-    dailyDialogStarts: []
-    commonDialogStarts:
-    - dialogPrefix: enemy-greet
-      importance: 1
+    dailyDialogStarts:
+    - dialogPrefix: coffeeshop-give
+      importance: 0
       lastDayUsed: -1
-  enemyUnits:
-  - strengthPoss:
-      x: 2
-      y: 3
-    healthPoss:
-      x: 10
-      y: 20
-  - strengthPoss:
-      x: 2
-      y: 3
-    healthPoss:
-      x: 10
-      y: 20
-  onMap: 2
-  labels: 02000000
-  noHumanSprite: {fileID: 0}
+    commonDialogStarts:
+    - dialogPrefix: coffeeshop-fuck
+      importance: 0
+      lastDayUsed: -1
+  enemyUnits: []
+  onMap: 0
+  labels: 08000000
+  noHumanSprite: {fileID: 21300000, guid: eb7d9e84d151a7043b97cf4098ce3e48, type: 3}

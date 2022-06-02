@@ -26,13 +26,15 @@ public class DialogRequirements
 public class DialogEffects
 {
     public int friendshipAffect = 0;
+    public string[] giveItems;
 
     public void Effect(Personality personality)
     {
+        if (giveItems != null)
+            foreach (var item in giveItems)
+                InventoryMaster.Add(item);
         if (personality.asFriend != null)
-        {
             personality.asFriend.friendScore += friendshipAffect;
-        }
     }
 }
 

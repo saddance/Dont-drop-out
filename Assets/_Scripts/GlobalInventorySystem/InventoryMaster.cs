@@ -64,10 +64,8 @@ public static class InventoryMaster
     public static Item ItemAt(int index)
     {
         var name = At(index)?.itemName;
-        return items.ContainsKey(name) ? items[name] : null;
+        return name != null && items.ContainsKey(name) ? items[name] : null;
     }
-
-    
 
     public static bool TryPutFrom(int fromIndex, int toIndex)
     {
@@ -93,5 +91,32 @@ public static class InventoryMaster
 
         CorrectInventory();
         return true;
+    }
+
+    public static void Add(string itemName)
+    {
+        if (!items.ContainsKey(itemName))
+            throw new System.Exception($"item {itemName} does not exists");
+
+        var inventory = GameManager.currentSave.inventory;
+
+        int freeIndex = -1;
+        for (int i=0;i < inventory.Length; i++)
+        {
+            var item = ItemAt(i);
+            if (item == null)
+                freeIndex = i;
+            else if (item.name == itemName && inventory[i].amount < item.MaxAmount)
+            {
+                inventory[i].amount++;
+                return;
+            }
+        }
+        if (freeIndex == -1)
+            Debug.LogError("Inventory is full!");
+        else
+        {
+            inventory[freeIndex] = new InventoryObject() { amount = 1, itemName = itemName };
+        }
     }
 }

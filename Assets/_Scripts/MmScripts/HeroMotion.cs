@@ -60,8 +60,8 @@ public class HeroMotion : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            GameManager.currentSave.currentDay++;
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //    GameManager.currentSave.currentDay++;
 
         // TODO : rewrite this shit
         var code = handler.GetPressedButton();
@@ -92,6 +92,7 @@ public class HeroMotion : MonoBehaviour
 
         var startTime = Time.time;
         var startPosition = transform.position;
+        bool wasTriggered = false;
 
         while (Time.time <= startTime + moveTime)
         {
@@ -101,9 +102,14 @@ public class HeroMotion : MonoBehaviour
                 direction = Vector3.zero;
                 break;
             }
+            if (elapsed > comeBackTime && !wasTriggered)
+            {
+                wasTriggered = true;
+                FollowPlayer.instance.MoveDelta(direction, moveTime);
+            }
 
             transform.position = startPosition + elapsed / moveTime * direction;
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
         transform.position = startPosition + direction;

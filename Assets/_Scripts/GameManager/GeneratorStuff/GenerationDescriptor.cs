@@ -20,6 +20,7 @@ public class GenerationDescriptor : ScriptableObject
     [Header("as On Map")]
     public HumanAnimType onMap;
     public int[] labels;
+    public Sprite noHumanSprite;
 
     public HumanAnimPData GetOnMap()
     {
@@ -28,13 +29,15 @@ public class GenerationDescriptor : ScriptableObject
             case HumanAnimType.enemy:
                 return HumanAnimPData.Enemy;
             case HumanAnimType.random:
-            default:
                 return HumanAnimPData.Rand;
+            default:
+                return null;
         }
     }
 
     public enum HumanAnimType
     {
+        no,
         random,
         enemy
     }

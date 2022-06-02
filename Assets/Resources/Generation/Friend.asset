@@ -47,5 +47,6 @@ MonoBehaviour:
       importance: 1
       lastDayUsed: -1
   enemyUnits: []
-  onMap: 0
+  onMap: 1
   labels: 01000000
+  noHumanSprite: {fileID: 0}

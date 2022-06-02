@@ -7,4 +7,5 @@ public class Item : ScriptableObject
 { 
     public Sprite image;
     public int MaxAmount;
+    public string[] tags;
 }

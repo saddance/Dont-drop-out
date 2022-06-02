@@ -15,7 +15,7 @@ public class DialogOption
     public string russianText;
     public OptionType option;
 
-    [Header("Next Dialog Parameters")]
+    [Header("Next Dialog/Give Present Parameters")]
     // TODO -> next dialog as full dialog beginning
     public string nextDialogPrefix;
 
@@ -23,7 +23,8 @@ public class DialogOption
     {
         nextDialog,
         startBattle,
-        quit
+        quit,
+        givePresent
     }
 
     public bool IsActive(Personality personality) => requirements == null || requirements.IsSatisfied(personality);

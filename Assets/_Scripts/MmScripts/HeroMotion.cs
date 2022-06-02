@@ -114,6 +114,11 @@ public class HeroMotion : MonoBehaviour
 
         transform.position = startPosition + direction;
         isMoving = false;
+
+        if (handler.GetPressedButton() == code)
+            TryGo(new Vector3Int(Mathf.RoundToInt(direction.x),
+                Mathf.RoundToInt(direction.y),
+                Mathf.RoundToInt(direction.z)), code);
     }
 
     private bool CanIGo()

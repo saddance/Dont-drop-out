@@ -15,8 +15,7 @@ public class HumanAnimPData
     public ColorS bootsColor;
     public Vector3S eyePosition;
     public Vector3S eyeScale;
-    public Vector3S globalScale;
-    public Vector3S bodyScale;
+    public Vector3S headDelta;
 
     public static HumanAnimPData Rand
     {
@@ -29,8 +28,23 @@ public class HumanAnimPData
                 skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
                 shirtColor = new Color(Random.value, Random.value, Random.value),
                 bootsColor = Color.HSVToRGB(Random.value, 1f, 0.1f),
-                globalScale = Vector3.one,
-                bodyScale = Vector3.one
+                headDelta = Vector3.zero,
+            };
+        }
+    }
+
+    public static HumanAnimPData Teacher
+    {
+        get
+        {
+            return new HumanAnimPData
+            {
+                eyePosition = new Vector3(Random.Range(0.12f, 0.14f), Random.Range(-0.01f, 0.03f)),
+                eyeScale = new Vector3(Random.Range(0.45f, 0.5f), Random.Range(0.45f, 0.5f)),
+                skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
+                shirtColor = Color.black,
+                bootsColor = Color.black,
+                headDelta = Vector3.up * 0.1f,
             };
         }
     }
@@ -48,8 +62,7 @@ public class HumanAnimPData
                 skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
                 shirtColor = new Color(grayscale, grayscale, grayscale),
                 bootsColor = Color.HSVToRGB(Random.value, 1f, 0.06f),
-                globalScale = Vector3.one,
-                bodyScale = Vector3.one
+                headDelta = Vector3.zero
             };
         }
     }

@@ -8,9 +8,24 @@ public class DialogRequirements
 {
     public int friendshipReq = -1000;
     public char stateReq = '-';
+    public BoolValue checkIfCanHelp = BoolValue.None;
+    public BoolValue checkIfHelping = BoolValue.None;
+    // TODO
+    //public BoolValue onlyForDefeated = BoolValue.None;
+    // check for item in inventory
 
     public bool IsSatisfied(Personality personality)
     {
+        if (checkIfCanHelp != BoolValue.None) {
+            bool canHelp = personality.asFriend != null && personality.asFriend.CanParticipate();
+            return (checkIfCanHelp == BoolValue.True) == canHelp;
+        }
+        if (checkIfHelping != BoolValue.None)
+        {
+            bool isHelping = personality.asFriend != null && personality.asFriend.IsParticipating();
+            return (checkIfHelping == BoolValue.True) == isHelping;
+        }
+
         if (personality.asFriend != null)
         {
             if (personality.asFriend.friendScore < friendshipReq)
@@ -20,12 +35,20 @@ public class DialogRequirements
         } 
         return true;
     }
+
+    public enum BoolValue
+    {
+        None,
+        True,
+        False
+    }
 }
 
 [Serializable]
 public class DialogEffects
 {
     public int friendshipAffect = 0;
+    public BoolValue participatingAsFriend = BoolValue.None;
     public string[] giveItems;
 
     public void Effect(Personality personality)
@@ -33,8 +56,20 @@ public class DialogEffects
         if (giveItems != null)
             foreach (var item in giveItems)
                 InventoryMaster.Add(item);
-        if (personality.asFriend != null)
+        if (personality.asFriend != null) {
             personality.asFriend.friendScore += friendshipAffect;
+
+            if (participatingAsFriend != BoolValue.None)
+                if (!personality.asFriend.TrySetParticipation(participatingAsFriend == BoolValue.True))
+                    Debug.LogError("Can't set participation!");
+        }
+    }
+
+    public enum BoolValue
+    {
+        None,
+        True,
+        False
     }
 }
 

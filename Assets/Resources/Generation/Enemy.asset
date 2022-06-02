@@ -43,6 +43,7 @@ MonoBehaviour:
     healthPoss:
       x: 10
       y: 20
+  enemySupportAnims: 02000000
   onMap: 2
   labels: 02000000
   noHumanSprite: {fileID: 0}

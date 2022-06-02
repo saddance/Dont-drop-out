@@ -18,9 +18,8 @@ public class BattleManager : MonoBehaviour
     public List<Unit> units;
     public GamePhase gamePhase;
     private int enemyUnitsAlive;
-
     private int playerUnitsAlive;
-    
+
     #region Start
 
     private void Awake()
@@ -44,23 +43,31 @@ public class BattleManager : MonoBehaviour
             .Where(p => p.asFriend != null && p.asFriend.IsParticipating())
             .ToList();
 
-        playerUnitsAlive = playerUnitsAmount = friends.Count;
+        playerUnitsAlive = playerUnitsAmount = friends.Count + 1;
+
+        InstantiateUnit(new UnitInfo(GameManager.currentSave.hero, false,
+                new Vector3(-5, 1.5f * (0 - friends.Count / 2f)), GameManager.currentSave.heroHumanAnim));
+
+
         for (var i = 0; i < friends.Count; i++)
         {
             var info = new UnitInfo(friends[i].asFriend.onBattle, false,
-                new Vector3(-5, 1.5f * (i - (friends.Count - 1) / 2f)));
+                new Vector3(-5, 1.5f * (i + 1 - friends.Count / 2f)), friends[i].asHumanOnMap);
             InstantiateUnit(info);
         }
     }
 
     private void GenerateEnemies()
     {
-        var enemies = GameManager.currentSave.personalities[GameManager.currentSave.battleWith].asEnemy.people.ToList();
+        var battleWith = GameManager.currentSave.personalities[GameManager.currentSave.battleWith];
+        var enemies = battleWith.asEnemy.people.ToList();
 
         enemyUnitsAlive = enemyUnitsAmount = enemies.Count;
         for (var i = 0; i < enemies.Count; i++)
         {
-            var info = new UnitInfo(enemies[i], true, new Vector3(5, 1.5f * (i - (enemies.Count - 1) / 2f)));
+            var info = new UnitInfo(enemies[i], true,
+                new Vector3(5, 1.5f * (i - (enemies.Count - 1) / 2f)),
+                i == 0 ? battleWith.asHumanOnMap : battleWith.asEnemy.supportAnims[i-1]);
             InstantiateUnit(info);
         }
     }

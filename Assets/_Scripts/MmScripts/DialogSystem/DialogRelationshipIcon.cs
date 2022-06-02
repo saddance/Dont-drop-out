@@ -15,7 +15,11 @@ public class DialogRelationshipIcon : MonoBehaviour
         else
         {
             var state = pers.asFriend.State;
-            smile.text = new string(state.chr, 1);
+            if (pers.asFriend.IsParticipating())
+            smile.text = new string(state.participatingChr, 1);
+            else
+                smile.text = new string(state.chr, 1);
+
             score.text = $"{pers.asFriend.friendScore}";
         }
     }

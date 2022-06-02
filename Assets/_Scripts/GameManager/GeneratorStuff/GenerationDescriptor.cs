@@ -8,7 +8,7 @@ public class GenerationDescriptor : ScriptableObject
     public int count;
 
     [Header("as Friend")]
-    public FriendshipState[] friendshipStates;
+    public FriendPData.FriendshipState[] friendshipStates;
     public UnitDataGenerator onBattleAsFriend;
 
     [Header("as Dialog")]
@@ -16,13 +16,14 @@ public class GenerationDescriptor : ScriptableObject
 
     [Header("as Enemy")]
     public UnitDataGenerator[] enemyUnits;
+    public HumanAnimType[] enemySupportAnims;
     
     [Header("as On Map")]
     public HumanAnimType onMap;
     public int[] labels;
     public Sprite noHumanSprite;
 
-    public HumanAnimPData GetOnMap()
+    public HumanAnimPData GetOnMap(HumanAnimType onMap)
     {
         switch (onMap)
         {
@@ -30,6 +31,8 @@ public class GenerationDescriptor : ScriptableObject
                 return HumanAnimPData.Enemy;
             case HumanAnimType.random:
                 return HumanAnimPData.Rand;
+            case HumanAnimType.teacher:
+                return HumanAnimPData.Teacher;
             default:
                 return null;
         }
@@ -39,7 +42,8 @@ public class GenerationDescriptor : ScriptableObject
     {
         no,
         random,
-        enemy
+        enemy,
+        teacher
     }
 }
 

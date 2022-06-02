@@ -10,23 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e25dd18441d2214ea807527b697f10c, type: 3}
-  m_Name: coffeeshop-give
+  m_Name: fr-common-bad
   m_EditorClassIdentifier: 
   requirements:
     friendshipReq: -1000
-    stateReq: 45
-  russianText: "\u041A\u0440\u0443\u0436\u043A\u0430 \u043A\u043E\u0444\u0435 \u0434\u043B\u044F
-    \u0432\u0430\u0441!"
+    stateReq: 98
+    checkIfCanHelp: 0
+    checkIfHelping: 0
+  russianText: "\u042F \u043D\u0435 \u0445\u043E\u0447\u0443 \u0441 \u0442\u043E\u0431\u043E\u0439
+    \u0440\u0430\u0437\u0433\u043E\u0432\u0430\u0440\u0438\u0432\u0430\u0442\u044C"
   options:
   - requirements:
       friendshipReq: -1000
       stateReq: 45
+      checkIfCanHelp: 0
+      checkIfHelping: 0
     effects:
       friendshipAffect: 0
-      giveItems:
-      - coffee
+      participatingAsFriend: 0
+      giveItems: []
     isHiddenWhenInactive: 0
-    russianInactiveText: 
-    russianText: "\u0412\u0437\u044F\u0442\u044C \u043A\u043E\u0444\u0435"
+    russianInactiveText: ...
+    russianText: ...
     option: 2
     nextDialogPrefix: 

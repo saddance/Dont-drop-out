@@ -167,9 +167,41 @@ MonoBehaviour:
   playerUnitsAmount: 5
   enemyUnitsAmount: 5
   turn: 0
-  unitPrefab: {fileID: 4861504695195885760, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
+  unitPrefab: {fileID: 1688919168279686151, guid: 309fd06ad98c47543810a538cc62f07c, type: 3}
   units: []
   gamePhase: 1
+  lastData:
+    skinColor:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    shirtColor:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    bootsColor:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    eyePosition:
+      x: 0
+      y: 0
+      z: 0
+    eyeScale:
+      x: 0
+      y: 0
+      z: 0
+    globalScale:
+      x: 0
+      y: 0
+      z: 0
+    bodyScale:
+      x: 0
+      y: 0
+      z: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -180,7 +212,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.78099996, g: 0.6743268, b: 0.5524146, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

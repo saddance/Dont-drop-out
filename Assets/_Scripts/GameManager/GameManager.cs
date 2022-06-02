@@ -79,10 +79,11 @@ public static class GameManager
     public static void EndBattle(bool isWin)
     {
         if (Stage != GameStage.battle)
-            throw new Exception("Can't end battle game not from map");
+            throw new Exception("Can't end battle game not from battle stage");
 
         if (isWin)
         {
+            currentSave.currentDay++;
             currentSave.battleWith = -1;
             StartScene();
         }

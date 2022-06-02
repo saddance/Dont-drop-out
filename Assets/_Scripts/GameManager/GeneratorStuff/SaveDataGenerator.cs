@@ -12,15 +12,19 @@ internal static class SaveDataGenerator
         {
             onBattle = desc.onBattleAsFriend.Gen(),
             friendScore = 0,
-            states = desc.friendshipStates
+            states = desc.friendshipStates,
         };
 
-        personality.asHumanOnMap = desc.GetOnMap();
+        personality.asHumanOnMap = desc.GetOnMap(desc.onMap);
         personality.asDialog = desc.dialogData.CreateCopy();
         personality.asEnemy = new EnemyPData()
         {
             people = desc.enemyUnits.Select(x => x.Gen()).ToArray()
         };
+        if (desc.enemySupportAnims != null)
+            personality.asEnemy.supportAnims = desc.enemySupportAnims.Select(x => desc.GetOnMap(x)).ToArray();
+        
+
         personality.asMapObject = new MapObjectPData()
         {
             labels = desc.labels,
@@ -39,15 +43,14 @@ internal static class SaveDataGenerator
             saveName = null,
             inventory = new InventoryObject[18],
             heroHumanAnim = HumanAnimPData.Rand,
-            hero = new UnitData() { maxHealth = 20, strength = 4 }
+            hero = new UnitData() { maxHealth = 40, strength = 5 }
         };
 
-        for (int i = 0; i < 3; i++)
-            save.inventory[i] = new InventoryObject
-            {
-                itemName = "beer",
-                amount = (i == 0 ? 1 : 2)
-            };
+        save.inventory[0] = new InventoryObject
+        {
+            itemName = "beer",
+            amount = 2
+        };
 
         List<Personality> personalities = new List<Personality>();
         foreach (var desc in Resources.LoadAll<GenerationDescriptor>("Generation"))

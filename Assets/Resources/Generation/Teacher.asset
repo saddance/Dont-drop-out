@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
+  m_Name: Teacher
+  m_EditorClassIdentifier: 
+  count: 1
+  friendshipStates:
+  - scoreSegment:
+      x: -1000
+      y: 1000
+    chr: 65
+    participatingChr: 65
+    canParticipate: 0
+  onBattleAsFriend:
+    strengthPoss:
+      x: 20
+      y: 30
+    healthPoss:
+      x: 100
+      y: 110
+  dialogData:
+    personalityName: "\u041F\u0440\u0435\u043F\u043E\u0434"
+    lastDayUsed: -1
+    uniqueDialogStarts:
+    - dialogPrefix: tea-first-time
+      importance: 0
+      lastDayUsed: -1
+    dailyDialogStarts: []
+    commonDialogStarts:
+    - dialogPrefix: tea-common
+      importance: 0
+      lastDayUsed: -1
+  enemyUnits:
+  - strengthPoss:
+      x: 20
+      y: 30
+    healthPoss:
+      x: 100
+      y: 110
+  enemySupportAnims: 
+  onMap: 3
+  labels: 01000000
+  noHumanSprite: {fileID: 0}

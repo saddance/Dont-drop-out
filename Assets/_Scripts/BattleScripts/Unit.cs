@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public SpriteRenderer Renderer;
+    private UnitSelection[] selections;
     private BattleManager bm;
     public UnitInfo Info;
 
-    #region Start
-
     private void Awake()
     {
-        Renderer = GetComponent<SpriteRenderer>();
-        Renderer.color = Color.black;
+        selections = GetComponentsInChildren<UnitSelection>();
+        foreach (var sel in selections)
+            sel.color = new Color(0, 0, 0, 0);
         bm = BattleManager.self;
     }
 
@@ -20,8 +19,6 @@ public class Unit : MonoBehaviour
         Info = info;
         transform.position = info.Position;
     }
-
-    #endregion
 
     #region Update
 
@@ -35,13 +32,17 @@ public class Unit : MonoBehaviour
 
 
         if (bm.ptm.chosenUnit != -1 && bm.units[bm.ptm.chosenUnit] == this)
-            Renderer.color = Color.green;
+            foreach (var renderer in selections)
+                renderer.color = new Color(0, 0.7f, 0);
         else if (bm.ptm.chosenEnemy != -1 && bm.units[bm.ptm.chosenEnemy] == this)
-            Renderer.color = Color.red;
+            foreach (var renderer in selections)
+                renderer.color = new Color(0.7f, 0, 0);
         else if (isChosenByMouse())
-            Renderer.color = Color.blue;
+            foreach (var renderer in selections)
+                renderer.color = new Color(0, 0, 0.7f);
         else
-            Renderer.color = Color.black;
+            foreach (var renderer in selections)
+                renderer.color = new Color(0, 0, 0, 0);
     }
 
     private bool isChosenByMouse()
@@ -60,14 +61,15 @@ public class UnitInfo
     public int MaxHealth;
     public Vector3 Position;
     public int Strength;
+    public HumanAnimPData animData;
 
-
-    public UnitInfo(UnitData data, bool isEnemy, Vector3 position)
+    public UnitInfo(UnitData data, bool isEnemy, Vector3 position, HumanAnimPData animData)
     {
         IsEnemysUnit = isEnemy;
         Position = position;
         MaxHealth = Health = data.maxHealth;
         Strength = data.strength;
+        this.animData = animData;
     }
 
     public bool IsDestroyed => Health <= 0;

@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveTime: 0.4
-  comeBackTime: 0.08
+  comeBackTime: 0.04
 --- !u!114 &445025024
 MonoBehaviour:
   m_ObjectHideFlags: 0

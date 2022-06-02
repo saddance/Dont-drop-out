@@ -8,4 +8,5 @@ public class Item : ScriptableObject
     public Sprite image;
     public int MaxAmount;
     public string[] tags;
+    public int friendshipAffect;
 }

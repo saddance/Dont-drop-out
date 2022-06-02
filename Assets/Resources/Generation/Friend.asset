@@ -12,41 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
   m_Name: Friend
   m_EditorClassIdentifier: 
-  count: 3
+  count: 1
   friendshipStates:
   - scoreSegment:
       x: -1000
-      y: 9
-    chr: 49
-    isParticipating: 0
+      y: -1
+    chr: 98
+    participatingChr: 98
+    canParticipate: 0
   - scoreSegment:
-      x: 10
+      x: 0
       y: 1000
     chr: 69
-    isParticipating: 1
+    participatingChr: 80
+    canParticipate: 1
   onBattleAsFriend:
     strengthPoss:
-      x: 2
-      y: 3
+      x: 4
+      y: 4
     healthPoss:
-      x: 10
-      y: 20
+      x: 25
+      y: 30
   dialogData:
-    personalityName: "\u0411\u0440\u0430\u0442\u0438\u0448\u043A\u0430"
+    personalityName: "\u0411\u0440\u0430\u0442\u044E\u043D\u044F"
     lastDayUsed: -1
     uniqueDialogStarts:
-    - dialogPrefix: friend-first-time
+    - dialogPrefix: fr-first-time
       importance: 0
       lastDayUsed: -1
-    dailyDialogStarts:
-    - dialogPrefix: friend-greet
-      importance: 1
-      lastDayUsed: -1
+    dailyDialogStarts: []
     commonDialogStarts:
-    - dialogPrefix: friend-common
+    - dialogPrefix: fr-common
       importance: 1
       lastDayUsed: -1
   enemyUnits: []
+  enemySupportAnims: 
   onMap: 1
-  labels: 01000000
+  labels: 0a000000
   noHumanSprite: {fileID: 0}

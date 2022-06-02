@@ -7,7 +7,8 @@ public enum GameStage
 {
     menu,
     map,
-    battle
+    battle,
+    other
 }
 
 public static class GameManager
@@ -34,16 +35,22 @@ public static class GameManager
                 return GameStage.map;
             if (scene.name == battleSceneName)
                 return GameStage.battle;
-            throw new Exception("No such stage!!!");
+            return GameStage.other;
         }
     }
 
-    private static void StartScene()
+    public static void StartScene()
     {
         if (currentSave == null)
             throw new Exception("No currentSave!!!");
 
-        SceneManager.LoadScene(currentSave.battleWith == -1 ? mapSceneName : battleSceneName);
+        if (currentSave.specialScene != null && currentSave.specialScene != "")
+        {
+            SceneManager.LoadScene(currentSave.specialScene);
+            currentSave.specialScene = null;
+        }
+        else
+            SceneManager.LoadScene(currentSave.battleWith == -1 ? mapSceneName : battleSceneName);
     }
 
     public static void StartNewGame()
@@ -72,6 +79,7 @@ public static class GameManager
         if (index == -1)
             throw new Exception("No such personality!");
 
+        SaveGame();
         currentSave.battleWith = index;
         StartScene();
     }
@@ -89,8 +97,9 @@ public static class GameManager
         }
         else
         {
-            Debug.Log("You lost!");
-            Application.Quit();
+            currentSave.specialScene = "Outro";
+            currentSave.battleWith = -1;
+            StartScene();
         }
     }
 
@@ -117,7 +126,7 @@ public static class GameManager
             if (withSave)
                 SavingManager.SaveToFile(currentSave);
             currentSave = null;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(menuSceneName);
         }
     }
 }

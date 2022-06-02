@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
-  m_Name: Enemy
+  m_Name: KN
   m_EditorClassIdentifier: 
   count: 3
   friendshipStates: []

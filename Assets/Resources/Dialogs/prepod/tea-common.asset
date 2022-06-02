@@ -29,11 +29,9 @@ MonoBehaviour:
       participatingAsFriend: 0
       giveItems: []
     isHiddenWhenInactive: 0
-    russianInactiveText: "\u0421\u0435\u0439\u0447\u0430\u0441, \u0442\u043E\u043B\u044C\u043A\u043E
-      \u0432 \u0442\u0443\u0430\u043B\u0435\u0442 \u0441\u0431\u0435\u0433\u0430\u044E!"
-    russianText: "\u0421\u0435\u0439\u0447\u0430\u0441, \u0442\u043E\u043B\u044C\u043A\u043E
-      \u0432 \u0442\u0443\u0430\u043B\u0435\u0442 \u0441\u0431\u0435\u0433\u0430\u044E!"
-    option: 2
+    russianInactiveText: "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C!"
+    russianText: "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C!"
+    option: 1
     nextDialogPrefix: 
   - requirements:
       friendshipReq: -1000
@@ -45,7 +43,9 @@ MonoBehaviour:
       participatingAsFriend: 0
       giveItems: []
     isHiddenWhenInactive: 0
-    russianInactiveText: "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C!"
-    russianText: "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C!"
-    option: 1
+    russianInactiveText: "\u0421\u0435\u0439\u0447\u0430\u0441, \u0442\u043E\u043B\u044C\u043A\u043E
+      \u0432 \u0442\u0443\u0430\u043B\u0435\u0442 \u0441\u0431\u0435\u0433\u0430\u044E!"
+    russianText: "\u0421\u0435\u0439\u0447\u0430\u0441, \u0442\u043E\u043B\u044C\u043A\u043E
+      \u0432 \u0442\u0443\u0430\u043B\u0435\u0442 \u0441\u0431\u0435\u0433\u0430\u044E!"
+    option: 2
     nextDialogPrefix: 

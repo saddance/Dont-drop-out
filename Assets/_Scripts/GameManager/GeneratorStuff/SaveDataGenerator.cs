@@ -43,7 +43,8 @@ internal static class SaveDataGenerator
         var save = new SaveData
         {
             saveName = null,
-            inventory = new InventoryObject[18],
+            maxFriendsOnBattle = 3,
+            inventory = new InventoryObject[5],
             heroHumanAnim = HumanAnimPData.Rand,
             hero = new UnitData() { maxHealth = 40, strength = 5 }
         };
@@ -51,7 +52,7 @@ internal static class SaveDataGenerator
         save.inventory[0] = new InventoryObject
         {
             itemName = "beer",
-            amount = 2
+            amount = 1
         };
 
         List<Personality> personalities = new List<Personality>();

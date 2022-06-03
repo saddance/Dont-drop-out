@@ -6,12 +6,20 @@ using UnityEngine;
 [Serializable]
 public class DialogRequirements
 {
+    [Serializable]
+    public class ItemReq
+    {
+        public string tag;
+        public int count;
+
+    }
+
     public int friendshipReq = -1000;
     public char stateReq = '-';
     public BoolValue checkIfCanHelp = BoolValue.None;
     public BoolValue checkIfHelping = BoolValue.None;
     public BoolValue onlyForDefeated = BoolValue.None;
-    // required items
+    public ItemReq[] itemReq = new ItemReq[0];
 
     public bool IsSatisfied(Personality personality)
     {
@@ -28,6 +36,12 @@ public class DialogRequirements
         {
             bool isDefeated = personality.asEnemy != null && personality.asEnemy.wasDefeated;
             return (onlyForDefeated == BoolValue.True) == isDefeated;
+        }
+        if (itemReq != null)
+        {
+            foreach (var item in itemReq)
+                if (InventoryMaster.CountWithTag(item.tag) < item.count)
+                    return false;
         }
 
         if (personality.asFriend != null)

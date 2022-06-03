@@ -101,7 +101,7 @@ public static class InventoryMaster
         var inventory = GameManager.currentSave.inventory;
 
         int freeIndex = -1;
-        for (int i=0;i < inventory.Length; i++)
+        for (int i= inventory.Length - 1; i >=0; i--)
         {
             var item = ItemAt(i);
             if (item == null)
@@ -118,5 +118,19 @@ public static class InventoryMaster
         {
             inventory[freeIndex] = new InventoryObject() { amount = 1, itemName = itemName };
         }
+    }
+
+    public static int CountWithTag(string tag)
+    {
+        var inventory = GameManager.currentSave.inventory;
+
+        int ans = 0;
+        for (int i = inventory.Length - 1; i >= 0; i--)
+        {
+            var item = ItemAt(i);
+            if (item != null && item.tags.Contains(tag))
+                    ans += inventory[i].amount;
+        }
+        return ans;
     }
 }

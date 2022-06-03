@@ -31,7 +31,7 @@ public class InventoryStarter : MonoBehaviour
             currentPanel.GetComponentInChildren<ExitInventoryButton>().Init(() => ExitInventory());
     }
 
-    public void ShowInventoryForSelection(string requiredTag, System.Action<int> forWhom, bool canBeExited = true)
+    public void ShowInventoryForGift(string requiredTag, System.Action<int> forWhom, bool canBeExited = true)
     {
         ShowInventory(canBeExited);
 
@@ -53,6 +53,9 @@ public class InventoryStarter : MonoBehaviour
         OnInventory = false;
         if (currentPanel != null)
             Destroy(currentPanel.gameObject);
+        if (afterSelection != null)
+            afterSelection(-1);
+        afterSelection = null;
     }
 
     private void SelectOnInventory()
@@ -60,7 +63,8 @@ public class InventoryStarter : MonoBehaviour
         if (currentPanel.selectedIndex == -1)
             return;
 
-        ExitInventory();
         afterSelection(currentPanel.selectedIndex);
+        afterSelection = null;
+        ExitInventory();
     }
 }

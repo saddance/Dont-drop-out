@@ -136,7 +136,24 @@ public class InteractionSystem : MonoBehaviour
             case DialogOption.OptionType.startBattle:
                 GameManager.StartBattle(personality);
                 break;
-
+            case DialogOption.OptionType.givePresent:
+                var nxt = new DialogOption()
+                {
+                    nextDialogPrefix = option.nextDialogPrefix,
+                    option = DialogOption.OptionType.nextDialog,
+                    effects = new DialogEffects()
+                };
+                InventoryStarter.instance.ShowInventoryForGift("present", x => {
+                    if (x == -1)
+                        EndInteraction();
+                    else
+                    {
+                        personality.asFriend.friendScore += InventoryMaster.ItemAt(x).friendshipAffect;
+                        InventoryMaster.At(x).amount--;
+                        ChangeToState(nxt);
+                    }
+                    });
+                break;
             default:
                 break;
         }

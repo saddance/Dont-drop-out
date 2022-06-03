@@ -92,6 +92,12 @@ public static class GameManager
         if (isWin)
         {
             currentSave.currentDay++;
+            
+            var def = currentSave.personalities[currentSave.battleWith];
+            def.asEnemy.wasDefeated = true;
+            def.asEnemy.effectsAfterWin.Effect(def);
+            currentSave.startComment = "Вы выиграли битву!";
+
             currentSave.battleWith = -1;
             StartScene();
         }

@@ -9,6 +9,7 @@ public class SaveData
     public int currentDay = 1;
     public int maxFriendsOnBattle = 4;
     public string specialScene = "Intro";
+    public string startComment = "Перемещайтесь при помощи WASD, поговорить - E, инвентарь - I";
 
     public string saveName = null; // must be equal to file name
     public Personality[] personalities = new Personality[0]; // can't be null, null in array means it's obstacle

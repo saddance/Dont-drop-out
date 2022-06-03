@@ -10,4 +10,5 @@ public class EnemyPData
     public UnitData[] people;
     public HumanAnimPData[] supportAnims;
     public bool wasDefeated = false;
+    public DialogEffects effectsAfterWin;
 }

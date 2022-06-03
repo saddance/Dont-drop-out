@@ -17,6 +17,7 @@ public class GenerationDescriptor : ScriptableObject
     [Header("as Enemy")]
     public UnitDataGenerator[] enemyUnits;
     public HumanAnimType[] enemySupportAnims;
+    public DialogEffects effectIfWin;
     
     [Header("as On Map")]
     public HumanAnimType onMap;
@@ -27,8 +28,8 @@ public class GenerationDescriptor : ScriptableObject
     {
         switch (onMap)
         {
-            case HumanAnimType.enemy:
-                return HumanAnimPData.Enemy;
+            case HumanAnimType.kn:
+                return HumanAnimPData.KN;
             case HumanAnimType.random:
                 return HumanAnimPData.Rand;
             case HumanAnimType.teacher:
@@ -42,7 +43,7 @@ public class GenerationDescriptor : ScriptableObject
     {
         no,
         random,
-        enemy,
+        kn,
         teacher
     }
 }

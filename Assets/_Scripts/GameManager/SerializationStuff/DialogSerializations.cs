@@ -10,9 +10,8 @@ public class DialogRequirements
     public char stateReq = '-';
     public BoolValue checkIfCanHelp = BoolValue.None;
     public BoolValue checkIfHelping = BoolValue.None;
-    // TODO
-    //public BoolValue onlyForDefeated = BoolValue.None;
-    // check for item in inventory
+    public BoolValue onlyForDefeated = BoolValue.None;
+    // required items
 
     public bool IsSatisfied(Personality personality)
     {
@@ -24,6 +23,11 @@ public class DialogRequirements
         {
             bool isHelping = personality.asFriend != null && personality.asFriend.IsParticipating();
             return (checkIfHelping == BoolValue.True) == isHelping;
+        }
+        if (onlyForDefeated != BoolValue.None)
+        {
+            bool isDefeated = personality.asEnemy != null && personality.asEnemy.wasDefeated;
+            return (onlyForDefeated == BoolValue.True) == isDefeated;
         }
 
         if (personality.asFriend != null)
@@ -50,12 +54,18 @@ public class DialogEffects
     public int friendshipAffect = 0;
     public BoolValue participatingAsFriend = BoolValue.None;
     public string[] giveItems;
+    public UnitDataGenerator increase;
 
     public void Effect(Personality personality)
     {
         if (giveItems != null)
             foreach (var item in giveItems)
                 InventoryMaster.Add(item);
+        if (increase != null)
+        {
+            GameManager.currentSave.hero.strength += increase.Gen().strength;
+            GameManager.currentSave.hero.maxHealth += increase.Gen().maxHealth;
+        }
         if (personality.asFriend != null) {
             personality.asFriend.friendScore += friendshipAffect;
 

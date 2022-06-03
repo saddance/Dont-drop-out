@@ -49,7 +49,7 @@ public class HumanAnimPData
         }
     }
 
-    public static HumanAnimPData Enemy
+    public static HumanAnimPData KN
     {
         get
         {
@@ -58,7 +58,7 @@ public class HumanAnimPData
             return new HumanAnimPData
             {
                 eyePosition = new Vector3(Random.Range(0.17f, 0.19f), Random.Range(-0.05f, -0.02f)),
-                eyeScale = new Vector3(Random.Range(0.42f, 0.46f), Random.Range(0.39f, 0.45f)),
+                eyeScale = new Vector3(Random.Range(0.42f, 0.46f), Random.Range(0.41f, 0.45f)),
                 skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
                 shirtColor = new Color(grayscale, grayscale, grayscale),
                 bootsColor = Color.HSVToRGB(Random.value, 1f, 0.06f),

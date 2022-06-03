@@ -19,7 +19,9 @@ internal static class SaveDataGenerator
         personality.asDialog = desc.dialogData.CreateCopy();
         personality.asEnemy = new EnemyPData()
         {
-            people = desc.enemyUnits.Select(x => x.Gen()).ToArray()
+            people = desc.enemyUnits.Select(x => x.Gen()).ToArray(),
+            wasDefeated = false,
+            effectsAfterWin = desc.effectIfWin
         };
         if (desc.enemySupportAnims != null)
             personality.asEnemy.supportAnims = desc.enemySupportAnims.Select(x => desc.GetOnMap(x)).ToArray();

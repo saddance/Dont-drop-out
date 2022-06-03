@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class NPCAnimator : HumanAnimator
 {
     private InteractableObject interactor;
     private HeroMotion hero;
+    private LookingState defaultLooking;
+    private bool _firstFrame = true;
 
     public override HumanAnimPData animData { 
         get
@@ -37,11 +40,36 @@ public class NPCAnimator : HumanAnimator
             Mathf.Abs(v.y - hero.lastDirection.y) <= 1e-3);
     }
 
+    private void SetDefault()
+    {
+        var pos = new Vector3Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+
+        Vector3Int[] poss = new Vector3Int[4]
+        {
+                    Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
+        }.Where(v => MapObjectManager.instance[pos.x + v.x, pos.y + v.y] == null).ToArray();
+        if (poss.Length > 0)
+            SetLookingFromVector(poss[Random.Range(0, poss.Length)], defaultLooking);
+
+        poss = new Vector3Int[4]
+        {
+            Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
+        }.Where(v => MapObjectManager.instance[pos.x + v.x, pos.y + v.y]?.GetComponent<NPCAnimator>() != null).ToArray();
+        if (poss.Length > 0)
+            SetLookingFromVector(poss[Random.Range(0, poss.Length)], defaultLooking);
+
+        defaultLooking = lookingState;
+        _firstFrame = false;
+    }
+
     public void LateUpdate()
     {
+        if (_firstFrame)
+            SetDefault();
+
         if (IsTalkingWithHero())
             LookAtHero();
         else
-            lookingState = LookingState.front;
+            lookingState = defaultLooking;
     }
 }

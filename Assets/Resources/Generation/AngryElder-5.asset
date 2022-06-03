@@ -10,59 +10,67 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
-  m_Name: KN-4
+  m_Name: AngryElder-5
   m_EditorClassIdentifier: 
-  count: 2
+  count: 1
   friendshipStates: []
   onBattleAsFriend:
     strengthPoss:
-      x: 2
-      y: 3
+      x: 0
+      y: 0
     healthPoss:
-      x: 10
-      y: 20
+      x: 0
+      y: 0
   dialogData:
-    personalityName: "\u041A\u041D-\u0449\u0438\u043A"
+    personalityName: "\u041A\u041D-\u0449\u0438\u043A \u0441\u0442\u0430\u0440\u0448\u0435\u043A\u0443\u0440\u0441\u043D\u0438\u043A"
     lastDayUsed: -1
     uniqueDialogStarts: []
     dailyDialogStarts: []
     commonDialogStarts:
-    - dialogPrefix: kn-greet
-      importance: 1
-      lastDayUsed: -1
+    - dialogPrefix: enemy-greet
+      importance: 0
+      lastDayUsed: 0
   enemyUnits:
   - strengthPoss:
-      x: 2
-      y: 3
+      x: 11
+      y: 13
     healthPoss:
-      x: 20
-      y: 25
+      x: 55
+      y: 65
   - strengthPoss:
-      x: 2
+      x: 1
       y: 3
     healthPoss:
-      x: 20
-      y: 25
+      x: 15
+      y: 20
   - strengthPoss:
-      x: 2
+      x: 1
       y: 3
     healthPoss:
-      x: 20
-      y: 25
-  enemySupportAnims: 0200000002000000
+      x: 15
+      y: 20
+  - strengthPoss:
+      x: 1
+      y: 3
+    healthPoss:
+      x: 15
+      y: 20
+  enemySupportAnims: 020000000200000002000000
   effectIfWin:
     friendshipAffect: 0
     participatingAsFriend: 0
     giveItems:
     - brs
+    - brs
     - beer
+    - brs
     increase:
       strengthPoss:
         x: 0
-        y: 0
+        y: 1
       healthPoss:
         x: 1
-        y: 2
-  onMap: 2
-  labels: 02000000
+        y: 3
+  onMap: 5
+  labels: 04000000
   noHumanSprite: {fileID: 0}

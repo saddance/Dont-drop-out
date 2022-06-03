@@ -17,6 +17,8 @@ MonoBehaviour:
     stateReq: 45
     checkIfCanHelp: 0
     checkIfHelping: 0
+    onlyForDefeated: 0
+    itemReq: []
   russianText: "\u041D\u0443 \u0447\u0442\u043E, \u043D\u0430\u0447\u043D\u0435\u043C?"
   options:
   - requirements:
@@ -24,10 +26,21 @@ MonoBehaviour:
       stateReq: 45
       checkIfCanHelp: 0
       checkIfHelping: 0
+      onlyForDefeated: 0
+      itemReq:
+      - tag: points
+        count: 20
     effects:
       friendshipAffect: 0
       participatingAsFriend: 0
       giveItems: []
+      increase:
+        strengthPoss:
+          x: 0
+          y: 0
+        healthPoss:
+          x: 0
+          y: 0
     isHiddenWhenInactive: 0
     russianInactiveText: "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C!"
     russianText: "\u0414\u0430\u0432\u0430\u0439\u0442\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C!"
@@ -38,10 +51,19 @@ MonoBehaviour:
       stateReq: 45
       checkIfCanHelp: 0
       checkIfHelping: 0
+      onlyForDefeated: 0
+      itemReq: []
     effects:
       friendshipAffect: 0
       participatingAsFriend: 0
       giveItems: []
+      increase:
+        strengthPoss:
+          x: 0
+          y: 0
+        healthPoss:
+          x: 0
+          y: 0
     isHiddenWhenInactive: 0
     russianInactiveText: "\u0421\u0435\u0439\u0447\u0430\u0441, \u0442\u043E\u043B\u044C\u043A\u043E
       \u0432 \u0442\u0443\u0430\u043B\u0435\u0442 \u0441\u0431\u0435\u0433\u0430\u044E!"

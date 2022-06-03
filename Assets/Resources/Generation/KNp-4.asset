@@ -10,50 +10,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
-  m_Name: KN-4
+  m_Name: KNp-4
   m_EditorClassIdentifier: 
-  count: 2
+  count: 1
   friendshipStates: []
   onBattleAsFriend:
     strengthPoss:
-      x: 2
-      y: 3
+      x: 0
+      y: 0
     healthPoss:
-      x: 10
-      y: 20
+      x: 0
+      y: 0
   dialogData:
-    personalityName: "\u041A\u041D-\u0449\u0438\u043A"
+    personalityName: "\u041A\u0440\u0443\u0442\u043E\u0439 \u041A\u041D-\u0449\u0438\u043A"
     lastDayUsed: -1
     uniqueDialogStarts: []
     dailyDialogStarts: []
     commonDialogStarts:
     - dialogPrefix: kn-greet
-      importance: 1
-      lastDayUsed: -1
+      importance: 0
+      lastDayUsed: 0
   enemyUnits:
   - strengthPoss:
-      x: 2
-      y: 3
+      x: 3
+      y: 5
     healthPoss:
-      x: 20
-      y: 25
+      x: 25
+      y: 30
   - strengthPoss:
-      x: 2
-      y: 3
+      x: 3
+      y: 5
     healthPoss:
-      x: 20
-      y: 25
+      x: 25
+      y: 30
   - strengthPoss:
-      x: 2
-      y: 3
+      x: 3
+      y: 5
     healthPoss:
-      x: 20
-      y: 25
-  enemySupportAnims: 0200000002000000
+      x: 25
+      y: 30
+  enemySupportAnims: 0400000004000000
   effectIfWin:
     friendshipAffect: 0
     participatingAsFriend: 0
     giveItems:
+    - brs
     - brs
     - beer
     increase:
@@ -63,6 +64,6 @@ MonoBehaviour:
       healthPoss:
         x: 1
         y: 2
-  onMap: 2
-  labels: 02000000
+  onMap: 4
+  labels: 03000000
   noHumanSprite: {fileID: 0}

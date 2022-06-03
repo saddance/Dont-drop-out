@@ -49,12 +49,6 @@ internal static class SaveDataGenerator
             hero = new UnitData() { maxHealth = 40, strength = 5 }
         };
 
-        save.inventory[0] = new InventoryObject
-        {
-            itemName = "beer",
-            amount = 1
-        };
-
         List<Personality> personalities = new List<Personality>();
         foreach (var desc in Resources.LoadAll<GenerationDescriptor>("Generation"))
             for (var i = 0; i < desc.count; i++)

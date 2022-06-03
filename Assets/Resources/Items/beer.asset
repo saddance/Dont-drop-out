@@ -16,4 +16,4 @@ MonoBehaviour:
   MaxAmount: 100
   tags:
   - present
-  friendshipAffect: 5
+  friendshipAffect: 6

@@ -66,4 +66,53 @@ public class HumanAnimPData
             };
         }
     }
+
+    public static HumanAnimPData KNp
+    {
+        get
+        {
+            return new HumanAnimPData
+            {
+                eyePosition = new Vector3(Random.Range(0.16f, 0.18f), Random.Range(-0.04f, -0.01f)),
+                eyeScale = new Vector3(Random.Range(0.42f, 0.46f), Random.Range(0.36f, 0.4f)),
+                skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
+                shirtColor = Color.HSVToRGB(Random.value, 1f, 0.37f),
+                bootsColor = Color.HSVToRGB(Random.value, 1f, 0.06f),
+                headDelta = Vector3.zero
+            };
+        }
+    }
+
+    public static HumanAnimPData AngryElder
+    {
+        get
+        {
+            return new HumanAnimPData
+            {
+                eyePosition = new Vector3(Random.Range(0.15f, 0.16f), Random.Range(-0.04f, -0.01f)),
+                eyeScale = new Vector3(Random.Range(0.42f, 0.46f), Random.Range(0.36f, 0.38f)),
+                skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
+                shirtColor = Color.HSVToRGB(Random.value, 1f, 0.2f),
+                bootsColor = Color.HSVToRGB(Random.value, 1f, 0.06f),
+                headDelta = Vector3.up * 0.1f,
+            };
+        }
+    }
+
+    public static HumanAnimPData Elder
+    {
+        get
+        {
+            return new HumanAnimPData
+            {
+                eyePosition = new Vector3(Random.Range(0.12f, 0.14f), Random.Range(-0.01f, 0.03f)),
+                eyeScale = new Vector3(Random.Range(0.45f, 0.5f), Random.Range(0.45f, 0.5f)),
+                skinColor = availableSkinColors[Random.Range(0, availableSkinColors.Length)],
+                shirtColor = new Color(Random.value, Random.value, Random.value),
+                bootsColor = Color.HSVToRGB(Random.value, 1f, 0.1f),
+                headDelta = Vector3.up * 0.1f,
+            };
+        }
+    }
+
 }

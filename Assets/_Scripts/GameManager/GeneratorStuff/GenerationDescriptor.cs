@@ -34,6 +34,12 @@ public class GenerationDescriptor : ScriptableObject
                 return HumanAnimPData.Rand;
             case HumanAnimType.teacher:
                 return HumanAnimPData.Teacher;
+            case HumanAnimType.knp:
+                return HumanAnimPData.KNp;
+            case HumanAnimType.angryElder:
+                return HumanAnimPData.AngryElder;
+            case HumanAnimType.elder:
+                return HumanAnimPData.Elder;
             default:
                 return null;
         }
@@ -44,7 +50,10 @@ public class GenerationDescriptor : ScriptableObject
         no,
         random,
         kn,
-        teacher
+        teacher,
+        knp,
+        angryElder,
+        elder
     }
 }
 

@@ -10,59 +10,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8be374ee0ef6254bb4f81a746b5fd94, type: 3}
-  m_Name: KN-4
+  m_Name: gkurs-1
   m_EditorClassIdentifier: 
-  count: 2
-  friendshipStates: []
+  count: 3
+  friendshipStates:
+  - scoreSegment:
+      x: -1000
+      y: 17
+    chr: 49
+    participatingChr: 49
+    canParticipate: 0
+  - scoreSegment:
+      x: 18
+      y: 1000
+    chr: 69
+    participatingChr: 80
+    canParticipate: 1
   onBattleAsFriend:
     strengthPoss:
-      x: 2
-      y: 3
+      x: 4
+      y: 6
     healthPoss:
-      x: 10
-      y: 20
+      x: 40
+      y: 50
   dialogData:
-    personalityName: "\u041A\u041D-\u0449\u0438\u043A"
+    personalityName: "\u0421\u0442\u0430\u0440\u0448\u0435\u043A\u0443\u0440\u0441\u043D\u0438\u043A"
     lastDayUsed: -1
     uniqueDialogStarts: []
     dailyDialogStarts: []
     commonDialogStarts:
-    - dialogPrefix: kn-greet
+    - dialogPrefix: gkurs-common
       importance: 1
-      lastDayUsed: -1
-  enemyUnits:
-  - strengthPoss:
-      x: 2
-      y: 3
-    healthPoss:
-      x: 20
-      y: 25
-  - strengthPoss:
-      x: 2
-      y: 3
-    healthPoss:
-      x: 20
-      y: 25
-  - strengthPoss:
-      x: 2
-      y: 3
-    healthPoss:
-      x: 20
-      y: 25
-  enemySupportAnims: 0200000002000000
+      lastDayUsed: 0
+  enemyUnits: []
+  enemySupportAnims: 
   effectIfWin:
     friendshipAffect: 0
     participatingAsFriend: 0
-    giveItems:
-    - brs
-    - beer
+    giveItems: []
     increase:
       strengthPoss:
         x: 0
         y: 0
       healthPoss:
-        x: 1
-        y: 2
-  onMap: 2
-  labels: 02000000
+        x: 0
+        y: 0
+  onMap: 6
+  labels: 0c000000
   noHumanSprite: {fileID: 0}

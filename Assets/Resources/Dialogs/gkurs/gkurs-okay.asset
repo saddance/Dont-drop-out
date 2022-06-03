@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e25dd18441d2214ea807527b697f10c, type: 3}
+  m_Name: gkurs-okay
+  m_EditorClassIdentifier: 
+  requirements:
+    friendshipReq: -1000
+    stateReq: 45
+    checkIfCanHelp: 0
+    checkIfHelping: 0
+    onlyForDefeated: 0
+    itemReq: []
+  russianText: "\u0414\u0430 \u0431\u0435\u0437 \u043F\u0440\u043E\u0431\u043B\u0435\u043C!"
+  options:
+  - requirements:
+      friendshipReq: -1000
+      stateReq: 45
+      checkIfCanHelp: 0
+      checkIfHelping: 0
+      onlyForDefeated: 0
+      itemReq: []
+    effects:
+      friendshipAffect: 0
+      participatingAsFriend: 0
+      giveItems: []
+      increase:
+        strengthPoss:
+          x: 0
+          y: 0
+        healthPoss:
+          x: 0
+          y: 0
+    isHiddenWhenInactive: 0
+    russianInactiveText: "\u041E\u043A"
+    russianText: "\u041E\u043A"
+    option: 2
+    nextDialogPrefix: 

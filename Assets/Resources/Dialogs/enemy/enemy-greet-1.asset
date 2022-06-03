@@ -12,15 +12,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e25dd18441d2214ea807527b697f10c, type: 3}
   m_Name: enemy-greet-1
   m_EditorClassIdentifier: 
-  requiredFriendship: 0
-  requiredItemTag: 
+  requirements:
+    friendshipReq: -1000
+    stateReq: 45
+    checkIfCanHelp: 0
+    checkIfHelping: 0
+    onlyForDefeated: 2
+    itemReq: []
   russianText: "\u0427\u0435 \u043F\u0440\u0438\u0441\u0442\u0430\u043B? \u0425\u043E\u0447\u0435\u0448\u044C,
     \u0447\u0442\u043E\u0431\u044B \u0442\u0435\u0431\u0435 \u043D\u0430\u0432\u0430\u043B\u044F\u043B\u0438?"
   options:
-  - russianText: "\u0427\u0435 \u0441\u043A\u0430\u0437\u0430\u043B, \u043F\u0440\u0438\u0434\u0443\u0440\u043E\u043A?"
-    option: 0
+  - requirements:
+      friendshipReq: -1000
+      stateReq: 45
+      checkIfCanHelp: 0
+      checkIfHelping: 0
+      onlyForDefeated: 0
+      itemReq: []
+    effects:
+      friendshipAffect: 0
+      participatingAsFriend: 0
+      giveItems: []
+      increase:
+        strengthPoss:
+          x: 0
+          y: 0
+        healthPoss:
+          x: 0
+          y: 0
+    isHiddenWhenInactive: 1
+    russianInactiveText: 
+    russianText: "\u0427\u0435 \u0441\u043A\u0430\u0437\u0430\u043B, \u043F\u0440\u0438\u0434\u0443\u0440\u043E\u043A?"
+    option: 1
     nextDialogPrefix: enemy-startfight
-  - russianText: "\u041F\u0440\u043E\u0441\u0442\u0438\u0442\u0435, \u044F \u043F\u0440\u043E\u0439\u0434\u0443
+  - requirements:
+      friendshipReq: -1000
+      stateReq: 45
+      checkIfCanHelp: 0
+      checkIfHelping: 0
+      onlyForDefeated: 0
+      itemReq: []
+    effects:
+      friendshipAffect: 0
+      participatingAsFriend: 0
+      giveItems: []
+      increase:
+        strengthPoss:
+          x: 0
+          y: 0
+        healthPoss:
+          x: 0
+          y: 0
+    isHiddenWhenInactive: 1
+    russianInactiveText: 
+    russianText: "\u041F\u0440\u043E\u0441\u0442\u0438\u0442\u0435, \u044F \u043F\u0440\u043E\u0439\u0434\u0443
       \u043C\u0438\u043C\u043E"
     option: 2
     nextDialogPrefix: 
